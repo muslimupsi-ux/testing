@@ -36,7 +36,7 @@ Setiap fail sepadan dengan satu medan halaman AILA:
 Semua teks templat ada di bahagian atas `app.js`, dalam objek `D`:
 
 - `D.PED`: templat Pedagogi Gen AI (`id`, `s` = fasa, `t` = tajuk, `p` = prompt)
-- `D.INDUK`, `D.WEB`: Templat Induk dan 12 templat Web App (`emo`, `c` = kategori, `w` = bila digunakan, `p` = prompt)
+- `D.INDUK`, `D.WEB`: Templat Induk dan 12 templat Web App (`ico` = nama ikon, `c` = kategori, `w` = bila digunakan, `p` = prompt)
 - `D.KAMUS_PED`, `D.KAMUS_WEB`: ayat Kamus Penambah / Kamus Ciri
 - `D.ITER_PED`, `D.ITER_WEB`: prompt iterasi
 - `D.SUBJEK`, `D.TAHUN`, `D.MASA`, `D.WARNA`: pilihan dalam Pembina Prompt
