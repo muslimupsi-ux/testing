@@ -17,6 +17,16 @@ D.TOOLS = {
   notebooklm: { name: 'NotebookLM', url: 'https://notebooklm.google.com/', logo: '/media/logo-notebooklm' }
 };
 
+/* ---------- fasilitator (tab Utama) ----------
+   n = nama, i = inisial (avatar), o = institusi, url = pautan profil (pilihan).
+   Untuk memasang gambar: tambah  foto: '/media/<nama-aset-AILA>'  pada orang berkenaan. */
+D.FASIL = [
+  { n: 'Dr. Muslim Zalli', i: 'MZ', o: 'Universiti Pendidikan Sultan Idris', url: D.EXPERT },
+  { n: 'Dr. Nik Muhammad Hanis', i: 'NH', o: 'Universiti Pendidikan Sultan Idris' },
+  { n: 'En. Farid Zul', i: 'FZ', o: 'Universiti Pendidikan Sultan Idris' },
+  { n: 'En. Rais Mujahid', i: 'RM', o: 'Universiti Pendidikan Sultan Idris' }
+];
+
 /* ---------- pilihan borang ---------- */
 D.SUBJEK = ['Bahasa Melayu', 'Bahasa Inggeris', 'Bahasa Cina', 'Bahasa Tamil', 'Bahasa Arab', 'Kesusasteraan Melayu Komunikatif', 'Literature in English'];
 D.TAHUN = ['Tahun 1', 'Tahun 2', 'Tahun 3', 'Tahun 4', 'Tahun 5', 'Tahun 6', 'Tingkatan 1', 'Tingkatan 2', 'Tingkatan 3', 'Tingkatan 4', 'Tingkatan 5'];
@@ -422,6 +432,7 @@ chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
 chat:'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',
 book:'<path d="M4 4h6a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4z"/><path d="M20 4h-4a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h5z"/>',
 award:'<circle cx="12" cy="9" r="6"/><path d="M8.5 14L7 22l5-3 5 3-1.5-8"/>',
+users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17.5" cy="9" r="2.8"/><path d="M17 14.2a5.5 5.5 0 0 1 4.5 5.3"/>',
 calc:'<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M8 6h8v4H8zM8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/>'
 };
 function ic(n,s){s=s||22;return '<svg class="ic" width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+P[n]+'</svg>'}
@@ -454,6 +465,13 @@ function pcard(o,mode){
 }
 
 /* ================= UTAMA ================= */
+function fasilHTML(){
+ return '<div class="sec"><h3 class="h3">'+ic('users',22)+' Fasilitator</h3><div class="fasil">'+D.FASIL.map(function(x){
+  var av=x.foto?'<img src="'+esc(x.foto)+'" alt="'+esc(x.n)+'" width="72" height="72" loading="lazy">':esc(x.i);
+  var inner='<span class="fav"'+(x.foto?'':' aria-hidden="true"')+'>'+av+'</span><span class="fr">Fasilitator</span><b class="fn">'+esc(x.n)+'</b><span class="fo">'+esc(x.o)+'</span>';
+  return x.url?'<a class="fcard" href="'+esc(x.url)+'" target="_blank" rel="noopener" aria-label="'+esc(x.n)+': profil (tab baharu)">'+inner+'<span class="fext">'+ic('ext',14)+'</span></a>':'<div class="fcard">'+inner+'</div>';
+ }).join('')+'</div></div>';
+}
 function renderUtama(){
  var route=[
   ['pedagogi','#1E7A4C','Langkah 1','Pedagogi Gen AI','Prompt mengikut 5 fasa PdP dengan formula R-T-F.'],
@@ -466,16 +484,15 @@ function renderUtama(){
  '<div><span class="kicker">Bengkel AI (JPN Melaka) · 3 November 2026</span>'+
  '<h1>Kompetensi Digital Guru <span class="yr">melalui AI</span></h1>'+
  '<p class="sub">Bengkel Pemerkasaan Kompetensi Digital Guru Melalui Kecerdasan Buatan (Artificial Intelligence – AI)</p>'+
- '<p class="org">Anjuran Unit Bahasa, Sektor Pembelajaran, Jabatan Pendidikan Negeri Melaka</p></div>'+
- '<a class="spk" href="'+D.EXPERT+'" target="_blank" rel="noopener" aria-label="Dr. Mohd Muslim Md Zalli: profil EXPERT@UPSI (tab baharu)">'+
- '<span class="spk-photo"><img src="/media/qdai-speaker" alt="Dr. Mohd Muslim Md Zalli" width="421" height="592"></span>'+
- '<span class="spk-meta"><span class="spk-role">Penceramah</span><span class="spk-name">Dr. Mohd Muslim Md Zalli</span><span class="spk-org">Universiti Pendidikan Sultan Idris</span><span class="spk-badge">EXPERT@UPSI '+ic('ext',14)+'</span></span></a></div>'+
+ '<p class="org">Anjuran Unit Bahasa, Sektor Pembelajaran, Jabatan Pendidikan Negeri Melaka</p></div></div>'+
 
  '<div class="sec info">'+
   '<div><span class="ib">'+ic('cal',22)+'</span><span><small>Tarikh</small><b>3 November 2026 (Selasa)</b></span></div>'+
   '<div><span class="ib">'+ic('clock',22)+'</span><span><small>Masa</small><b>11.00 pagi – 5.00 petang</b></span></div>'+
   '<div><span class="ib">'+ic('pin',22)+'</span><span><small>Tempat</small><b>Hotel Kingston, Melaka</b></span></div>'+
  '</div>'+
+
+ fasilHTML()+
 
  '<div class="sec"><h3 class="h3">'+ic('list',20)+' Laluan bengkel</h3><ol class="route">'+route.map(function(r){
   return '<li><button data-go="'+r[0]+'"><span class="rn"><span class="rnum">'+r[2].slice(-1)+'</span><span>'+r[2]+'</span>'+ic('right',20)+'</span><b>'+r[3]+'</b><p>'+r[4]+'</p></button></li>'}).join('')+'</ol></div>'+
