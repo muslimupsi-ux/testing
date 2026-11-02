@@ -45,6 +45,16 @@ D.FASA = [
   { k: 'Sokongan PdP', d: 'Templat tambahan untuk tugas di sekeliling sesi pengajaran: perancangan sebelum masuk kelas, sokongan murid yang berbeza keperluan, dan refleksi selepas mengajar.' }
 ];
 
+/* Proses Pedagogi: setiap langkah dipetakan kepada fasa templat (D.FASA) */
+D.PROSES = [
+  { k: 'Penyediaan Bahan', f: 'Sokongan PdP', d: 'Sebelum masuk kelas: rancang RPH, bina objektif pembelajaran yang boleh diukur, dan sediakan bahan mengikut tahap murid.' },
+  { k: 'Induksi', f: 'Set Induksi' },
+  { k: 'Pengetahuan Kandungan', f: 'Kandungan' },
+  { k: 'Pengukuhan', f: 'Pengukuhan' },
+  { k: 'Pentaksiran', f: 'Pentaksiran' },
+  { k: 'Penutup', f: 'Penutup' }
+];
+
 D.PED = [
   /* B1 SET INDUKSI */
   { id: 'B1.1', s: 'Set Induksi', t: 'Soalan Pencetus Berasaskan Pengalaman', p: 'Anda seorang guru [Mata Pelajaran] yang kreatif dan berpengalaman. Bina SATU set induksi selama [Tempoh Masa] untuk topik [Tajuk/Topik] bagi murid [Tahun/Tingkatan]. Set induksi ini perlu mengaitkan pengalaman harian murid dengan konsep yang akan dipelajari, dan diakhiri dengan satu soalan pencetus yang menimbulkan rasa ingin tahu. Sertakan skrip pertuturan guru dan jangkaan respons murid.' },
@@ -453,7 +463,7 @@ function renderUtama(){
  ];
  $('#v-utama').innerHTML=
  '<div class="hero"><span class="blob b1"></span><span class="blob b3"></span>'+
- '<div><span class="kicker">Bengkel · 3 November 2026</span>'+
+ '<div><span class="kicker">Bengkel AI (JPN Melaka) · 3 November 2026</span>'+
  '<h1>Kompetensi Digital Guru <span class="yr">melalui AI</span></h1>'+
  '<p class="sub">Bengkel Pemerkasaan Kompetensi Digital Guru Melalui Kecerdasan Buatan (Artificial Intelligence – AI)</p>'+
  '<p class="org">Anjuran Unit Bahasa, Sektor Pembelajaran, Jabatan Pendidikan Negeri Melaka</p></div>'+
@@ -484,12 +494,29 @@ function renderUtama(){
 }
 
 /* ================= PEDAGOGI ================= */
+function psBtn(i,cls){var x=D.PROSES[i];return '<button class="'+cls+'" data-ps="'+i+'" aria-pressed="false" style="--d:'+(i*70)+'ms"><span class="psn">'+(i?'Langkah '+i:'Persediaan')+'</span><span class="pst">'+esc(x.k)+'</span></button>'}
+function psDesc(x){if(x.d)return x.d;for(var i=0;i<D.FASA.length;i++)if(D.FASA[i].k===x.f)return D.FASA[i].d;return ''}
+function psSelect(i){
+ $$('.proses [data-ps]').forEach(function(b){var on=+b.dataset.ps===i;b.classList.toggle('on',on);b.setAttribute('aria-pressed',String(on))});
+ var p=$('#psPanel');if(i<0||!p){if(p)p.innerHTML='<p class="ps-hint">'+ic('info',18)+'<span>Pilih satu langkah di atas untuk bermula.</span></p>';return}
+ var x=D.PROSES[i],list=D.PED.filter(function(o){return o.s===x.f});
+ p.innerHTML='<span class="ps-step">'+(i?'Langkah '+i+' daripada 5':'Sebelum PdP')+'</span><h4>'+esc(x.k)+'</h4><p>'+esc(psDesc(x))+'</p>'+
+  '<div class="ps-tags">'+list.slice(0,4).map(function(o){return '<span>'+esc(o.id)+' · '+esc(o.t)+'</span>'}).join('')+(list.length>4?'<span>+'+(list.length-4)+' lagi</span>':'')+'</div>'+
+  '<button class="btn btn-navy" data-psgo="'+esc(x.f)+'">'+ic('down',18)+' Lihat '+list.length+' templat</button>';
+}
 function renderPedagogi(){
  var el=$('#v-pedagogi');
  var contoh='Anda seorang guru Bahasa Melayu Tahun 5 yang berpengalaman. Bina lima soalan kefahaman tentang peribahasa yang mengaitkan situasi harian murid. Susun dalam jadual dengan lajur soalan, jawapan dan aras Taksonomi Bloom.';
  var filters=['Semua'].concat(D.FASA.map(function(f){return f.k}));
  el.innerHTML='<div class="thero"><span class="blob"></span><div class="thero-h"><span class="tlogo">'+ic('bulb',34)+'</span><div><span class="eyebrow" style="color:rgba(255,255,255,.72)">Bahagian 1</span><h2>Pedagogi Gen AI</h2><p>Prompt mengikut 5 fasa PdP: salin, isi petak [ ] dan tampal.</p></div></div>'+
  '<div class="btns">'+toolBtn('gemini')+toolBtn('chatgpt')+'</div></div>'+
+
+ '<div class="sec"><h3 class="h3">Proses Pedagogi</h3><p class="lead">Klik setiap langkah untuk melihat huraian dan templat prompt yang berkaitan.</p>'+
+ '<div class="proses" role="group" aria-label="Proses Pedagogi">'+
+  psBtn(0,'ps ps-prep')+
+  '<span class="ps-arrow" aria-hidden="true"><svg viewBox="0 0 52 24" width="52" height="24"><path d="M2 12h34" stroke="#E53935" stroke-width="6" stroke-dasharray="7 5"/><path d="M34 3l10 9-10 9" fill="none" stroke="#E53935" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'+
+  '<div class="ps-chev">'+D.PROSES.slice(1).map(function(x,i){return psBtn(i+1,'ps chev')}).join('')+'</div>'+
+ '</div><div class="ps-panel" id="psPanel" aria-live="polite"><p class="ps-hint">'+ic('info',18)+'<span>Pilih satu langkah di atas untuk bermula.</span></p></div></div>'+
 
  '<div class="sec"><h3 class="h3">Formula prompt PdP: R-T-F</h3><div class="pktf n3">'+[
   ['R','Role (Peranan)','Beritahu AI siapa dirinya.','Anda seorang guru Bahasa Melayu Tahun 5 yang berpengalaman.','#1E7A4C'],
@@ -758,6 +785,8 @@ function show(id,noScroll,replace){
 function step(d){var i=ORDER.indexOf(cur)+d;if(i>=0&&i<ORDER.length)show(ORDER[i])}
 
 document.addEventListener('click',function(e){
+ var ps=e.target.closest('[data-ps]');if(ps){psSelect(+ps.dataset.ps);if(window.innerWidth<1000){var pp=$('#psPanel');if(pp&&pp.scrollIntoView)pp.scrollIntoView({behavior:'smooth',block:'nearest'})}return}
+ var pg=e.target.closest('[data-psgo]');if(pg){var ch=$('#v-pedagogi .fchip[data-filter="'+pg.dataset.psgo+'"]');if(ch){ch.click();var t=ch.closest('.sec');window.scrollTo({top:t.getBoundingClientRect().top+window.scrollY-90,behavior:'smooth'})}return}
  var bd=e.target.closest('[data-build]');if(bd){var a=bd.dataset.build.split('|');toBuilder(a[0],a[1]);return}
  var go=e.target.closest('[data-go]');if(go){e.preventDefault();show(go.dataset.go);return}
  var cp=e.target.closest('[data-copy]');if(cp){copyText(REG[+cp.dataset.copy]);return}
@@ -768,7 +797,7 @@ document.addEventListener('click',function(e){
  var fc=e.target.closest('[data-filter]');if(fc){var view=fc.closest('.view'),f=fc.dataset.filter;
   $$('[data-filter]',view).forEach(function(b){b.classList.toggle('on',b===fc)});
   $$('.plist .pc',fc.closest('.sec')).forEach(function(c){c.hidden=f!=='Semua'&&c.dataset.s!==f});
-  if(view.id==='v-pedagogi'){var fd=null;D.FASA.forEach(function(x){if(x.k===f)fd=x});$('#fasaDesc').textContent=fd?fd.d:D.PED.length+' templat. Pilih fasa untuk menapis.'}
+  if(view.id==='v-pedagogi'){var pi=-1;D.PROSES.forEach(function(x,k){if(x.f===f)pi=k});if(!e.isTrusted||pi<0){$$('.proses [data-ps]').forEach(function(b){var on=+b.dataset.ps===pi;b.classList.toggle('on',on);b.setAttribute('aria-pressed',String(on))})}else psSelect(pi);var fd=null;D.FASA.forEach(function(x){if(x.k===f)fd=x});$('#fasaDesc').textContent=fd?fd.d:D.PED.length+' templat. Pilih fasa untuk menapis.'}
   return}
 });
 document.addEventListener('keydown',function(e){

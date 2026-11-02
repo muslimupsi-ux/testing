@@ -12,7 +12,7 @@ WebApp untuk **Bengkel Pemerkasaan Kompetensi Digital Guru Melalui Kecerdasan Bu
 | Tab | Isi |
 |---|---|
 | **Utama** | Maklumat bengkel, penceramah, laluan bengkel, log masuk DELIMa, alat AI, etika penggunaan AI |
-| **Pedagogi** | Formula R-T-F, 39 templat prompt mengikut fasa PdP (Set Induksi, Kandungan, Pengukuhan, Pentaksiran, Penutup, Sokongan PdP), Kamus Penambah, Prompt Iterasi, Senarai Semak |
+| **Pedagogi** | Rajah Proses Pedagogi interaktif (Penyediaan Bahan → Induksi → Pengetahuan Kandungan → Pengukuhan → Pentaksiran → Penutup), formula R-T-F, 39 templat prompt mengikut fasa PdP (Set Induksi, Kandungan, Pengukuhan, Pentaksiran, Penutup, Sokongan PdP), Kamus Penambah, Prompt Iterasi, Senarai Semak |
 | **Web App** | Langkah Gemini Canvas, formula K-F-A-R-T, Templat Induk, 12 templat web app (B1–B12), Kamus Ciri, Prompt Iterasi, Senarai Semak & Privasi |
 | **Pembina** | Alat interaktif: pilih templat, isi maklumat kelas, petak `[ ]` diisi secara automatik, tambah ayat Kamus, salin dan buka Gemini/ChatGPT/NotebookLM |
 | **Hantar** | Borang hasil peserta, disimpan dalam koleksi AILA `hasil_bengkel` (hanya pemilik boleh membaca) |
@@ -29,12 +29,13 @@ Setiap fail sepadan dengan satu medan halaman AILA:
 | `body.html` | `html` |
 | `style.css` | `css` |
 | `app.js` | `js`: bahagian atas ialah **data kandungan** (`var D = {...}`), bahagian bawah ialah logik aplikasi |
-| `aset/favicon.svg`, `aset/favicon-512.png` | Favicon laman (pustaka media AILA: `favicon-bengkel-ai`) |
+| `aset/favicon.svg`, `aset/favicon-512.png` | Favicon laman (pustaka media AILA: `favicon-ai`) |
 
 ## Cara menyunting kandungan
 
 Semua teks templat ada di bahagian atas `app.js`, dalam objek `D`:
 
+- `D.PROSES`: langkah rajah Proses Pedagogi dan fasa templat yang dipautkan
 - `D.PED`: templat Pedagogi Gen AI (`id`, `s` = fasa, `t` = tajuk, `p` = prompt)
 - `D.INDUK`, `D.WEB`: Templat Induk dan 12 templat Web App (`ico` = nama ikon, `c` = kategori, `w` = bila digunakan, `p` = prompt)
 - `D.KAMUS_PED`, `D.KAMUS_WEB`: ayat Kamus Penambah / Kamus Ciri
