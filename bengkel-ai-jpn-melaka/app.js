@@ -184,7 +184,7 @@ D.PLATFORM = [
    ===================================================================== */
 D.WCAT = ['Aktiviti Murid', 'Pentadbiran & Data', 'Alat Guru'];
 
-D.INDUK = { id: 'A3', emo: '🧱', c: 'Templat Induk', t: 'Templat Induk (Master Blueprint)', w: 'Gunakan templat ini jika tiada templat yang sesuai dalam senarai. Ia boleh disesuaikan untuk apa-apa jenis aplikasi.', p:
+D.INDUK = { id: 'A3', ico: 'layers', c: 'Templat Induk', t: 'Templat Induk (Master Blueprint)', w: 'Gunakan templat ini jika tiada templat yang sesuai dalam senarai. Ia boleh disesuaikan untuk apa-apa jenis aplikasi.', p:
 'Bina SATU aplikasi web lengkap dalam SATU fail HTML sahaja (HTML, CSS dan JavaScript digabungkan dalam fail yang sama) bertajuk "[Tajuk Aplikasi]".\n\n' +
 'KONTEKS\nAplikasi ini digunakan oleh [Pengguna Sasaran] untuk tujuan [Tujuan Aplikasi] dalam konteks [Mata Pelajaran / Unit / Urusan]. Bahasa paparan: [Bahasa].\n\n' +
 'FUNGSI UTAMA\n1. [Fungsi pertama]\n2. [Fungsi kedua]\n3. [Fungsi ketiga]\n\n' +
@@ -194,72 +194,72 @@ D.INDUK = { id: 'A3', emo: '🧱', c: 'Templat Induk', t: 'Templat Induk (Master
 'HASIL AKHIR\nBerikan kod HTML penuh yang siap dijalankan. Selepas kod, senaraikan secara ringkas bahagian mana dalam kod yang perlu saya edit jika saya mahu menukar kandungan.' };
 
 D.WEB = [
-  { id: 'B1', emo: '🎯', c: 'Aktiviti Murid', t: 'Kuiz Interaktif Berskor', w: 'Untuk pentaksiran formatif, ulang kaji, atau aktiviti pengukuhan selepas pengajaran.', p:
+  { id: 'B1', ico: 'target', c: 'Aktiviti Murid', t: 'Kuiz Interaktif Berskor', w: 'Untuk pentaksiran formatif, ulang kaji, atau aktiviti pengukuhan selepas pengajaran.', p:
 'Bina SATU aplikasi web kuiz interaktif dalam SATU fail HTML sahaja, bertajuk "[Tajuk Kuiz]" untuk [Pengguna Sasaran] bagi mata pelajaran [Mata Pelajaran], topik [Topik].\n\n' +
 'FUNGSI\n- Skrin permulaan meminta pengguna memasukkan nama dan [kelas / kumpulan]. Kedua-duanya wajib diisi; butang Mula hanya aktif selepas kedua-duanya lengkap.\n- Paparkan arahan permainan ringkas sebelum kuiz bermula.\n- [Bilangan] soalan aneka pilihan, 4 pilihan jawapan setiap soalan, satu jawapan betul sahaja.\n- Soalan dan pilihan jawapan diacak setiap kali halaman dimuat semula.\n- Pemasa [Bilangan saat] saat setiap soalan; apabila baki 5 saat, paparan bertukar kemerahan; jika masa habis, teruskan automatik ke soalan seterusnya.\n- Maklum balas serta-merta: jawapan betul menunjukkan animasi confetti, jawapan salah menunjukkan skrin bergegar ringkas dan memaparkan jawapan yang betul.\n- Bar kemajuan menunjukkan soalan ke berapa daripada jumlah keseluruhan.\n\n' +
 'PAPARAN KEPUTUSAN\n- Papar jumlah skor (contoh: "Skor: 7/10") bersama nama dan kelas pengguna.\n- Papar semakan penuh: senarai setiap soalan dengan tanda betul/salah dan jawapan sebenar.\n- Jika skor mencapai [Ambang Lulus] ke atas, papar butang "Jana Sijil".\n- Butang "Cuba Lagi" dan "Kembali ke Menu" pada paparan keputusan.\n\n' +
 'REKA BENTUK & TEKNIKAL\nTema warna [Warna Pilihan], ceria dan responsif (mobile-first), font besar, emoji yang sesuai. Gunakan Tailwind CSS melalui CDN. Satu fail HTML sahaja, semua JavaScript inline. Simpan soalan sebagai array objek {soalan, pilihan:[], jawapanBetul} di bahagian atas kod dengan komen, supaya saya mudah menukar soalan kemudian. Simpan rekod percubaan dalam localStorage. Berikan kod HTML penuh yang siap dijalankan.' },
 
-  { id: 'B2', emo: '🧩', c: 'Aktiviti Murid', t: 'Permainan Padanan (Drag-and-Drop)', w: 'Untuk mengukuhkan hubungan antara dua perkara: istilah dengan maksud, gambar dengan nama, soalan dengan jawapan, sebab dengan kesan.', p:
+  { id: 'B2', ico: 'puzzle', c: 'Aktiviti Murid', t: 'Permainan Padanan (Drag-and-Drop)', w: 'Untuk mengukuhkan hubungan antara dua perkara: istilah dengan maksud, gambar dengan nama, soalan dengan jawapan, sebab dengan kesan.', p:
 'Bina SATU permainan drag-and-drop dalam SATU fail HTML sahaja bertajuk "[Tajuk Permainan]" untuk [Pengguna Sasaran], mata pelajaran [Mata Pelajaran], topik [Topik].\n\n' +
 'FUNGSI & ALIRAN\n- Terdapat [Bilangan] pasangan item yang perlu dipadankan, iaitu [Item A: contoh emoji/gambar/istilah] di baris atas dan [Item B: contoh perkataan/maksud] di baris bawah.\n- Di bawah setiap item baris atas terdapat petak kosong. Pemain menyeret item dari baris bawah ke petak yang betul.\n- Saiz petak mesti muat dengan teks di dalamnya; pastikan susun atur kemas dan tidak bertindih.\n- Padanan betul: petak bertukar hijau, muncul animasi confetti, dan dipaparkan satu fakta menarik berkaitan item tersebut di bahagian bawah skrin.\n- Padanan salah: item kembali ke tempat asal dengan animasi lembut dan mesej "Cuba lagi!".\n- Papar kiraan padanan berjaya (contoh: "3/5 selesai") secara langsung.\n- Apabila semua padanan selesai, papar mesej tahniah, jumlah percubaan yang digunakan, dan butang "Main Semula" yang mengacak semula kedudukan item.\n\n' +
 'REKA BENTUK & TEKNIKAL\nPaparan [ceria dan mesra kanak-kanak / profesional], tema warna [Warna Pilihan], font besar, emoji yang sesuai. Pastikan seretan berfungsi pada skrin sentuh (telefon dan tablet), bukan tetikus sahaja. Satu fail HTML sahaja dengan CSS dan JavaScript inline. Simpan senarai pasangan sebagai array objek di bahagian atas kod dengan komen supaya mudah disunting. Berikan kod HTML penuh yang siap dijalankan.' },
 
-  { id: 'B3', emo: '📝', c: 'Aktiviti Murid', t: 'Lembaran Kerja Interaktif + Sijil', w: 'Menggantikan lembaran kerja bercetak dengan versi digital yang menyemak jawapan sendiri dan menjana sijil pencapaian.', p:
+  { id: 'B3', ico: 'doc', c: 'Aktiviti Murid', t: 'Lembaran Kerja Interaktif + Sijil', w: 'Menggantikan lembaran kerja bercetak dengan versi digital yang menyemak jawapan sendiri dan menjana sijil pencapaian.', p:
 'Bina SATU lembaran kerja interaktif dalam SATU fail HTML sahaja bertajuk "[Tajuk Lembaran Kerja]" untuk [Pengguna Sasaran], mata pelajaran [Mata Pelajaran], topik [Topik]. Bahasa paparan: [Bahasa].\n\n' +
 'KANDUNGAN\n- Fokus kandungan pada subtopik berikut: [Senaraikan 3-5 subtopik].\n- [Bilangan] soalan, gabungan jenis: aneka pilihan, isi tempat kosong, dan betul/salah.\n- Aras soalan sesuai dengan [Tahun/Tingkatan] dan selari dengan objektif pembelajaran [Objektif Pembelajaran].\n\n' +
 'ALIRAN\n1. Bahagian atas: medan nama dan kelas (kedua-duanya wajib) dengan pengesahan sebelum boleh menghantar.\n2. Pengguna menjawab semua soalan, kemudian klik butang "Semak Jawapan".\n3. Papar tanda betul atau salah bagi setiap soalan, jawapan sebenar bagi item yang salah, dan jumlah markah bersama nama dan kelas.\n4. Jika markah mencapai [Ambang Lulus] ke atas, papar butang "Jana Sijil".\n5. Sijil yang dijana memaparkan nama, kelas, tajuk lembaran kerja, markah dan tarikh semasa dalam format "DD Bulan YYYY", dihias kemas dan profesional.\n6. Pada sijil, sediakan butang "Cetak / Muat Turun PDF" yang memanggil window.print(), dengan gaya @media print supaya hanya sijil dicetak pada satu halaman penuh.\n\n' +
 'REKA BENTUK & TEKNIKAL\nTema warna [Warna Pilihan], reka bentuk kemas dan responsif, emoji yang sesuai. Gunakan Tailwind CSS melalui CDN sahaja; tiada pustaka lain. Satu fail HTML, JavaScript inline, soalan disimpan sebagai array objek yang mudah disunting. Sertakan label borang yang jelas dan atribut aria-live untuk maklum balas, demi kebolehcapaian. Berikan kod HTML penuh yang siap dijalankan.' },
 
-  { id: 'B4', emo: '🃏', c: 'Aktiviti Murid', t: 'Kad Imbas & Alat Hafalan', w: 'Untuk hafalan istilah, kosa kata, peribahasa, tarikh penting atau definisi. Sesuai untuk ulang kaji kendiri murid.', p:
+  { id: 'B4', ico: 'cards', c: 'Aktiviti Murid', t: 'Kad Imbas & Alat Hafalan', w: 'Untuk hafalan istilah, kosa kata, peribahasa, tarikh penting atau definisi. Sesuai untuk ulang kaji kendiri murid.', p:
 'Bina SATU aplikasi kad imbas (flashcard) dalam SATU fail HTML sahaja bertajuk "[Tajuk Set Kad]" untuk [Pengguna Sasaran], mata pelajaran [Mata Pelajaran], topik [Topik].\n\n' +
 'FUNGSI\n- [Bilangan] kad. Bahagian hadapan kad memaparkan [Item Hadapan: istilah/soalan/perkataan], bahagian belakang memaparkan [Item Belakang: maksud/jawapan/contoh ayat].\n- Klik pada kad untuk membalikkannya dengan animasi flip 3D yang lancar.\n- Butang "Seterusnya" dan "Sebelumnya" untuk menavigasi kad, serta butang "Acak" untuk menyusun semula kad secara rawak.\n- Selepas membalikkan kad, pengguna menandakan sama ada dia "Sudah Tahu" atau "Perlu Ulang". Kad yang ditanda "Perlu Ulang" akan muncul semula pada pusingan berikutnya.\n- Papar kemajuan: berapa kad sudah dikuasai daripada jumlah keseluruhan, dalam bentuk bar kemajuan.\n- Apabila semua kad dikuasai, papar mesej tahniah dan butang mula semula.\n\n' +
 'REKA BENTUK & TEKNIKAL\nTema warna [Warna Pilihan], reka bentuk bersih dengan satu kad besar di tengah skrin, responsif untuk telefon. Gunakan Tailwind CSS melalui CDN. Satu fail HTML dengan JavaScript inline. Simpan kemajuan pengguna dalam localStorage supaya kekal walaupun halaman ditutup. Letakkan senarai kad sebagai array objek di bahagian atas kod dengan komen jelas untuk memudahkan suntingan. Berikan kod HTML penuh yang siap dijalankan.' },
 
-  { id: 'B5', emo: '🔬', c: 'Aktiviti Murid', t: 'Simulasi & Penerokaan Konsep', w: 'Untuk konsep yang sukar dibayangkan. Murid boleh mengubah nilai dan melihat kesannya secara langsung.', p:
+  { id: 'B5', ico: 'flask', c: 'Aktiviti Murid', t: 'Simulasi & Penerokaan Konsep', w: 'Untuk konsep yang sukar dibayangkan. Murid boleh mengubah nilai dan melihat kesannya secara langsung.', p:
 'Bina SATU simulasi interaktif dalam SATU fail HTML sahaja bertajuk "[Tajuk Simulasi]" untuk membantu [Pengguna Sasaran] memahami konsep [Konsep yang Diajar] dalam mata pelajaran [Mata Pelajaran].\n\n' +
 'FUNGSI\n- Sediakan kawalan (slider dan/atau kotak input) untuk pengguna mengubah pemboleh ubah berikut: [Senaraikan pemboleh ubah dan julat nilainya].\n- Apabila nilai diubah, paparan visual (rajah, graf atau animasi) mesti dikemas kini serta-merta tanpa perlu memuat semula halaman.\n- Papar nilai semasa setiap pemboleh ubah dengan jelas berserta unitnya.\n- Sertakan panel penerangan ringkas di tepi yang menerangkan apa yang sedang berlaku dalam bahasa mudah yang sesuai untuk [Tahun/Tingkatan].\n- Sediakan 3 butang pratetap senario (contoh: keadaan rendah, sederhana, tinggi) supaya guru boleh menunjukkan perbandingan dengan pantas semasa mengajar.\n- Di bawah simulasi, sertakan 3 soalan penerokaan yang menggalakkan murid membuat ramalan sebelum mencuba.\n\n' +
 'REKA BENTUK & TEKNIKAL\nTema warna [Warna Pilihan], paparan bersih dengan visual sebagai fokus utama, responsif. Gunakan Tailwind CSS melalui CDN, dan Chart.js melalui CDN jika graf diperlukan. Satu fail HTML dengan JavaScript inline. Pastikan pengiraan yang digunakan tepat dari segi konsep dan sertakan komen dalam kod yang menerangkan formula yang digunakan. Berikan kod HTML penuh yang siap dijalankan.' },
 
-  { id: 'B6', emo: '🏫', c: 'Aktiviti Murid', t: 'Portal Hab Pelbagai Aktiviti', w: 'Apabila anda mahu menggabungkan beberapa kuiz atau aktiviti dalam satu pautan sahaja, dengan menu utama di hadapan.', p:
+  { id: 'B6', ico: 'grid', c: 'Aktiviti Murid', t: 'Portal Hab Pelbagai Aktiviti', w: 'Apabila anda mahu menggabungkan beberapa kuiz atau aktiviti dalam satu pautan sahaja, dengan menu utama di hadapan.', p:
 'Bina SATU portal aplikasi web dalam SATU fail HTML sahaja bertajuk "[Tajuk Portal]" untuk [Pengguna Sasaran], mata pelajaran [Mata Pelajaran].\n\n' +
 'HALAMAN UTAMA\n- Papar nama [Organisasi/Sekolah/Kelas] di bahagian atas dengan huruf besar dan tebal, diikuti tajuk utama portal di bawahnya.\n- Papar [Bilangan subtopik] butang berbentuk kapsul bulat, satu bagi setiap subtopik berikut: [Senaraikan subtopik]. Setiap butang mempunyai emoji unik yang relevan dan disusun kemas dalam grid.\n\n' +
 'ALIRAN AKTIVITI\n- Apabila mana-mana butang diklik, minta pengguna memasukkan nama dan [kelas / kumpulan]. Kedua-duanya wajib; jangan benarkan aktiviti bermula sehingga lengkap.\n- Setiap aktiviti mengandungi [Bilangan] soalan aneka pilihan dengan 4 pilihan jawapan, pada aras yang sesuai untuk [Tahun/Tingkatan].\n- Di akhir setiap aktiviti, papar Slip Keputusan yang mengandungi nama, kelas, tajuk aktiviti, skor dan status lulus atau gagal, dihias dalam gaya kad profesional dengan confetti ringkas jika lulus.\n- Pada slip, sediakan butang "Main Lagi" dan "Kembali ke Menu".\n\n' +
 'REKA BENTUK & TEKNIKAL\nGaya [ceria dan mesra kanak-kanak / profesional], warna [Warna Pilihan], butang comel dengan bayang lembut, font besar, responsif mobile-first. Gunakan Tailwind CSS melalui CDN. Satu fail HTML dengan JavaScript inline. Simpan setiap percubaan dalam localStorage sebagai rekod. Susun semua soalan bagi semua aktiviti dalam satu objek data di bahagian atas kod supaya mudah ditambah atau disunting. Berikan kod HTML penuh yang siap dijalankan.' },
 
-  { id: 'B7', emo: '📋', c: 'Pentadbiran & Data', t: 'Sistem Borang & Pengumpulan Data', w: 'Untuk urusan pentadbiran: borang kehadiran, permohonan, tempahan, maklum balas, pendaftaran aktiviti dan laporan program.', note: 'Jika anda mahu data dikongsi merentas peranti (bukan hanya pada komputer yang sama), tambah ayat: "Gunakan Firebase Firestore untuk penyimpanan data supaya rekod boleh diakses di pelbagai peranti; sertakan arahan langkah demi langkah cara saya menyediakan projek Firebase dan menampal konfigurasi saya ke dalam kod."', p:
+  { id: 'B7', ico: 'form', c: 'Pentadbiran & Data', t: 'Sistem Borang & Pengumpulan Data', w: 'Untuk urusan pentadbiran: borang kehadiran, permohonan, tempahan, maklum balas, pendaftaran aktiviti dan laporan program.', note: 'Jika anda mahu data dikongsi merentas peranti (bukan hanya pada komputer yang sama), tambah ayat: "Gunakan Firebase Firestore untuk penyimpanan data supaya rekod boleh diakses di pelbagai peranti; sertakan arahan langkah demi langkah cara saya menyediakan projek Firebase dan menampal konfigurasi saya ke dalam kod."', p:
 'Bina SATU aplikasi web sistem borang dalam SATU fail HTML sahaja bertajuk "[Tajuk Sistem]" untuk kegunaan [Pengguna Sasaran] bagi tujuan [Tujuan Sistem].\n\n' +
 'BORANG UTAMA (HALAMAN HADAPAN)\nBorang mengandungi medan berikut:\n- [Medan 1 — nyatakan jenis: teks / dropdown dengan pilihan / tarikh / nombor]\n- [Medan 2 — nyatakan jenis dan pilihan jika dropdown]\n- [Medan 3 — nyatakan jenis]\n- Sediakan butang tambah (+) bagi medan yang boleh diisi berulang kali, jika berkenaan.\n- Semua medan wajib disahkan sebelum boleh dihantar; papar mesej ralat yang jelas jika tidak lengkap.\n- Selepas berjaya dihantar, papar mesej pengesahan berserta ringkasan maklumat yang dihantar dan cap masa.\n\n' +
 'PANEL ADMIN\n- Sediakan butang "Admin" di bahagian [atas kiri / atas kanan] paparan, jelas kelihatan tetapi tidak mengganggu.\n- Apabila diklik, papar modal log masuk. Gunakan kata laluan mudah untuk demo sahaja: pengguna [nama pengguna], kata laluan [kata laluan]. Jika salah, papar mesej ralat.\n- Selepas log masuk berjaya, papar jadual semua rekod dengan lajur: [Senaraikan lajur yang dikehendaki] dan cap masa.\n- Sediakan penapis mengikut [tarikh / kategori / status] dan kotak carian.\n- Sediakan butang "Muat Turun CSV" untuk mengeksport semua rekod, dan butang "Padam Rekod" bagi setiap baris dengan pengesahan dahulu.\n\n' +
 'REKA BENTUK & TEKNIKAL\nPaparan moden, minimalis dan profesional dengan tema warna [Warna Pilihan]. Gunakan Tailwind CSS melalui CDN sahaja; jangan gunakan framework berat. Satu fail HTML dengan JavaScript inline. Simpan semua data dalam localStorage. Berikan kod HTML penuh yang siap dijalankan.' },
 
-  { id: 'B8', emo: '📊', c: 'Pentadbiran & Data', t: 'Panel Admin & Papan Pemuka Analitik', w: 'Untuk memaparkan data yang telah dikumpul dalam bentuk metrik, jadual dan graf bagi memudahkan pemantauan dan pelaporan.', p:
+  { id: 'B8', ico: 'chart', c: 'Pentadbiran & Data', t: 'Panel Admin & Papan Pemuka Analitik', w: 'Untuk memaparkan data yang telah dikumpul dalam bentuk metrik, jadual dan graf bagi memudahkan pemantauan dan pelaporan.', p:
 'Bina SATU papan pemuka analitik dalam SATU fail HTML sahaja bertajuk "[Tajuk Papan Pemuka]" untuk [Pengguna Sasaran] bagi memantau [Perkara yang Dipantau].\n\n' +
 'KAWALAN AKSES\nLindungi paparan dengan modal log masuk mudah untuk demo: pengguna [nama pengguna], kata laluan [kata laluan].\n\n' +
 'KANDUNGAN PAPAN PEMUKA\n1. Empat kad metrik ringkasan di bahagian atas yang memaparkan: [Metrik 1], [Metrik 2], [Metrik 3], [Metrik 4].\n2. Jadual rekod penuh dengan lajur: [Senaraikan lajur]. Jadual boleh diisih dengan klik pada tajuk lajur dan mempunyai kotak carian.\n3. Dua graf menggunakan Chart.js melalui CDN, setiap satu pada kanvas berasingan dengan label jelas dan responsif:\n   - Graf [bar / garis] menunjukkan [Data untuk Graf 1].\n   - Graf [bar / pai] menunjukkan [Data untuk Graf 2].\n4. Butang "Jana Analisis" di bawah jadual. Apabila diklik, papar perenggan analisis automatik (lebih kurang 300 patah perkataan dalam [Bahasa]) yang dijana berdasarkan data semasa, meliputi: corak yang paling ketara, item berprestasi tertinggi dan terendah, item yang paling jarang muncul, serta cadangan tindakan susulan.\n5. Butang "Muat Turun CSV" dan butang "Cetak Laporan" dengan gaya @media print yang kemas.\n\n' +
 'REKA BENTUK & TEKNIKAL\nPaparan profesional bergaya papan pemuka korporat dengan tema warna [Warna Pilihan], susun atur grid yang kemas dan responsif. Gunakan Tailwind CSS dan Chart.js melalui CDN sahaja. Satu fail HTML dengan JavaScript inline. Baca data daripada localStorage; jika tiada data, jana data contoh secara automatik supaya paparan boleh diuji. Berikan kod HTML penuh yang siap dijalankan.' },
 
-  { id: 'B9', emo: '💬', c: 'Pentadbiran & Data', t: 'Chatbot FAQ Berasaskan Sumber', w: 'Untuk menjawab soalan berulang tentang prosedur, peraturan atau maklumat unit, supaya beban menjawab soalan yang sama berkurangan.', p:
+  { id: 'B9', ico: 'chat', c: 'Pentadbiran & Data', t: 'Chatbot FAQ Berasaskan Sumber', w: 'Untuk menjawab soalan berulang tentang prosedur, peraturan atau maklumat unit, supaya beban menjawab soalan yang sama berkurangan.', p:
 'Bina SATU chatbot dalam SATU fail HTML sahaja bertajuk "[Nama Chatbot]". Peranan chatbot ialah menjawab soalan [Pengguna Sasaran] tentang [Skop Maklumat] secara ringkas, tepat dan mesra, berdasarkan senarai soalan lazim yang saya berikan di bawah.\n\n' +
 'SUMBER JAWAPAN\nGunakan HANYA maklumat berikut sebagai sumber jawapan. Jika soalan pengguna di luar skop ini, chatbot mesti menjawab dengan sopan bahawa maklumat itu tiada dalam pangkalan datanya dan mencadangkan pengguna merujuk [Rujukan Alternatif].\n[Tampal senarai soalan dan jawapan anda di sini]\n\n' +
 'STRUKTUR PAPARAN\n- Header: nama chatbot dan satu baris subteks penerangan ringkas.\n- Panel kiri: senarai soalan lazim yang boleh diklik terus.\n- Panel kanan: tetingkap chat yang memaparkan sejarah perbualan.\n- Setiap jawapan chatbot didahului ikon atau emoji sebagai profil chatbot.\n- Kotak input di bawah tetingkap chat supaya pengguna boleh menaip soalan sendiri; padankan soalan yang ditaip dengan soalan lazim yang paling hampir menggunakan padanan kata kunci.\n- Footer kecil: notis sumber maklumat.\n- Pada telefon, panel kiri bertukar menjadi menu boleh buka-tutup.\n\n' +
 'REKA BENTUK & TEKNIKAL\nTema warna [Warna Pilihan] dengan gaya perbualan seperti aplikasi pemesejan biasa (gelembung mesej berlainan warna bagi pengguna dan chatbot). Gunakan Tailwind CSS melalui CDN. Satu fail HTML dengan CSS dan JavaScript inline. Simpan data soalan-jawapan sebagai array objek di bahagian atas kod dengan komen supaya saya mudah menambah soalan baharu. Berikan kod HTML penuh yang siap dijalankan.' },
 
-  { id: 'B10', emo: '📚', c: 'Pentadbiran & Data', t: 'Rak Maya / Portal Sumber Digital', w: 'Untuk mengumpulkan bahan bacaan, video, nota atau pautan dalam satu portal yang kemas, dengan rekod siapa yang mengaksesnya.', p:
+  { id: 'B10', ico: 'book', c: 'Pentadbiran & Data', t: 'Rak Maya / Portal Sumber Digital', w: 'Untuk mengumpulkan bahan bacaan, video, nota atau pautan dalam satu portal yang kemas, dengan rekod siapa yang mengaksesnya.', p:
 'Bina SATU portal sumber digital dalam SATU fail HTML sahaja bertajuk "[Tajuk Portal]" untuk [Pengguna Sasaran].\n\n' +
 'KANDUNGAN PORTAL\n- Papar koleksi sumber dalam bentuk grid kad. Setiap kad memaparkan tajuk, kategori, ikon atau emoji, dan penerangan ringkas satu baris.\n- Senarai sumber dan pautannya: [Senaraikan tajuk dan pautan setiap sumber].\n- Sediakan kotak carian dan penapis mengikut kategori di bahagian atas.\n\n' +
 'MEKANISME AKSES\n- Apabila mana-mana sumber diklik, pengguna mesti memasukkan nama dan [kelas / unit] terlebih dahulu. Selagi tidak diisi, sumber tidak boleh dibuka.\n- Selepas maklumat sah, buka pautan sumber tersebut dalam tab baharu dan rekodkan capaian itu.\n\n' +
 'PANEL ADMIN\n- Butang "Admin" di [atas kiri / atas kanan] paparan. Apabila diklik, papar modal log masuk: pengguna [nama pengguna], kata laluan [kata laluan].\n- Paparan admin menunjukkan jadual rekod capaian dengan lajur nama, kelas, tajuk sumber dan cap masa.\n- Sediakan penapis mengikut hari, minggu dan bulan, serta butang muat turun CSV.\n\n' +
 'REKA BENTUK & TEKNIKAL\nTema warna [Warna Pilihan], paparan kemas seperti rak buku digital dengan bayang lembut pada kad, responsif. Gunakan Tailwind CSS melalui CDN. Satu fail HTML dengan JavaScript inline. Simpan rekod dalam localStorage. Letakkan senarai sumber sebagai array objek di bahagian atas kod supaya mudah ditambah. Berikan kod HTML penuh yang siap dijalankan.' },
 
-  { id: 'B11', emo: '🏅', c: 'Alat Guru', t: 'Penjana Dokumen (Sijil, Slip, Laporan)', w: 'Untuk menjana sijil penyertaan, slip keputusan, resit atau surat pengesahan secara automatik dan boleh dicetak.', p:
+  { id: 'B11', ico: 'award', c: 'Alat Guru', t: 'Penjana Dokumen (Sijil, Slip, Laporan)', w: 'Untuk menjana sijil penyertaan, slip keputusan, resit atau surat pengesahan secara automatik dan boleh dicetak.', p:
 'Bina SATU penjana dokumen dalam SATU fail HTML sahaja bertajuk "[Tajuk Penjana]" untuk menghasilkan [Jenis Dokumen: sijil / slip keputusan / resit / surat pengesahan].\n\n' +
 'FUNGSI\n- Borang input di bahagian atas dengan medan berikut: [Senaraikan medan, contoh: nama penerima, jawatan/kelas, tajuk program, tarikh, catatan].\n- Sediakan pilihan untuk memasukkan beberapa nama sekali gus (satu nama setiap baris) supaya boleh menjana dokumen secara pukal.\n- Apabila butang "Jana" diklik, papar pratonton dokumen yang telah dilengkapkan secara langsung.\n\n' +
 'REKA BENTUK DOKUMEN\n- Susun atur [landskap / potret] bersaiz A4, dengan sempadan hias, ruang untuk logo (gunakan placeholder yang boleh saya gantikan), tajuk besar, nama penerima yang menonjol, butiran program, tarikh, dan dua ruang tandatangan di bawah.\n- Tema warna [Warna Pilihan] dengan gaya [rasmi dan profesional / ceria].\n\n' +
 'CETAKAN\n- Butang "Cetak / Muat Turun PDF" yang memanggil window.print().\n- Gaya @media print yang menyembunyikan borang input dan butang, serta mencetak hanya dokumen pada satu halaman penuh dengan margin yang betul.\n- Jika menjana secara pukal, setiap dokumen bermula pada halaman baharu semasa dicetak.\n\n' +
 'TEKNIKAL\nGunakan Tailwind CSS melalui CDN. Satu fail HTML dengan JavaScript inline. Jangan gunakan pustaka PDF yang berat; bergantung pada fungsi cetak pelayar sahaja. Berikan kod HTML penuh yang siap dijalankan.' },
 
-  { id: 'B12', emo: '🧮', c: 'Alat Guru', t: 'Alat Bantu Guru (Kalkulator & Penjana Rawak)', w: 'Alat kecil yang menjimatkan masa harian: pengiraan markah, pemilih nama rawak, pembahagi kumpulan, pemasa aktiviti dan penjana soalan rawak.', p:
+  { id: 'B12', ico: 'calc', c: 'Alat Guru', t: 'Alat Bantu Guru (Kalkulator & Penjana Rawak)', w: 'Alat kecil yang menjimatkan masa harian: pengiraan markah, pemilih nama rawak, pembahagi kumpulan, pemasa aktiviti dan penjana soalan rawak.', p:
 'Bina SATU alat bantu dalam SATU fail HTML sahaja bertajuk "[Tajuk Alat]" untuk membantu [Pengguna Sasaran] melaksanakan tugas [Tugas yang Dipermudah].\n\n' +
 'FUNGSI\n- Input: pengguna memasukkan [Jenis Input, contoh: senarai nama satu per baris / markah / bilangan kumpulan].\n- Proses: apabila butang [Nama Butang] diklik, sistem akan [Terangkan apa yang perlu berlaku secara terperinci].\n- Output: papar hasil dengan jelas dalam bentuk [kad / jadual / senarai bernombor], dengan animasi ringkas semasa hasil dipaparkan.\n- Sediakan butang "Salin Hasil" yang menyalin output ke papan keratan, dan butang "Set Semula".\n- Simpan input terakhir dalam localStorage supaya pengguna tidak perlu menaip semula setiap kali.\n\n' +
 'REKA BENTUK & TEKNIKAL\nPaparan ringkas, bersih dan pantas digunakan, dengan semua fungsi utama pada satu skrin tanpa perlu banyak menatal. Tema warna [Warna Pilihan], font besar supaya boleh dilihat dari belakang kelas jika dipaparkan pada skrin. Responsif untuk telefon. Gunakan Tailwind CSS melalui CDN. Satu fail HTML dengan JavaScript inline. Berikan kod HTML penuh yang siap dijalankan.' }
@@ -396,7 +396,23 @@ login:'<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-
 shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>',
 info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
 list:'<path d="M9 6h12M9 12h12M9 18h12M4 6h.01M4 12h.01M4 18h.01"/>',
-alert:'<path d="M12 3l10 18H2z"/><path d="M12 10v4M12 18h.01"/>'
+alert:'<path d="M12 3l10 18H2z"/><path d="M12 10v4M12 18h.01"/>',
+refresh:'<path d="M3 12a9 9 0 0 1 15.5-6.3L21 8M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.3L3 16M3 21v-5h5"/>',
+star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>',
+checkc:'<circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.5L16 9.5"/>',
+layers:'<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/>',
+target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+puzzle:'<path d="M9 3h6v3a2 2 0 1 0 4 0V3h2v6h-3a2 2 0 1 0 0 4h3v8h-6v-3a2 2 0 1 0-4 0v3H3v-8h3a2 2 0 1 0 0-4H3V3z"/>',
+doc:'<path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h8M9 17h6"/>',
+cards:'<rect x="7" y="3" width="13" height="16" rx="2"/><path d="M4 7v12a2 2 0 0 0 2 2h10"/>',
+flask:'<path d="M9 3h6M10 3v6L4.5 19a1.5 1.5 0 0 0 1.3 2h12.4a1.5 1.5 0 0 0 1.3-2L14 9V3"/><path d="M7 15h10"/>',
+grid:'<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>',
+form:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3v3h6V3M9 11h6M9 15h4"/>',
+chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+chat:'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',
+book:'<path d="M4 4h6a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4z"/><path d="M20 4h-4a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h5z"/>',
+award:'<circle cx="12" cy="9" r="6"/><path d="M8.5 14L7 22l5-3 5 3-1.5-8"/>',
+calc:'<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M8 6h8v4H8zM8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/>'
 };
 function ic(n,s){s=s||22;return '<svg class="ic" width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+P[n]+'</svg>'}
 function logo(k){return '<img class="lg" src="'+D.TOOLS[k].logo+'" alt="" width="128" height="128">'}
@@ -421,9 +437,9 @@ function checks(a){return '<ul class="checks">'+a.map(function(x){return '<li>'+
 /* kad prompt (boleh kembang) */
 function pcard(o,mode){
  var tags='<span class="tag">'+esc(o.id)+'</span><span class="tag y">'+esc(o.g?o.s+' · '+o.g:(o.s||o.c))+'</span>';
- return '<article class="pc" data-s="'+esc(o.s||o.c)+'"><button class="pc-h" aria-expanded="false">'+(o.emo?'<span class="emo" aria-hidden="true">'+o.emo+'</span>':'')+
+ return '<article class="pc" data-s="'+esc(o.s||o.c)+'"><button class="pc-h" aria-expanded="false">'+(o.ico?'<span class="emo" aria-hidden="true">'+ic(o.ico,24)+'</span>':'')+
  '<span class="tt"><span class="tags">'+tags+'</span><b>'+esc(o.t)+'</b>'+(o.w?'<span class="when">'+esc(o.w)+'</span>':'')+'</span><span class="pc-toggle">'+ic('down',22)+'</span></button>'+
- '<div class="pc-b"><pre class="prompt">'+esc(o.p)+'</pre>'+(o.note?'<p class="pnote">💡 <b>Nota:</b> '+esc(o.note)+'</p>':'')+
+ '<div class="pc-b"><pre class="prompt">'+esc(o.p)+'</pre>'+(o.note?'<p class="pnote">'+ic('info',18)+'<span><b>Nota:</b> '+esc(o.note)+'</span></p>':'')+
  '<div class="pacts"><button class="copy" data-copy="'+reg(o.p)+'">'+ic('copy',18)+' Salin prompt</button><button class="tobuild" data-build="'+mode+'|'+o.id+'">'+ic('wand',18)+' Isi dalam Pembina</button></div></div></article>';
 }
 
@@ -446,13 +462,13 @@ function renderUtama(){
  '<span class="spk-meta"><span class="spk-role">Penceramah</span><span class="spk-name">Dr. Mohd Muslim Md Zalli</span><span class="spk-org">Universiti Pendidikan Sultan Idris</span><span class="spk-badge">EXPERT@UPSI '+ic('ext',14)+'</span></span></a></div>'+
 
  '<div class="sec info">'+
-  '<div><span class="ib" style="--c:#1565D8">'+ic('cal',22)+'</span><span><small>Tarikh</small><b>3 November 2026 (Selasa)</b></span></div>'+
-  '<div><span class="ib" style="--c:#0E8A6B">'+ic('clock',22)+'</span><span><small>Masa</small><b>11.00 pagi – 5.00 petang</b></span></div>'+
-  '<div><span class="ib" style="--c:#E06C00">'+ic('pin',22)+'</span><span><small>Tempat</small><b>Hotel Kingston, Melaka</b></span></div>'+
+  '<div><span class="ib">'+ic('cal',22)+'</span><span><small>Tarikh</small><b>3 November 2026 (Selasa)</b></span></div>'+
+  '<div><span class="ib">'+ic('clock',22)+'</span><span><small>Masa</small><b>11.00 pagi – 5.00 petang</b></span></div>'+
+  '<div><span class="ib">'+ic('pin',22)+'</span><span><small>Tempat</small><b>Hotel Kingston, Melaka</b></span></div>'+
  '</div>'+
 
  '<div class="sec"><h3 class="h3">'+ic('list',20)+' Laluan bengkel</h3><ol class="route">'+route.map(function(r){
-  return '<li><button data-go="'+r[0]+'" style="--c:'+r[1]+'"><span class="rn"><span>'+r[2]+'</span>'+ic('right',20)+'</span><b>'+r[3]+'</b><p>'+r[4]+'</p></button></li>'}).join('')+'</ol></div>'+
+  return '<li><button data-go="'+r[0]+'"><span class="rn"><span class="rnum">'+r[2].slice(-1)+'</span><span>'+r[2]+'</span>'+ic('right',20)+'</span><b>'+r[3]+'</b><p>'+r[4]+'</p></button></li>'}).join('')+'</ol></div>'+
 
  '<div class="sec cols"><div class="delima"><div class="delima-h"><span class="num">0</span><div><h3>Log masuk DELIMa dahulu</h3><small>Akaun DELIMa guru memberi akses kepada Gemini dan NotebookLM</small></div></div>'+
  '<ol class="steps"><li><b>1</b>Buka laman DELIMa</li><li><b>2</b>Log masuk dengan ID DELIMa anda</li><li><b>3</b>Kekal log masuk dalam pelayar ini</li></ol>'+
@@ -472,14 +488,14 @@ function renderPedagogi(){
  var el=$('#v-pedagogi');
  var contoh='Anda seorang guru Bahasa Melayu Tahun 5 yang berpengalaman. Bina lima soalan kefahaman tentang peribahasa yang mengaitkan situasi harian murid. Susun dalam jadual dengan lajur soalan, jawapan dan aras Taksonomi Bloom.';
  var filters=['Semua'].concat(D.FASA.map(function(f){return f.k}));
- el.innerHTML='<div class="thero"><span class="blob"></span><div class="thero-h"><span class="tlogo">'+ic('bulb',34)+'</span><div><span class="eyebrow" style="color:#E4EE9C">Bahagian 1</span><h2>Pedagogi Gen AI</h2><p>Prompt mengikut 5 fasa PdP: salin, isi petak [ ] dan tampal.</p></div></div>'+
+ el.innerHTML='<div class="thero"><span class="blob"></span><div class="thero-h"><span class="tlogo">'+ic('bulb',34)+'</span><div><span class="eyebrow" style="color:rgba(255,255,255,.72)">Bahagian 1</span><h2>Pedagogi Gen AI</h2><p>Prompt mengikut 5 fasa PdP: salin, isi petak [ ] dan tampal.</p></div></div>'+
  '<div class="btns">'+toolBtn('gemini')+toolBtn('chatgpt')+'</div></div>'+
 
  '<div class="sec"><h3 class="h3">Formula prompt PdP: R-T-F</h3><div class="pktf n3">'+[
   ['R','Role (Peranan)','Beritahu AI siapa dirinya.','Anda seorang guru Bahasa Melayu Tahun 5 yang berpengalaman.','#1E7A4C'],
   ['T','Task (Tugasan)','Nyatakan apa yang perlu dihasilkan, berapa banyak dan untuk siapa.','Bina lima soalan kefahaman tentang peribahasa.','#E06C00'],
   ['F','Format (Bentuk)','Nyatakan bentuk output: jadual, senarai, skrip, peta minda atau rubrik.','Susun dalam jadual dengan lajur soalan, jawapan dan aras Bloom.','#1565D8']
- ].map(function(x){return '<div class="pk" style="--k:'+x[4]+'"><span class="L">'+x[0]+'</span><b>'+x[1]+'</b><small>'+x[2]+'</small><span class="eg">'+x[3]+'</span></div>'}).join('')+'</div>'+
+ ].map(function(x){return '<div class="pk"><span class="L">'+x[0]+'</span><b>'+x[1]+'</b><small>'+x[2]+'</small><span class="eg">'+x[3]+'</span></div>'}).join('')+'</div>'+
  '<div class="card full"><div class="lbl">Contoh lengkap R-T-F dalam satu prompt</div><pre class="prompt">'+esc(contoh)+'</pre><button class="copy" data-copy="'+reg(contoh)+'">'+ic('copy',18)+' Salin contoh</button></div>'+
  '<p class="tip">'+ic('wand',18)+'<span>Petak seperti <b>[Mata Pelajaran]</b>, <b>[Tajuk/Topik]</b> dan <b>[Tahun/Tingkatan]</b> perlu diganti dengan maklumat kelas anda. Tekan <b>Isi dalam Pembina</b> untuk mengisinya secara automatik.</span></p></div>'+
 
@@ -488,10 +504,10 @@ function renderPedagogi(){
  '<div class="plist">'+D.PED.map(function(o){return pcard(o,'p')}).join('')+'</div></div>'+
 
  '<div class="sec">'+
-  acc('+','Kamus Penambah','Ayat tambahan untuk memperhalusi mana-mana prompt',klist(D.KAMUS_PED))+
-  acc('↻','Prompt Iterasi','Apabila hasil pertama belum sesuai',klist(D.ITER_PED)+'<p class="tip">'+ic('info',18)+'<span>Teruskan dalam perbualan yang <b>sama</b> supaya AI mengekalkan konteks.</span></p>')+
-  acc('✓','Senarai Semak & Peringatan','Sebelum digunakan dalam bilik darjah',checks(D.SEMAK_PED)+'<div class="warn"><b>'+ic('alert',18)+' Peringatan penggunaan AI dalam pengajaran</b>AI menjana jawapan berdasarkan pola bahasa, bukan berdasarkan kefahaman tentang murid anda. Oleh itu:<ul>'+D.AMARAN_PED.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul></div>')+
-  acc('i','Nota mengikut platform AI','ChatGPT, Gemini, Claude dan NotebookLM','<div class="grid">'+D.PLATFORM.map(function(x){return '<div class="ex"><span>'+esc(x[0])+'</span>'+esc(x[1])+'</div>'}).join('')+'</div>')+
+  acc(ic('layers',22),'Kamus Penambah','Ayat tambahan untuk memperhalusi mana-mana prompt',klist(D.KAMUS_PED))+
+  acc(ic('refresh',22),'Prompt Iterasi','Apabila hasil pertama belum sesuai',klist(D.ITER_PED)+'<p class="tip">'+ic('info',18)+'<span>Teruskan dalam perbualan yang <b>sama</b> supaya AI mengekalkan konteks.</span></p>')+
+  acc(ic('checkc',22),'Senarai Semak & Peringatan','Sebelum digunakan dalam bilik darjah',checks(D.SEMAK_PED)+'<div class="warn"><b>'+ic('alert',18)+' Peringatan penggunaan AI dalam pengajaran</b>AI menjana jawapan berdasarkan pola bahasa, bukan berdasarkan kefahaman tentang murid anda. Oleh itu:<ul>'+D.AMARAN_PED.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul></div>')+
+  acc(ic('info',22),'Nota mengikut platform AI','ChatGPT, Gemini, Claude dan NotebookLM','<div class="grid">'+D.PLATFORM.map(function(x){return '<div class="ex"><span>'+esc(x[0])+'</span>'+esc(x[1])+'</div>'}).join('')+'</div>')+
  '</div>'+nextBtn('pedagogi');
 }
 
@@ -499,7 +515,7 @@ function renderPedagogi(){
 function renderWebapp(){
  var el=$('#v-webapp');
  var filters=['Semua'].concat(D.WCAT);
- el.innerHTML='<div class="thero"><span class="blob"></span><div class="thero-h"><span class="tlogo">'+logo('gemini')+'</span><div><span class="eyebrow" style="color:#C9C9FF">Bahagian 2</span><h2>Bina Web App dengan Gemini</h2><p>Kuiz, permainan dan alat bantu mengajar dalam SATU fail HTML, tanpa menulis kod.</p></div></div>'+
+ el.innerHTML='<div class="thero"><span class="blob"></span><div class="thero-h"><span class="tlogo">'+logo('gemini')+'</span><div><span class="eyebrow" style="color:rgba(255,255,255,.72)">Bahagian 2</span><h2>Bina Web App dengan Gemini</h2><p>Kuiz, permainan dan alat bantu mengajar dalam SATU fail HTML, tanpa menulis kod.</p></div></div>'+
  '<div class="btns">'+toolBtn('gemini')+'</div></div>'+
 
  '<div class="sec"><h3 class="h3">Langkah kerja</h3><ol class="flow"><li><span>Buka Gemini dengan akaun DELIMa</span></li><li><span>Pilih <b>Canvas</b> dalam kotak prompt</span></li><li><span>Tampal prompt dan tekan hantar</span></li><li><span>Uji, perbaiki dan kongsi pautan</span></li></ol></div>'+
@@ -510,7 +526,7 @@ function renderWebapp(){
   ['A','Aliran','Urutan skrin dari mula hingga tamat.','Masuk nama → arahan → kuiz → keputusan → sijil.','#0E8A6B'],
   ['R','Reka Bentuk','Tema warna, gaya, saiz fon, emoji dan responsif telefon.','Biru lembut, ceria, fon besar, mesra telefon.','#D6336C'],
   ['T','Teknikal','Satu fail HTML, pustaka dibenarkan, cara data disimpan.','Satu fail HTML, Tailwind CDN, localStorage.','#7B4FD6']
- ].map(function(x){return '<div class="pk" style="--k:'+x[4]+'"><span class="L">'+x[0]+'</span><b>'+x[1]+'</b><small>'+x[2]+'</small><span class="eg">'+x[3]+'</span></div>'}).join('')+'</div></div>'+
+ ].map(function(x){return '<div class="pk"><span class="L">'+x[0]+'</span><b>'+x[1]+'</b><small>'+x[2]+'</small><span class="eg">'+x[3]+'</span></div>'}).join('')+'</div></div>'+
 
  '<div class="sec"><h3 class="h3">Templat Induk</h3><div class="plist" style="grid-template-columns:minmax(0,1fr)">'+pcard(D.INDUK,'w')+'</div></div>'+
 
@@ -518,10 +534,10 @@ function renderWebapp(){
  '<div class="plist">'+D.WEB.map(function(o){return pcard(o,'w')}).join('')+'</div></div>'+
 
  '<div class="sec">'+
-  acc('+','Kamus Ciri','Tambah apa-apa ciri ke dalam mana-mana prompt',klist(D.KAMUS_WEB))+
-  acc('↻','Prompt Iterasi','Membaiki dan menambah baik aplikasi',klist(D.ITER_WEB)+'<p class="tip">'+ic('info',18)+'<span>Jarang sekali hasil pertama terus sempurna. Teruskan dalam perbualan yang <b>sama</b>; jangan mula chat baharu.</span></p>')+
-  acc('✓','Senarai Semak & Privasi','Sebelum digunakan dengan murid',checks(D.SEMAK_WEB)+'<div class="warn"><b>'+ic('alert',18)+' Peringatan tentang data dan privasi</b>Kata laluan yang ditulis terus dalam kod HTML boleh dilihat oleh sesiapa sahaja yang membuka kod sumber halaman. Kaedah ini hanya sesuai untuk mengelakkan capaian tidak sengaja dalam persekitaran demo atau kelas. Ia <b style="display:inline">bukan</b> perlindungan keselamatan sebenar.<ul>'+D.AMARAN_WEB.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul></div>')+
-  acc('★','Tiga tabiat hasil hebat','Yang membezakan hasil biasa dengan hasil hebat','<div class="grid">'+D.TABIAT.map(function(x){return '<div class="ex"><span>'+esc(x[0])+'</span>'+esc(x[1])+'</div>'}).join('')+'</div>')+
+  acc(ic('layers',22),'Kamus Ciri','Tambah apa-apa ciri ke dalam mana-mana prompt',klist(D.KAMUS_WEB))+
+  acc(ic('refresh',22),'Prompt Iterasi','Membaiki dan menambah baik aplikasi',klist(D.ITER_WEB)+'<p class="tip">'+ic('info',18)+'<span>Jarang sekali hasil pertama terus sempurna. Teruskan dalam perbualan yang <b>sama</b>; jangan mula chat baharu.</span></p>')+
+  acc(ic('shield',22),'Senarai Semak & Privasi','Sebelum digunakan dengan murid',checks(D.SEMAK_WEB)+'<div class="warn"><b>'+ic('alert',18)+' Peringatan tentang data dan privasi</b>Kata laluan yang ditulis terus dalam kod HTML boleh dilihat oleh sesiapa sahaja yang membuka kod sumber halaman. Kaedah ini hanya sesuai untuk mengelakkan capaian tidak sengaja dalam persekitaran demo atau kelas. Ia <b style="display:inline">bukan</b> perlindungan keselamatan sebenar.<ul>'+D.AMARAN_WEB.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul></div>')+
+  acc(ic('star',22),'Tiga tabiat hasil hebat','Yang membezakan hasil biasa dengan hasil hebat','<div class="grid">'+D.TABIAT.map(function(x){return '<div class="ex"><span>'+esc(x[0])+'</span>'+esc(x[1])+'</div>'}).join('')+'</div>')+
  '</div>'+nextBtn('webapp');
 }
 
@@ -636,7 +652,7 @@ function syncPembina(full){
  if(full){
   var l=tplList(V.mode),h='';
   if(V.mode==='p'){D.FASA.forEach(function(f){h+='<optgroup label="'+esc(f.k)+'">'+l.filter(function(o){return o.s===f.k}).map(function(o){return '<option value="'+o.id+'">'+o.id+' · '+esc(o.t)+'</option>'}).join('')+'</optgroup>'})}
-  else h=l.map(function(o){return '<option value="'+o.id+'">'+(o.emo||'')+' '+o.id+' · '+esc(o.t)+'</option>'}).join('');
+  else h=l.map(function(o){return '<option value="'+o.id+'">'+o.id+' · '+esc(o.t)+'</option>'}).join('');
   $('#pTpl').innerHTML=h;
   $('#pAddT').innerHTML=(V.mode==='p'?'4. Kamus Penambah':'4. Kamus Ciri')+' <span class="opt">(pilihan: tandakan ayat untuk ditambah di hujung prompt)</span>';
   $('#pAdds').innerHTML=kamus().map(function(g,gi){return '<details><summary>'+esc(g.h)+' <span class="cnt" hidden></span></summary>'+g.i.map(function(x,ii){var id=gi+'-'+ii;
