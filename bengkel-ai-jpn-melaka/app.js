@@ -10,6 +10,7 @@ var D = {};
 /* ---------- maklumat bengkel ---------- */
 D.SITE_URL = 'https://drmuslimzalli.aila.my/bengkel-ai-jpn-melaka';
 D.DELIMA = 'https://d3.delima.edu.my/landing';
+D.PADLET = 'https://padlet.com/CikguMuslim/kompetensi-digital-jpn-melaka-2026-uh9fg8at60s0d57e';
 D.EXPERT = 'https://directory.upsi.edu.my/experts/profile/CCA4434941954F12';
 D.TOOLS = {
   gemini: { name: 'Gemini', url: 'https://gemini.google.com/app', logo: '/media/logo-gemini' },
@@ -31,7 +32,7 @@ D.FASIL = [
 D.SUBJEK = ['Bahasa Melayu', 'Bahasa Inggeris', 'Bahasa Cina', 'Bahasa Tamil', 'Bahasa Arab', 'Kesusasteraan Melayu Komunikatif', 'Literature in English'];
 D.TAHUN = ['Tahun 1', 'Tahun 2', 'Tahun 3', 'Tahun 4', 'Tahun 5', 'Tahun 6', 'Tingkatan 1', 'Tingkatan 2', 'Tingkatan 3', 'Tingkatan 4', 'Tingkatan 5'];
 D.MASA = ['5 minit', '10 minit', '15 minit', '30 minit', '60 minit', '80 minit'];
-D.BAHASA = ['Bahasa Melayu', 'Bahasa Inggeris', 'Dwibahasa (Bahasa Melayu dan Bahasa Inggeris)'];
+D.BAHASA = ['Bahasa Melayu', 'Bahasa Inggeris', 'Bahasa Cina', 'Bahasa Tamil', 'Bahasa Arab', 'Dwibahasa (Bahasa Melayu dan Bahasa Inggeris)'];
 D.WARNA = ['biru lembut', 'hijau segar', 'pastel', 'merah jambu lembut', 'ungu', 'oren ceria'];
 
 /* ---------- etika ---------- */
@@ -195,8 +196,41 @@ D.AMARAN_PED = [
 D.PLATFORM = [
   ['ChatGPT, Gemini dan Claude', 'Salin terus prompt selepas mengisi petak [ ]. Anda boleh terus meminta pindaan dalam perbualan yang sama, contohnya "jadikan dalam bentuk jadual" atau "tambah dua contoh lagi".'],
   ['NotebookLM', 'Muat naik dahulu bahan sumber anda, seperti buku teks, DSKP, nota sedia ada atau modul latihan. Kemudian tambah ayat "berdasarkan sumber yang dimuat naik" pada penghujung prompt. Ini pilihan terbaik apabila ketepatan terhadap sukatan pelajaran menjadi keutamaan.'],
-  ['Untuk hasil bergambar', 'Gandingkan prompt kandungan dengan prompt gaya visual untuk menukar hasil kepada infografik atau bahan bantu mengajar bergambar.'],
+  ['Untuk hasil bergambar', 'Gunakan bahagian Prompt bahan visual & multimedia untuk menjana gambar, infografik, video dan slaid. Gandingkan dengan hasil prompt PdP supaya bahan visual selari dengan isi pelajaran.'],
   ['Untuk hasil interaktif', 'Gandingkan hasil prompt PdP dengan templat Bina Web App untuk menukar soalan atau aktiviti kepada kuiz dan permainan digital.']
+];
+
+/* =====================================================================
+   PROMPT BAHAN VISUAL & MULTIMEDIA (fokus mata pelajaran bahasa)
+   s = jenis bahan (D.MCAT), ico = ikon, w = alat yang sesuai
+   ===================================================================== */
+D.MCAT = ['Gambar', 'Infografik', 'Video', 'Slaid'];
+D.MTOOL = [
+  ['chatgpt', 'Gambar terus dalam perbualan. Infografik dijana sebagai gambar. Slaid boleh diminta sebagai fail PowerPoint (.pptx) untuk dimuat turun.'],
+  ['gemini', 'Gambar dan klip video pendek (Veo). Pilih Canvas untuk infografik dan slaid, kemudian eksport ke Google Slides.'],
+  ['notebooklm', 'Muat naik sumber dahulu (buku teks, DSKP, teks sastera). Di panel Studio, pilih Infografik, Pembentangan Slaid atau Ringkasan Video, tekan ikon pensel dan tampal prompt sebagai arahan.']
+];
+D.MEDIA = [
+  /* GAMBAR */
+  { id: 'M1.1', s: 'Gambar', ico: 'image', t: 'Gambar Bersiri untuk Penulisan', w: 'Sesuai untuk: ChatGPT, Gemini', p: 'Hasilkan SATU imej dalam bentuk grid 2 x 2 yang mengandungi EMPAT gambar bersiri untuk aktiviti penulisan berdasarkan gambar bagi murid [Tahun/Tingkatan], mata pelajaran [Mata Pelajaran]. Tema cerita: [Tajuk/Topik]. Susun gambar mengikut urutan permulaan, perkembangan, klimaks dan penyelesaian. Gunakan watak yang sama dalam setiap gambar dengan rupa dan pakaian yang konsisten, berlatarkan suasana di Malaysia. Gaya: [gaya visual: kartun mesra kanak-kanak / ilustrasi buku cerita / lukisan cat air / realistik]. Jangan letakkan sebarang teks atau nombor dalam gambar.', note: 'Selepas gambar dijana, minta AI "senaraikan 10 kosa kata dan 5 frasa menarik berdasarkan gambar ini" sebagai bahan bantu penulisan murid.' },
+  { id: 'M1.2', s: 'Gambar', ico: 'image', t: 'Gambar Situasi untuk Lisan dan Perbualan', w: 'Sesuai untuk: ChatGPT, Gemini', p: 'Hasilkan SATU gambar situasi yang meriah dan terperinci bertemakan [Tajuk/Topik] untuk aktiviti lisan murid [Tahun/Tingkatan] dalam mata pelajaran [Mata Pelajaran]. Paparkan sekurang-kurangnya lapan aktiviti berbeza yang dilakukan oleh watak pelbagai kaum dan peringkat umur, supaya murid boleh bercerita, menyoal dan berbual berdasarkan gambar. Latar dan budaya mesti sesuai dengan masyarakat Malaysia. Gaya: [gaya visual: kartun mesra kanak-kanak / ilustrasi buku cerita / lukisan cat air / realistik]. Nisbah imej 16:9 untuk paparan di skrin. Jangan masukkan teks dalam gambar.' },
+  { id: 'M1.3', s: 'Gambar', ico: 'image', t: 'Kad Imbas Kosa Kata Bergambar', w: 'Sesuai untuk: ChatGPT, Gemini', p: 'Hasilkan SATU imej berbentuk grid yang mengandungi [Bilangan] kad imbas kosa kata bertemakan [Tajuk/Topik] untuk murid [Tahun/Tingkatan]. Setiap kad memaparkan satu objek atau perbuatan dengan jelas di atas latar putih, dan perkataannya dieja dalam [Bahasa] di bawah gambar menggunakan huruf besar yang mudah dibaca. Gunakan gaya ilustrasi yang ringkas dan seragam bagi semua kad.', note: 'Hasil paling jelas dengan 4 hingga 9 kad bagi setiap imej. AI penjana gambar kadangkala tersalah eja; semak setiap perkataan. Jika masih salah, minta gambar tanpa teks dan tambah label sendiri dalam Canva atau Google Slides.' },
+  { id: 'M1.4', s: 'Gambar', ico: 'image', t: 'Ilustrasi Peribahasa, Simpulan Bahasa atau Idiom', w: 'Sesuai untuk: ChatGPT, Gemini', p: 'Hasilkan SATU gambar yang menggambarkan maksud sebenar [nyatakan peribahasa, simpulan bahasa atau idiom] untuk murid [Tahun/Tingkatan] dalam mata pelajaran [Mata Pelajaran]. Paparkan situasi kehidupan harian di Malaysia yang membantu murid meneka maksudnya, bukan maksud literal setiap perkataan. Gaya: [gaya visual: kartun mesra kanak-kanak / ilustrasi buku cerita / lukisan cat air / realistik]. Jangan masukkan teks dalam gambar. Selepas itu, berikan dua soalan aruhan yang boleh guru tanyakan untuk membimbing murid meneka maksudnya.' },
+  /* INFOGRAFIK */
+  { id: 'M2.1', s: 'Infografik', ico: 'chart', t: 'Infografik Tatabahasa', w: 'Sesuai untuk: Gemini (Canvas), ChatGPT, NotebookLM', p: 'Bina SATU infografik satu halaman tentang [Tajuk/Topik] untuk murid [Tahun/Tingkatan] dalam mata pelajaran [Mata Pelajaran]. Kandungan: definisi ringkas dalam ayat mudah, tiga peraturan atau ciri utama, empat contoh ayat dengan perkataan sasaran ditebalkan, dan satu kotak "Kesilapan Lazim" yang membandingkan ayat salah dengan ayat betul. Gunakan tajuk yang jelas, ikon ringkas dan tema warna [Warna Pilihan]. Semua teks dalam [Bahasa], dengan ejaan dan tatabahasa yang tepat.', note: 'Di Gemini, pilih Canvas supaya infografik dipaparkan sebagai halaman yang boleh dicetak. Di NotebookLM, muat naik nota atau buku teks dahulu, kemudian pilih Infografik di panel Studio.' },
+  { id: 'M2.2', s: 'Infografik', ico: 'chart', t: 'Peta Minda Kosa Kata Tema', w: 'Sesuai untuk: Gemini (Canvas), ChatGPT, NotebookLM', p: 'Bina SATU infografik berbentuk peta minda untuk kosa kata tema [Tajuk/Topik] bagi murid [Tahun/Tingkatan], mata pelajaran [Mata Pelajaran]. Letakkan tema di tengah, kemudian empat hingga enam cabang mengikut kategori (contohnya tempat, orang, perbuatan dan sifat). Setiap cabang mengandungi tiga hingga lima perkataan bersama ikon kecil dan satu contoh frasa. Tema warna [Warna Pilihan]. Semua teks dalam [Bahasa].' },
+  { id: 'M2.3', s: 'Infografik', ico: 'chart', t: 'Infografik Format dan Struktur Penulisan', w: 'Sesuai untuk: Gemini (Canvas), ChatGPT', p: 'Bina SATU infografik langkah demi langkah tentang format dan struktur [jenis penulisan: karangan naratif / karangan fakta / surat kiriman rasmi / surat kiriman tidak rasmi / e-mel / laporan / ulasan] untuk murid [Tahun/Tingkatan] dalam mata pelajaran [Mata Pelajaran]. Tunjukkan setiap bahagian mengikut urutan (pendahuluan, isi dan penutup) bersama penerangan ringkas, satu contoh ayat bagi setiap bahagian, dan tiga penanda wacana yang sesuai. Akhiri dengan senarai semak ringkas supaya murid boleh menyemak hasil penulisan sendiri. Tema warna [Warna Pilihan]. Semua teks dalam [Bahasa].' },
+  { id: 'M2.4', s: 'Infografik', ico: 'chart', t: 'Infografik Ringkasan Teks Sastera', w: 'Sesuai untuk: NotebookLM, Gemini (Canvas)', p: 'Berdasarkan teks [nyatakan tajuk cerpen, novel, sajak atau drama] yang dimuat naik, bina SATU infografik ringkasan untuk murid [Tahun/Tingkatan] dalam mata pelajaran [Mata Pelajaran]. Sertakan sinopsis dalam lima ayat, watak utama dan perwatakannya, tema, tiga persoalan, latar (masa, tempat dan masyarakat), serta nilai dan pengajaran. Susun dalam kotak yang jelas dengan ikon yang sesuai. Gunakan hanya maklumat daripada sumber yang dimuat naik. Semua teks dalam [Bahasa].', note: 'Paling tepat di NotebookLM: muat naik teks KOMSAS atau Literature sebagai sumber, pilih Infografik di panel Studio, dan tampal prompt ini sebagai arahan.' },
+  /* VIDEO */
+  { id: 'M3.1', s: 'Video', ico: 'video', t: 'Klip Video Pendek untuk Set Induksi', w: 'Sesuai untuk: Gemini (Veo)', p: 'Hasilkan SATU klip video pendek (kira-kira 8 saat) sebagai set induksi bagi topik [Tajuk/Topik] untuk murid [Tahun/Tingkatan] dalam mata pelajaran [Mata Pelajaran]. Babak: [huraikan babak — contohnya seorang murid membantu seorang nenek menyeberang jalan di hadapan sekolah]. Latar di Malaysia, pencahayaan siang yang cerah dan pergerakan kamera yang perlahan. Gaya: [gaya video: animasi 3D mesra kanak-kanak / kartun 2D / realistik sinematik]. Tanpa teks dan tanpa dialog, hanya bunyi latar semula jadi, supaya murid boleh menghuraikan apa yang berlaku dengan perkataan sendiri.', note: 'Penjanaan video tertakluk pada had harian dan jenis akaun Gemini. Tayangkan video sekali, kemudian minta murid menghuraikan babak secara lisan atau bertulis.' },
+  { id: 'M3.2', s: 'Video', ico: 'video', t: 'Video Dialog untuk Kemahiran Mendengar dan Bertutur', w: 'Sesuai untuk: Gemini (Veo)', p: 'Hasilkan SATU klip video pendek (kira-kira 8 saat) yang memaparkan dua watak, iaitu [nyatakan watak — contohnya seorang pelanggan dan seorang penjual di pasar], sedang berbual dalam [Bahasa] tentang [Tajuk/Topik]. Dialog: "[tulis dialog ringkas — dua hingga empat ayat]". Sebutan mesti jelas dan perlahan, sesuai untuk murid [Tahun/Tingkatan]. Latar di Malaysia. Gaya: [gaya video: animasi 3D mesra kanak-kanak / kartun 2D / realistik sinematik].', note: 'Dengar semula sebutan sebelum digunakan. Sebutan AI bagi Bahasa Melayu, Cina, Tamil dan Arab mungkin kurang tepat. Jika perlu, gunakan video tanpa suara dan rakam suara sendiri.' },
+  { id: 'M3.3', s: 'Video', ico: 'video', t: 'Ringkasan Video daripada Sumber', w: 'Sesuai untuk: NotebookLM', p: 'Hasilkan Ringkasan Video untuk murid [Tahun/Tingkatan] tentang [Tajuk/Topik] dalam mata pelajaran [Mata Pelajaran], berdasarkan sumber yang dimuat naik sahaja. Terangkan konsep langkah demi langkah dengan bahasa yang mudah, berikan sekurang-kurangnya tiga contoh ayat atau petikan daripada sumber, dan tegaskan satu kesilapan lazim murid. Akhiri dengan dua soalan semakan kefahaman. Gunakan [Bahasa].', note: 'Di NotebookLM: muat naik sumber, pilih Ringkasan Video di panel Studio, tekan ikon pensel untuk menyesuaikan, kemudian tampal prompt ini.' },
+  { id: 'M3.4', s: 'Video', ico: 'video', t: 'Skrip dan Papan Cerita Video Pembelajaran', w: 'Sesuai untuk: ChatGPT, Gemini', p: 'Anda seorang guru [Mata Pelajaran] yang kreatif. Tulis skrip dan papan cerita (storyboard) untuk video pembelajaran berdurasi [Tempoh Masa] tentang [Tajuk/Topik] bagi murid [Tahun/Tingkatan]. Susun dalam jadual dengan lajur: nombor babak, visual yang dipaparkan, narasi atau dialog dalam [Bahasa], teks pada skrin dan anggaran masa. Selepas jadual, tulis satu prompt video pendek bagi setiap babak yang boleh ditampal terus ke Gemini (Veo).' },
+  /* SLAID */
+  { id: 'M4.1', s: 'Slaid', ico: 'slides', t: 'Slaid Pengajaran Lengkap', w: 'Sesuai untuk: Gemini (Canvas), ChatGPT, NotebookLM', p: 'Bina [Bilangan] slaid pembentangan untuk mengajar [Tajuk/Topik] kepada murid [Tahun/Tingkatan] dalam mata pelajaran [Mata Pelajaran]. Objektif Pembelajaran: [Objektif Pembelajaran]. Susunan: slaid tajuk, objektif, set induksi, isi pelajaran dengan contoh ayat, aktiviti murid, latihan ringkas dan rumusan. Setiap slaid mempunyai tajuk yang jelas, tidak lebih daripada lima poin pendek, dan cadangan gambar yang sesuai. Sertakan nota guru bagi setiap slaid. Tema warna [Warna Pilihan]. Semua teks dalam [Bahasa].', note: 'Gemini: pilih Canvas, kemudian eksport ke Google Slides. ChatGPT: tambah "sediakan sebagai fail PowerPoint untuk dimuat turun". NotebookLM: pilih Pembentangan Slaid di panel Studio.' },
+  { id: 'M4.2', s: 'Slaid', ico: 'slides', t: 'Slaid Kuiz Tatabahasa', w: 'Sesuai untuk: Gemini (Canvas), ChatGPT', p: 'Bina slaid kuiz yang mengandungi [Bilangan] soalan tentang [Tajuk/Topik] untuk murid [Tahun/Tingkatan] dalam mata pelajaran [Mata Pelajaran]. Setiap soalan dipaparkan pada satu slaid dengan empat pilihan jawapan (A, B, C dan D), manakala jawapan betul dan penerangan ringkas dipaparkan pada slaid berikutnya. Mulakan dengan soalan mudah dan tingkatkan aras kesukaran secara berperingkat. Akhiri dengan slaid rumusan dan ucapan tahniah. Tema warna [Warna Pilihan]. Semua teks dalam [Bahasa].' },
+  { id: 'M4.3', s: 'Slaid', ico: 'slides', t: 'Slaid Analisis Teks atau Petikan', w: 'Sesuai untuk: NotebookLM, Gemini (Canvas)', p: 'Berdasarkan [nyatakan teks: petikan, sajak, cerpen atau bab novel] yang dimuat naik, bina slaid pembentangan untuk murid [Tahun/Tingkatan] dalam mata pelajaran [Mata Pelajaran]. Sertakan slaid tentang latar belakang teks, idea utama setiap rangkap atau perenggan, kosa kata sukar beserta maksud, gaya bahasa atau teknik penulisan dengan contoh daripada teks, nilai dan pengajaran, serta tiga soalan perbincangan berkumpulan. Gunakan hanya maklumat daripada sumber. Semua teks dalam [Bahasa].' },
+  { id: 'M4.4', s: 'Slaid', ico: 'slides', t: 'Slaid Bacaan Bergambar', w: 'Sesuai untuk: Gemini, ChatGPT', p: 'Tulis SATU cerita pendek bertemakan [Tajuk/Topik] untuk murid [Tahun/Tingkatan] dalam mata pelajaran [Mata Pelajaran], kemudian susun sebagai [Bilangan] slaid bacaan bergambar. Setiap slaid mengandungi satu atau dua ayat sahaja dalam [Bahasa], dengan perkataan baharu ditebalkan, dan satu ilustrasi yang sepadan menggunakan watak yang sama sepanjang cerita. Akhiri dengan satu slaid soalan kefahaman dan satu slaid senarai kosa kata baharu.', note: 'Untuk murid Tahap 1 atau kelas pemulihan, pilih bilangan slaid yang kecil (6 hingga 8) dan ayat yang pendek.' }
 ];
 
 /* =====================================================================
@@ -433,6 +467,9 @@ chat:'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',
 book:'<path d="M4 4h6a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4z"/><path d="M20 4h-4a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h5z"/>',
 award:'<circle cx="12" cy="9" r="6"/><path d="M8.5 14L7 22l5-3 5 3-1.5-8"/>',
 users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17.5" cy="9" r="2.8"/><path d="M17 14.2a5.5 5.5 0 0 1 4.5 5.3"/>',
+image:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/>',
+video:'<rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10.5l5-3v9l-5-3z"/>',
+slides:'<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M12 17v4M8 21h8M7 8h6M7 12h10"/>',
 calc:'<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M8 6h8v4H8zM8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/>'
 };
 function ic(n,s){s=s||22;return '<svg class="ic" width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+P[n]+'</svg>'}
@@ -474,10 +511,10 @@ function fasilHTML(){
 }
 function renderUtama(){
  var route=[
-  ['pedagogi','#1E7A4C','Langkah 1','Pedagogi Gen AI','Prompt mengikut 5 fasa PdP dengan formula R-T-F.'],
+  ['pedagogi','#1E7A4C','Langkah 1','Pedagogi Gen AI','Prompt 5 fasa PdP (R-T-F) dan prompt gambar, infografik, video serta slaid.'],
   ['webapp','#3434D6','Langkah 2','Bina Web App','Kuiz, permainan dan alat guru dengan Gemini Canvas (K-F-A-R-T).'],
   ['pembina','#0B2A5B','Langkah 3','Pembina Prompt','Isi maklumat kelas, prompt siap untuk disalin.'],
-  ['hantar','#E06C00','Langkah 4','Hantar Hasil','Kongsi prompt atau web app terbaik anda.']
+  ['hantar','#E06C00','Langkah 4','Hantar Hasil','Kongsi hasil terbaik anda di Padlet atau melalui borang.']
  ];
  $('#v-utama').innerHTML=
  '<div class="hero"><span class="blob b1"></span><span class="blob b3"></span>'+
@@ -525,8 +562,8 @@ function renderPedagogi(){
  var el=$('#v-pedagogi');
  var contoh='Anda seorang guru Bahasa Melayu Tahun 5 yang berpengalaman. Bina lima soalan kefahaman tentang peribahasa yang mengaitkan situasi harian murid. Susun dalam jadual dengan lajur soalan, jawapan dan aras Taksonomi Bloom.';
  var filters=['Semua'].concat(D.FASA.map(function(f){return f.k}));
- el.innerHTML='<div class="thero"><span class="blob"></span><div class="thero-h"><span class="tlogo">'+ic('bulb',34)+'</span><div><span class="eyebrow" style="color:rgba(255,255,255,.72)">Bahagian 1</span><h2>Pedagogi Gen AI</h2><p>Prompt mengikut 5 fasa PdP: salin, isi petak [ ] dan tampal.</p></div></div>'+
- '<div class="btns">'+toolBtn('gemini')+toolBtn('chatgpt')+'</div></div>'+
+ el.innerHTML='<div class="thero"><span class="blob"></span><div class="thero-h"><span class="tlogo">'+ic('bulb',34)+'</span><div><span class="eyebrow" style="color:rgba(255,255,255,.72)">Bahagian 1</span><h2>Pedagogi Gen AI</h2><p>Prompt mengikut 5 fasa PdP dan prompt bahan visual: salin, isi petak [ ] dan tampal.</p></div></div>'+
+ '<div class="btns">'+toolBtn('gemini')+toolBtn('chatgpt')+toolBtn('notebooklm')+'</div></div>'+
 
  '<div class="sec"><h3 class="h3">Proses Pedagogi</h3><p class="lead">Klik setiap langkah untuk melihat huraian dan templat prompt yang berkaitan.</p>'+
  '<div class="proses" role="group" aria-label="Proses Pedagogi">'+
@@ -546,6 +583,11 @@ function renderPedagogi(){
  '<div class="sec"><h3 class="h3">Templat prompt mengikut fasa PdP</h3><div class="filters">'+filters.map(function(s,i){return '<button class="fchip'+(i?'':' on')+'" data-filter="'+esc(s)+'">'+esc(s)+'</button>'}).join('')+'</div>'+
  '<p class="lead" id="fasaDesc">'+D.PED.length+' templat. Pilih fasa untuk menapis.</p>'+
  '<div class="plist">'+D.PED.map(function(o){return pcard(o,'p')}).join('')+'</div></div>'+
+ '<div class="sec" id="media"><h3 class="h3">'+ic('image',22)+' Prompt bahan visual & multimedia</h3><p class="lead">Jana gambar, infografik, video dan slaid untuk PdP bahasa. Setiap kad menyatakan alat AI yang paling sesuai.</p>'+
+  '<div class="mtools">'+D.MTOOL.map(function(x){var t=D.TOOLS[x[0]];return '<a class="mtool" href="'+t.url+'" target="_blank" rel="noopener">'+logo(x[0])+'<span><b>'+t.name+ic('ext',14)+'</b><small>'+esc(x[1])+'</small></span></a>'}).join('')+'</div>'+
+  '<div class="filters">'+['Semua'].concat(D.MCAT).map(function(s,i){return '<button class="fchip'+(i?'':' on')+'" data-filter="'+esc(s)+'">'+(i?ic(D.MEDIA.filter(function(o){return o.s===s})[0].ico,18)+' ':'')+esc(s)+'</button>'}).join('')+'</div>'+
+  '<div class="plist">'+D.MEDIA.map(function(o){return pcard(o,'p')}).join('')+'</div>'+
+  '<p class="tip">'+ic('info',18)+'<span>Ciri penjanaan gambar, video dan slaid bergantung pada jenis akaun dan mungkin berubah. Semak ejaan, sebutan dan ketepatan budaya sebelum bahan digunakan dalam kelas.</span></p></div>'+
 
  '<div class="sec">'+
   acc(ic('layers',22),'Kamus Penambah','Ayat tambahan untuk memperhalusi mana-mana prompt',klist(D.KAMUS_PED))+
@@ -591,7 +633,7 @@ var V=(function(){try{var s=JSON.parse(store.get('jpnm_pembina')||'null');if(s&&
  o.mode=s.mode==='w'?'w':'p';o.tpl.p=s.tpl.p||o.tpl.p;o.tpl.w=s.tpl.w||o.tpl.w;for(var k in o.f)if(typeof s.f[k]==='string')o.f[k]=s.f[k];o.g=s.g||{};o.adds=s.adds||[];return o}}catch(e){}return JSON.parse(JSON.stringify(DEF))})();
 function save(){store.set('jpnm_pembina',JSON.stringify(V))}
 
-function tplList(m){return m==='p'?D.PED:[D.INDUK].concat(D.WEB)}
+function tplList(m){return m==='p'?D.PED.concat(D.MEDIA):[D.INDUK].concat(D.WEB)}
 function curTpl(){var l=tplList(V.mode);for(var i=0;i<l.length;i++)if(l[i].id===V.tpl[V.mode])return l[i];return l[0]}
 function kamus(){return V.mode==='p'?D.KAMUS_PED:D.KAMUS_WEB}
 function addText(id){var a=id.split('-'),g=kamus()[+a[0]];return g&&g.i[+a[1]]}
@@ -695,7 +737,7 @@ function syncPembina(full){
  var el=$('#v-pembina');el.classList.toggle('th-ped',V.mode==='p');el.classList.toggle('th-web',V.mode==='w');el.classList.toggle('th-pem',false);
  if(full){
   var l=tplList(V.mode),h='';
-  if(V.mode==='p'){D.FASA.forEach(function(f){h+='<optgroup label="'+esc(f.k)+'">'+l.filter(function(o){return o.s===f.k}).map(function(o){return '<option value="'+o.id+'">'+o.id+' · '+esc(o.t)+'</option>'}).join('')+'</optgroup>'})}
+  if(V.mode==='p'){D.FASA.map(function(f){return [f.k,f.k]}).concat(D.MCAT.map(function(c){return [c,'Bahan visual: '+c]})).forEach(function(g){h+='<optgroup label="'+esc(g[1])+'">'+l.filter(function(o){return o.s===g[0]}).map(function(o){return '<option value="'+o.id+'">'+o.id+' · '+esc(o.t)+'</option>'}).join('')+'</optgroup>'})}
   else h=l.map(function(o){return '<option value="'+o.id+'">'+o.id+' · '+esc(o.t)+'</option>'}).join('');
   $('#pTpl').innerHTML=h;
   $('#pAddT').innerHTML=(V.mode==='p'?'4. Kamus Penambah':'4. Kamus Ciri')+' <span class="opt">(pilihan: tandakan ayat untuk ditambah di hujung prompt)</span>';
@@ -732,13 +774,17 @@ function toBuilder(mode,id){
 
 /* ================= HANTAR HASIL ================= */
 function renderHantar(){
- $('#v-hantar').innerHTML=head('Langkah akhir','Hantar hasil anda','Kongsi prompt atau web app terbaik anda. Anda boleh menghantar lebih daripada sekali.')+
+ $('#v-hantar').innerHTML=head('Langkah akhir','Hantar hasil anda','Kongsi hasil terbaik anda di Padlet bengkel atau melalui borang. Anda boleh menghantar lebih daripada sekali.')+
  '<p class="priv">'+ic('shield',20)+'<span>Jangan masukkan data peribadi murid (nama penuh, nombor kad pengenalan, markah individu) dalam hasil yang dihantar.</span></p>'+
- '<form class="card form sec" id="fHantar" novalidate><div class="fg">'+
+ '<div class="card padlet sec"><div class="pad-t"><span class="pad-k">Pilihan 1</span><h3>'+ic('grid',22)+' Kongsi di Padlet bengkel</h3><p>Tampal prompt, pautan kongsi Gemini atau gambar hasil anda di dinding Padlet supaya rakan peserta boleh melihat dan memberi maklum balas.</p>'+
+ '<div class="btns"><a class="btn btn-blue" href="'+D.PADLET+'" target="_blank" rel="noopener">'+ic('ext',18)+' Buka Padlet</a><button class="btn btn-white" type="button" id="padCopy">'+ic('copy',18)+' Salin pautan</button></div></div>'+
+ '<figure class="pad-qr"><div id="padQR" role="img" aria-label="Kod QR Padlet bengkel"></div><figcaption>Imbas untuk membuka Padlet</figcaption></figure></div>'+
+ '<div class="or"><span>atau</span></div>'+
+ '<form class="card form sec" id="fHantar" novalidate><div class="pad-t"><span class="pad-k">Pilihan 2</span><h3>'+ic('form',22)+' Hantar melalui borang</h3><p>Hasil disimpan untuk semakan fasilitator. Sesuai untuk prompt panjang dan fail.</p></div><div class="fg">'+
  '<div class="fld"><label for="fNama">Nama guru <span class="req">*</span></label><input id="fNama" name="nama" autocomplete="name" maxlength="80"></div>'+
  '<div class="fld"><label for="fSekolah">Sekolah <span class="req">*</span></label><input id="fSekolah" name="sekolah" autocomplete="organization" maxlength="120" placeholder="cth. SK Bukit Beruang"></div>'+
  '<div class="fld"><label for="fSub">Mata pelajaran</label><input id="fSub" name="subjek" list="dl-subjek2" autocomplete="off" placeholder="cth. Bahasa Melayu"><datalist id="dl-subjek2">'+D.SUBJEK.map(function(s){return '<option value="'+esc(s)+'">'}).join('')+'</datalist></div>'+
- '<div class="fld"><label for="fJenis">Jenis hasil</label><select id="fJenis" name="jenis"><option>Prompt PdP (Pedagogi Gen AI)</option><option>Web App (Gemini Canvas)</option><option>Lain-lain</option></select></div></div>'+
+ '<div class="fld"><label for="fJenis">Jenis hasil</label><select id="fJenis" name="jenis"><option>Prompt PdP (Pedagogi Gen AI)</option><option>Web App (Gemini Canvas)</option><option>Bahan visual (gambar, infografik, video, slaid)</option><option>Lain-lain</option></select></div></div>'+
  '<div class="fld"><label for="fTajuk">Tajuk hasil <span class="req">*</span></label><input id="fTajuk" name="tajuk" placeholder="cth. Kuiz Peribahasa Tahun 5" maxlength="150"></div>'+
  '<div class="fld"><label for="fPrompt">Prompt yang digunakan</label><textarea id="fPrompt" name="prompt"></textarea><p class="hint"><button type="button" class="reset" id="fUseP" style="padding:0">Guna prompt terakhir daripada Pembina</button></p></div>'+
  '<div class="fld"><label for="fPautan">Pautan kongsi</label><input id="fPautan" name="pautan" type="url" inputmode="url" placeholder="https://gemini.google.com/share/..."><p class="hint">Gemini: tekan butang Kongsi (Share), kemudian Salin pautan.</p></div>'+
@@ -746,10 +792,12 @@ function renderHantar(){
  '<div class="fld"><label for="fRef">Refleksi ringkas</label><textarea id="fRef" name="refleksi" placeholder="Satu perkara yang akan saya cuba dalam PdP minggu ini…"></textarea></div>'+
  '<div class="fld"><label for="fFail">Fail (pilihan)</label><input id="fFail" name="fail" type="file" accept=".png,.jpg,.jpeg,.gif,.webp,.pdf,.txt,.csv"><p class="hint">Gambar, PDF atau TXT, maksimum 5 MB. Fail Word: simpan sebagai PDF dahulu.</p></div>'+
  '<p class="fmsg" id="fMsg" role="alert"></p><button class="btn btn-blue big" id="fBtn" type="submit">'+ic('send',20)+' Hantar hasil</button></form>'+
- '<div class="card done sec" id="fDone" hidden><span class="donei">'+ic('check',44)+'</span><h3 id="fDoneT">Terima kasih!</h3><p>Hasil anda telah diterima.</p><button class="btn btn-navy" id="fAgain" type="button">Hantar hasil lain</button></div>';
+ '<div class="card done sec" id="fDone" hidden><span class="donei">'+ic('check',44)+'</span><h3 id="fDoneT">Terima kasih!</h3><p>Hasil anda telah diterima.</p><div class="btns" style="justify-content:center"><button class="btn btn-navy" id="fAgain" type="button">Hantar hasil lain</button><a class="btn btn-white" href="'+D.PADLET+'" target="_blank" rel="noopener">'+ic('grid',18)+' Kongsi juga di Padlet</a></div></div>';
+ $('#padCopy').addEventListener('click',function(){copyText(D.PADLET,'✓ Pautan Padlet disalin')});
+ padQR();
  var f=$('#fHantar');
  f.nama.value=store.get('jpnm_nama')||'';f.sekolah.value=store.get('jpnm_sekolah')||'';
- $('#fUseP').addEventListener('click',function(){f.prompt.value=fillAll(baseText());f.jenis.value=V.mode==='w'?'Web App (Gemini Canvas)':'Prompt PdP (Pedagogi Gen AI)';if(!f.subjek.value)f.subjek.value=V.f.subjek||'';toast('Prompt daripada Pembina dimasukkan')});
+ $('#fUseP').addEventListener('click',function(){f.prompt.value=fillAll(baseText());f.jenis.value=V.mode==='w'?'Web App (Gemini Canvas)':(curTpl().id.charAt(0)==='M'?'Bahan visual (gambar, infografik, video, slaid)':'Prompt PdP (Pedagogi Gen AI)');if(!f.subjek.value)f.subjek.value=V.f.subjek||'';toast('Prompt daripada Pembina dimasukkan')});
  f.addEventListener('submit',async function(e){
   e.preventDefault();
   var msg=$('#fMsg'),btn=$('#fBtn');msg.textContent='';
@@ -779,8 +827,9 @@ function renderHantar(){
 /* ================= interaksi umum ================= */
 var tt;
 function toast(t){var el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){el.classList.remove('on')},2200)}
-function copyText(t){
- var done=function(){toast('✓ Disalin! Tampal dalam alat AI')};
+function padQR(){var b=$('#padQR');if(!b||b.firstChild||!window.QRCode)return;new QRCode(b,{text:D.PADLET,width:360,height:360,colorDark:'#0B2A5B',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M})}
+function copyText(t,m){
+ var done=function(){toast(m||'✓ Disalin! Tampal dalam alat AI')};
  var fallback=function(){var ta=document.createElement('textarea');ta.value=t;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done()}catch(e){toast('Tidak dapat menyalin. Pilih teks secara manual.')}ta.remove()};
  if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(t).then(done,fallback);else fallback();
 }
@@ -798,6 +847,7 @@ function show(id,noScroll,replace){
  if(!noScroll)window.scrollTo(0,0);
  $('#pLbl').textContent=(ORDER.indexOf(id)+1)+'/'+ORDER.length+' · '+LABEL[id];
  document.title=(id==='utama'?'':LABEL[id]+' · ')+TITLE;
+ if(id==='hantar')padQR();
 }
 function step(d){var i=ORDER.indexOf(cur)+d;if(i>=0&&i<ORDER.length)show(ORDER[i])}
 
@@ -811,10 +861,10 @@ document.addEventListener('click',function(e){
   $$('.acc',ac.parentNode).forEach(function(a){a.classList.remove('open');$('.acc-h',a).setAttribute('aria-expanded','false')});
   if(!was){ac.classList.add('open');ah.setAttribute('aria-expanded','true')}return}
  var ph=e.target.closest('.pc-h');if(ph){var pc=ph.parentNode,o=pc.classList.toggle('open');ph.setAttribute('aria-expanded',String(o));return}
- var fc=e.target.closest('[data-filter]');if(fc){var view=fc.closest('.view'),f=fc.dataset.filter;
-  $$('[data-filter]',view).forEach(function(b){b.classList.toggle('on',b===fc)});
-  $$('.plist .pc',fc.closest('.sec')).forEach(function(c){c.hidden=f!=='Semua'&&c.dataset.s!==f});
-  if(view.id==='v-pedagogi'){var pi=-1;D.PROSES.forEach(function(x,k){if(x.f===f)pi=k});if(!e.isTrusted||pi<0){$$('.proses [data-ps]').forEach(function(b){var on=+b.dataset.ps===pi;b.classList.toggle('on',on);b.setAttribute('aria-pressed',String(on))})}else psSelect(pi);var fd=null;D.FASA.forEach(function(x){if(x.k===f)fd=x});$('#fasaDesc').textContent=fd?fd.d:D.PED.length+' templat. Pilih fasa untuk menapis.'}
+ var fc=e.target.closest('[data-filter]');if(fc){var view=fc.closest('.view'),sec=fc.closest('.sec'),f=fc.dataset.filter;
+  $$('[data-filter]',sec).forEach(function(b){b.classList.toggle('on',b===fc)});
+  $$('.plist .pc',sec).forEach(function(c){c.hidden=f!=='Semua'&&c.dataset.s!==f});
+  if(view.id==='v-pedagogi'&&sec.id!=='media'){var pi=-1;D.PROSES.forEach(function(x,k){if(x.f===f)pi=k});if(!e.isTrusted||pi<0){$$('.proses [data-ps]').forEach(function(b){var on=+b.dataset.ps===pi;b.classList.toggle('on',on);b.setAttribute('aria-pressed',String(on))})}else psSelect(pi);var fd=null;D.FASA.forEach(function(x){if(x.k===f)fd=x});$('#fasaDesc').textContent=fd?fd.d:D.PED.length+' templat. Pilih fasa untuk menapis.'}
   return}
 });
 document.addEventListener('keydown',function(e){

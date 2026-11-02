@@ -12,10 +12,10 @@ WebApp untuk **Bengkel Pemerkasaan Kompetensi Digital Guru Melalui Kecerdasan Bu
 | Tab | Isi |
 |---|---|
 | **Utama** | Maklumat bengkel, fasilitator, laluan bengkel, log masuk DELIMa, alat AI, etika penggunaan AI |
-| **Pedagogi** | Rajah Proses Pedagogi interaktif (Penyediaan Bahan → Induksi → Pengetahuan Kandungan → Pengukuhan → Pentaksiran → Penutup), formula R-T-F, 39 templat prompt mengikut fasa PdP (Set Induksi, Kandungan, Pengukuhan, Pentaksiran, Penutup, Sokongan PdP), Kamus Penambah, Prompt Iterasi, Senarai Semak |
+| **Pedagogi** | Rajah Proses Pedagogi interaktif (Penyediaan Bahan → Induksi → Pengetahuan Kandungan → Pengukuhan → Pentaksiran → Penutup), formula R-T-F, 39 templat prompt mengikut fasa PdP (Set Induksi, Kandungan, Pengukuhan, Pentaksiran, Penutup, Sokongan PdP), Kamus Penambah, Prompt Iterasi, Senarai Semak, **16 prompt bahan visual & multimedia** (gambar, infografik, video, slaid untuk ChatGPT, Gemini dan NotebookLM, fokus mata pelajaran bahasa) |
 | **Web App** | Langkah Gemini Canvas, formula K-F-A-R-T, Templat Induk, 12 templat web app (B1–B12), Kamus Ciri, Prompt Iterasi, Senarai Semak & Privasi |
 | **Pembina** | Alat interaktif: pilih templat, isi maklumat kelas, petak `[ ]` diisi secara automatik, tambah ayat Kamus, salin dan buka Gemini/ChatGPT/NotebookLM |
-| **Hantar** | Borang hasil peserta, disimpan dalam koleksi AILA `hasil_bengkel` (hanya pemilik boleh membaca) |
+| **Hantar** | Pilihan 1: Padlet bengkel (butang, salin pautan, kod QR). Pilihan 2: borang hasil peserta, disimpan dalam koleksi AILA `hasil_bengkel` (hanya pemilik boleh membaca) |
 
 Ciri tambahan: kod QR, mod tayang (skrin penuh dan kekunci ← →), reka bentuk responsif (bar tab di bawah pada telefon, tab atas pada desktop).
 
@@ -38,6 +38,8 @@ Semua teks templat ada di bahagian atas `app.js`, dalam objek `D`:
 - `D.FASIL`: senarai fasilitator (`n` = nama, `i` = inisial avatar, `o` = institusi, `url` = pautan profil, pilihan). Untuk memasang gambar, tambah `foto: '/media/<nama-aset-AILA>'` pada orang berkenaan; gambar akan menggantikan inisial
 - `D.PROSES`: langkah rajah Proses Pedagogi dan fasa templat yang dipautkan
 - `D.PED`: templat Pedagogi Gen AI (`id`, `s` = fasa, `t` = tajuk, `p` = prompt)
+- `D.MEDIA`: prompt bahan visual (`s` = jenis bahan dalam `D.MCAT`, `w` = alat yang sesuai, `note` = nota). `D.MTOOL`: panduan ringkas setiap alat AI
+- `D.PADLET`: pautan Padlet bengkel (tab Hantar; kod QR dijana daripada pautan ini)
 - `D.INDUK`, `D.WEB`: Templat Induk dan 12 templat Web App (`ico` = nama ikon, `c` = kategori, `w` = bila digunakan, `p` = prompt)
 - `D.KAMUS_PED`, `D.KAMUS_WEB`: ayat Kamus Penambah / Kamus Ciri
 - `D.ITER_PED`, `D.ITER_WEB`: prompt iterasi
