@@ -29,6 +29,7 @@ Setiap fail sepadan dengan satu medan halaman AILA:
 | `body.html` | `html` |
 | `style.css` | `css` |
 | `app.js` | `js`: bahagian atas ialah **data kandungan** (`var D = {...}`), bahagian bawah ialah logik aplikasi |
+| `aset/favicon.svg`, `aset/favicon-512.png` | Favicon laman (pustaka media AILA: `favicon-bengkel-ai`) |
 
 ## Cara menyunting kandungan
 

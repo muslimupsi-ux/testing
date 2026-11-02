@@ -14,13 +14,20 @@ a{color:var(--blue)}
 /* header */
 .top{position:sticky;top:0;z-index:40;background:var(--navy);color:#fff}
 .top-in{max-width:1080px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
-.brand{display:flex;align-items:center;gap:10px;flex:1;min-width:0;color:#fff;text-decoration:none}
-.brand-logos{display:flex;align-items:center;gap:8px;background:#fff;border-radius:12px;padding:4px 10px;flex:none}
-.brand-logos img{display:block;height:36px;width:auto}
+.brand-wrap{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+.brand{display:flex;align-items:center;gap:10px;min-width:0;color:#fff;text-decoration:none}
+.brand-mark{flex:none;display:block;width:44px;height:44px;filter:drop-shadow(0 6px 10px rgba(0,0,0,.28));transition:transform .2s}
+.brand-mark svg{display:block}
+.brand:hover .brand-mark{transform:translateY(-1px) rotate(-3deg)}
+.brand-sep{flex:none;width:1px;height:30px;background:rgba(255,255,255,.22)}
+.brand-partners{display:flex;align-items:center;gap:6px;flex:none}
+.pchip{display:flex;align-items:center;justify-content:center;height:36px;padding:3px 7px;background:#fff;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.18)}
+.pchip img{display:block;height:28px;width:auto}
 .brand-t{min-width:0}
 .brand-t b{display:block;font:700 1rem 'Poppins';white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.01em}
 .brand-t small{display:block;color:#AFC3E8;font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-@media(max-width:480px){.brand-t{display:none}.brand-logos{padding:3px 8px}.brand-logos img{height:34px}}
+@media(max-width:480px){.brand-t{display:none}.brand-wrap{gap:10px}.pchip{height:32px;padding:3px 6px}.pchip img{height:24px}}
+@media(min-width:900px) and (max-width:1599px){.brand-t{display:none}}
 .acts{display:flex;gap:8px}
 .icon-btn{width:44px;height:44px;border:0;border-radius:12px;background:rgba(255,255,255,.12);color:#fff;display:grid;place-items:center}
 .icon-btn:hover{background:rgba(255,255,255,.22)}
