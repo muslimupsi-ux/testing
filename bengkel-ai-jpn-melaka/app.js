@@ -561,7 +561,7 @@ function psSelect(i){
 function renderPedagogi(){
  var el=$('#v-pedagogi');
  var contoh='Anda seorang guru Bahasa Melayu Tahun 5 yang berpengalaman. Bina lima soalan kefahaman tentang peribahasa yang mengaitkan situasi harian murid. Susun dalam jadual dengan lajur soalan, jawapan dan aras Taksonomi Bloom.';
- var filters=['Semua'].concat(D.FASA.map(function(f){return f.k}));
+ var filters=['Semua','Sokongan PdP'].concat(D.FASA.map(function(f){return f.k}).filter(function(k){return k!=='Sokongan PdP'}));
  el.innerHTML='<div class="thero"><span class="blob"></span><div class="thero-h"><span class="tlogo">'+ic('bulb',34)+'</span><div><span class="eyebrow" style="color:rgba(255,255,255,.72)">Bahagian 1</span><h2>Pedagogi Gen AI</h2><p>Prompt mengikut 5 fasa PdP dan prompt bahan visual: salin, isi petak [ ] dan tampal.</p></div></div>'+
  '<div class="btns">'+toolBtn('gemini')+toolBtn('chatgpt')+toolBtn('notebooklm')+'</div></div>'+
 
@@ -778,7 +778,7 @@ function renderHantar(){
  '<p class="priv">'+ic('shield',20)+'<span>Jangan masukkan data peribadi murid (nama penuh, nombor kad pengenalan, markah individu) dalam hasil yang dihantar.</span></p>'+
  '<div class="card padlet sec"><div class="pad-t"><span class="pad-k">Pilihan 1</span><h3>'+ic('grid',22)+' Kongsi di Padlet bengkel</h3><p>Tampal prompt, pautan kongsi Gemini atau gambar hasil anda di dinding Padlet supaya rakan peserta boleh melihat dan memberi maklum balas.</p>'+
  '<div class="btns"><a class="btn btn-blue" href="'+D.PADLET+'" target="_blank" rel="noopener">'+ic('ext',18)+' Buka Padlet</a><button class="btn btn-white" type="button" id="padCopy">'+ic('copy',18)+' Salin pautan</button></div></div>'+
- '<figure class="pad-qr"><div id="padQR" role="img" aria-label="Kod QR Padlet bengkel"></div><figcaption>Imbas untuk membuka Padlet</figcaption></figure></div>'+
+ '<button type="button" class="pad-qr" id="padQRbtn" aria-label="Besarkan kod QR Padlet bengkel"><span id="padQR"></span><span class="cap">Imbas, atau klik untuk besarkan</span></button></div>'+
  '<div class="or"><span>atau</span></div>'+
  '<form class="card form sec" id="fHantar" novalidate><div class="pad-t"><span class="pad-k">Pilihan 2</span><h3>'+ic('form',22)+' Hantar melalui borang</h3><p>Hasil disimpan untuk semakan fasilitator. Sesuai untuk prompt panjang dan fail.</p></div><div class="fg">'+
  '<div class="fld"><label for="fNama">Nama guru <span class="req">*</span></label><input id="fNama" name="nama" autocomplete="name" maxlength="80"></div>'+
@@ -794,6 +794,7 @@ function renderHantar(){
  '<p class="fmsg" id="fMsg" role="alert"></p><button class="btn btn-blue big" id="fBtn" type="submit">'+ic('send',20)+' Hantar hasil</button></form>'+
  '<div class="card done sec" id="fDone" hidden><span class="donei">'+ic('check',44)+'</span><h3 id="fDoneT">Terima kasih!</h3><p>Hasil anda telah diterima.</p><div class="btns" style="justify-content:center"><button class="btn btn-navy" id="fAgain" type="button">Hantar hasil lain</button><a class="btn btn-white" href="'+D.PADLET+'" target="_blank" rel="noopener">'+ic('grid',18)+' Kongsi juga di Padlet</a></div></div>';
  $('#padCopy').addEventListener('click',function(){copyText(D.PADLET,'✓ Pautan Padlet disalin')});
+ $('#padQRbtn').addEventListener('click',function(){openQR(D.PADLET,'Imbas untuk buka Padlet',this)});
  padQR();
  var f=$('#fHantar');
  f.nama.value=store.get('jpnm_nama')||'';f.sekolah.value=store.get('jpnm_sekolah')||'';
@@ -885,17 +886,19 @@ $('#pPrev').addEventListener('click',function(){step(-1)});
 $('#pNext').addEventListener('click',function(){step(1)});
 
 /* kod QR */
-var qrDone=false;
-function openQR(){
- $('#qrModal').hidden=false;$('#qrUrl').textContent=D.SITE_URL.replace('https://','');
- if(!qrDone){
-  if(window.QRCode){new QRCode($('#qrbox'),{text:D.SITE_URL,width:560,height:560,colorDark:'#0B2A5B',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});qrDone=true}
+var qrFor='',qrBack=null;
+function openQR(url,title,back){
+ url=url||D.SITE_URL;qrBack=back||$('#btnQR');
+ $('#qrModal').hidden=false;$('#qrT').textContent=title||'Imbas untuk buka';$('#qrUrl').textContent=url.replace('https://','');
+ if(qrFor!==url){
+  $('#qrbox').innerHTML='';
+  if(window.QRCode){new QRCode($('#qrbox'),{text:url,width:560,height:560,colorDark:'#0B2A5B',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});qrFor=url}
   else $('#qrbox').innerHTML='<p class="qrfail">Kod QR tidak dapat dimuatkan. Gunakan pautan di bawah.</p>';
  }
  $('#qrClose').focus();
 }
-function closeQR(){$('#qrModal').hidden=true;$('#btnQR').focus()}
-$('#btnQR').addEventListener('click',openQR);
+function closeQR(){$('#qrModal').hidden=true;(qrBack||$('#btnQR')).focus()}
+$('#btnQR').addEventListener('click',function(){openQR()});
 $('#qrClose').addEventListener('click',closeQR);
 $('#qrModal').addEventListener('click',function(e){if(e.target===this)closeQR()});
 
