@@ -1,0 +1,90 @@
+{
+  "rules": {
+    "admin": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false
+      }
+    },
+
+    "bilik": {
+      "$pin": {
+        ".read": "auth != null",
+        ".write": "auth != null && !data.exists() && newData.child('hos').val() === auth.uid",
+        "hos": {
+          ".write": "auth != null && !data.exists() && newData.val() === auth.uid"
+        },
+        "dicipta": { ".write": "auth != null && (!data.exists() || root.child('bilik/' + $pin + '/hos').val() === auth.uid)" },
+        "tetapan": { ".write": "auth != null && (!data.exists() || root.child('bilik/' + $pin + '/hos').val() === auth.uid)" },
+        "soalan": { ".write": "auth != null && (!data.exists() || root.child('bilik/' + $pin + '/hos').val() === auth.uid)" },
+        "state": { ".write": "auth != null && (!data.exists() || root.child('bilik/' + $pin + '/hos').val() === auth.uid)" },
+        "skor": { ".write": "auth != null && root.child('bilik/' + $pin + '/hos').val() === auth.uid" },
+        "pemain": {
+          "$uid": {
+            ".write": "auth != null && (auth.uid === $uid || root.child('bilik/' + $pin + '/hos').val() === auth.uid)",
+            ".validate": "!newData.exists() || (newData.hasChildren(['nama', 'avatar']) && newData.child('nama').isString() && newData.child('nama').val().length <= 40)"
+          }
+        },
+        "jawapan": {
+          "$q": {
+            "$uid": {
+              ".write": "auth != null && auth.uid === $uid && root.child('bilik/' + $pin + '/state/fasa').val() === 'soalan' && root.child('bilik/' + $pin + '/state/kunci').val() === $q",
+              ".validate": "newData.hasChildren(['pilih', 'ms']) && newData.child('pilih').isNumber() && newData.child('ms').isNumber()"
+            }
+          }
+        }
+      }
+    },
+
+    "papan": {
+      ".read": "auth != null",
+      ".indexOn": ["skor", "masa"],
+      "$id": {
+        ".write": "auth != null && !data.exists() && newData.child('uid').val() === auth.uid",
+        ".validate": "newData.hasChildren(['nama', 'skor', 'uid']) && newData.child('skor').isNumber() && newData.child('skor').val() >= 0 && newData.child('skor').val() <= 100000"
+      }
+    },
+
+    "set": {
+      "final-a261": {
+        ".read": "auth != null",
+        ".write": "auth != null && root.child('admin/' + auth.uid).val() === true"
+      }
+    },
+
+    "permohonan": {
+      ".read": "auth != null && root.child('admin/' + auth.uid).val() === true",
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && (auth.uid === $uid || root.child('admin/' + auth.uid).val() === true)"
+      }
+    },
+
+    "akses": {
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || root.child('admin/' + auth.uid).val() === true)",
+        ".write": "auth != null && root.child('admin/' + auth.uid).val() === true"
+      }
+    },
+
+    "pulih": {
+      ".read": false,
+      "$kod": {
+        ".write": "auth != null && root.child('admin/' + auth.uid).val() === true"
+      }
+    },
+
+    "aksesPulih": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        ".validate": "newData.isString() && root.child('pulih/' + newData.val()).exists()"
+      }
+    },
+
+    "premium": {
+      ".read": "auth != null && (root.child('admin/' + auth.uid).val() === true || root.child('akses/' + auth.uid + '/ok').val() === true || (root.child('aksesPulih/' + auth.uid).exists() && root.child('pulih/' + root.child('aksesPulih/' + auth.uid).val()).exists()))",
+      ".write": "auth != null && root.child('admin/' + auth.uid).val() === true"
+    }
+  }
+}
