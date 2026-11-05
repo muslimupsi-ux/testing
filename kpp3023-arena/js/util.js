@@ -14,7 +14,7 @@ export function el(tag, attrs = {}, ...kids) {
     if (v == null || v === false) continue;
     if (k.startsWith('on') && typeof v === 'function') node.addEventListener(k.slice(2), v);
     else if (k === 'html') node.innerHTML = v;
-    else if (k === 'style' && typeof v === 'object') Object.assign(node.style, v);
+    else if (k === 'style' && typeof v === 'object') { for (const [sk, sv] of Object.entries(v)) { if (sv == null) continue; if (sk.startsWith('--')) node.style.setProperty(sk, sv); else node.style[sk] = sv; } }
     else node.setAttribute(k, v === true ? '' : v);
   }
   for (const k of kids.flat()) if (k != null && k !== false) node.append(k.nodeType ? k : document.createTextNode(String(k)));

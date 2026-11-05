@@ -325,7 +325,7 @@ export function arena(bekas) {
       mesh.position.set(x, -0.4, -0.8);
       const simbol = n === 2 ? (i === 0 ? 'O' : 'X') : BENTUK[i];
       const lab = spriteTeks(labels?.[i] ? `${simbol}  ${labels[i]}` : simbol, { saiz: 64, lebar: n === 2 ? 3.2 : 2.2, latar: 'rgba(0,0,0,.35)' });
-      lab.position.set(x, 3.4, -4.2);
+      lab.position.set(x, 1.1, -4.9);
       lantai.add(mesh, lab);
       zon.push({ mesh, lab, pusat: new THREE.Vector3(x, 0, -0.8), lebar, dalam: 7, y0: -0.4, jatuh: false });
     }
@@ -390,7 +390,7 @@ export function arena(bekas) {
 
   /** Dedah jawapan: lantai zon salah jatuh bersama pemain di atasnya. */
   function dedah(betul) {
-    zon.forEach((z, i) => { if (i !== betul) z.jatuh = true; else z.mesh.material.emissive = new THREE.Color(0x335500); });
+    zon.forEach((z, i) => { if (i !== betul) z.jatuh = true; else z.mesh.material.emissive = z.mesh.material.color.clone().multiplyScalar(0.45); });
     for (const p of pemain.values()) if (p.zon != null && p.zon !== betul) { p.jatuh = true; p.vy = 0; }
   }
 
@@ -461,8 +461,8 @@ export function arena(bekas) {
       else if (z.jatuh) z.mesh.visible = false;
     }
     if (mod === 'podium') {
-      const r = 11, s = P.gerak ? t * 0.25 : 0.4;
-      P.camera.position.set(Math.sin(s) * r, 6, Math.cos(s) * r);
+      const r = 13, s = P.gerak ? Math.sin(t * 0.3) * 0.6 : 0;
+      P.camera.position.set(Math.sin(s) * r, 7.5, Math.cos(s) * r);
       podiumGrp.children.forEach(c => { if (c.userData.asalY != null && P.gerak) c.position.y = c.userData.asalY + Math.abs(Math.sin(t * 3)) * 0.3; });
     }
     P.camera.lookAt(P.sasaran);

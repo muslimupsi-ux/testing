@@ -70,7 +70,10 @@ export async function paparHos(app, ctx) {
     let bank = await ambilBank(t.set);
     if (t.unit) bank = bank.filter(x => x.unit === t.unit);
     if (!bank.length) { toast('Tiada soalan untuk pilihan ini.', 'amaran'); return; }
-    const soalan = shuffle(bank).slice(0, t.bil).map(sediaSoalan);
+    // Pastikan ada pusingan Arena O/X (kira-kira 1 daripada 5 soalan) jika set mempunyai soalan Betul/Salah
+    const ox = shuffle(bank.filter(x => x.jenis === 'bs')), lain = shuffle(bank.filter(x => x.jenis !== 'bs'));
+    const bilOX = Math.min(ox.length, Math.max(1, Math.round(t.bil / 5)));
+    const soalan = shuffle([...ox.slice(0, bilOX), ...lain.slice(0, t.bil - bilOX)]).concat(ox.slice(bilOX)).slice(0, t.bil).map(sediaSoalan);
     const awam = soalan.map(({ id, unit, jenis, senario, soalan: s, pilihan }) => ({ id, unit, jenis, senario: senario || null, soalan: s, pilihan }));
     const pin = await store.ciptaBilik({ ...t, namaSet: SET[t.set]?.nama }, awam);
     sessionStorage.setItem('arena.hos.' + pin, JSON.stringify(soalan));
@@ -151,8 +154,9 @@ async function jalanHos(app, ctx, pin, soalan, t) {
       el('div.kad-atas', {}, el('span.cip', { style: { '--w': UNIT[q.unit]?.warna } }, namaUnit(q.unit), ' ', UNIT[q.unit]?.ringkas || ''), el('span.cip.jenis', {}, `Soalan ${i + 1}/${soalan.length}`),
         q.jenis === 'bs' ? el('span.cip.jenis', {}, 'Arena O/X: pindah zon sebelum masa tamat') : null),
       q.senario ? el('p.senario', {}, q.senario) : null,
-      el('h2', {}, q.soalan)));
-    ganti(tengah, q.jenis === 'bs' ? el('div') : el('ol.legenda-jawapan', {}, ...q.pilihan.map((p, k) => el('li', { style: { '--w': ['#E8483B', '#2F6FE4', '#F2A900', '#1E9E62'][k] } }, el('span.bentuk', {}, BENTUK[k]), p))));
+      el('h2', {}, q.soalan),
+      q.jenis === 'bs' ? null : el('ol.legenda-jawapan', {}, ...q.pilihan.map((p, k) => el('li', { style: { '--w': ['#E8483B', '#2F6FE4', '#F2A900', '#1E9E62'][k] } }, el('span.bentuk', {}, BENTUK[k]), p)))));
+    ganti(tengah);
     let detikAkhir = null;
     const detik = () => {
       const baki = tamatMs - performance.now();
