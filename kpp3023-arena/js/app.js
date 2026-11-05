@@ -39,16 +39,14 @@ export function beriLencana(s, id, baru) {
 // Bank soalan
 // ---------------------------------------------------------------------------
 export const SET = {
-  sim: { nama: 'Set SIM KPP3023' },
-  final: { nama: 'Set Final A261' },
-  premium: { nama: 'Latihan Premium' },
+  sim: { nama: 'Set KPP3023' },
+  premium: { nama: 'Set Soalan Premium' },
 };
 export async function ambilBank(set) {
-  if (set === 'final') return await store.ambilSetFinal();
   if (set === 'premium') return await store.ambilPremium().catch(() => []);
   return window.SOALAN_SIM || [];
 }
-function semuaSoalanTempatan() { return [...(window.SOALAN_SIM || []), ...(simpan.get('setFinal', []) || []), ...(window.SOALAN_FINAL_A261 || [])]; }
+function semuaSoalanTempatan() { return [...(window.SOALAN_SIM || []), ...(simpan.get('premiumDemo', []) || [])]; }
 
 // ---------------------------------------------------------------------------
 // Penghala
@@ -133,7 +131,7 @@ async function paparUtama() {
     kadMod('#/papan', '🏆', 'Leaderboard', 'Kedudukan ikut kumpulan, unit dan minggu.'),
     kadMod('#/ulangkaji', '📒', 'Ulang kaji', 'Buku Kesilapan dan kad imbas setiap unit.'),
     kadMod('#/lencana', '🎖️', 'Lencana', `${s.lencana.length} daripada ${LENCANA.length} dikumpul.`),
-    TETAPAN.premium?.aktif ? kadMod('#/premium', '⭐', 'Latihan Premium', 'Set soalan kes tambahan.') : null,
+    TETAPAN.premium?.aktif ? kadMod('#/premium', '⭐', 'Set Soalan Premium', 'Persediaan Pentaksiran Akhir.') : null,
   );
   app.append(hero, dok, el('p.kaki', {}, el('a', { href: '#/admin' }, 'Halaman pensyarah')));
 
@@ -208,7 +206,7 @@ async function paparSolo(q) {
   const tetap = { set: 'sim', unit: Number(q.get('unit')) || 0, bil: 10, mod: 'biasa', masa: MASA_SOALAN, ...simpan.get('tetapanSolo', {}) };
   if (q.get('unit')) tetap.unit = Number(q.get('unit'));
   const akses = TETAPAN.premium?.aktif ? await store.statusAkses().catch(() => ({ ok: false })) : { ok: false };
-  const finalAda = (await store.ambilSetFinal()).length > 0;
+  if (tetap.set !== 'premium' || !akses.ok) tetap.set = 'sim';
 
   const pilihan = (nama, label, opsyen, nilai) => el('fieldset.segmen', {}, el('legend', {}, label),
     ...opsyen.map(([v, t, mati]) => el('label', { class: mati ? 'mati' : '' },
@@ -220,7 +218,7 @@ async function paparSolo(q) {
   const borang = el('form.kad.borang', {},
     el('h1', {}, tetap.unit ? `${namaUnit(tetap.unit)}: ${UNIT[tetap.unit].tajuk}` : 'Sediakan pusingan solo'),
     el('label', { for: 'sUnit' }, 'Pulau (unit)'), unitSel,
-    pilihan('set', 'Set soalan', [['sim', 'SIM KPP3023'], ['final', finalAda ? 'Final A261' : 'Final A261 (belum diisi)', !finalAda], ['premium', akses.ok ? 'Latihan Premium' : 'Latihan Premium 🔒', !akses.ok]], tetap.set),
+    TETAPAN.premium?.aktif ? pilihan('set', 'Set soalan', [['sim', 'Set KPP3023'], ['premium', akses.ok ? 'Set Soalan Premium' : 'Set Soalan Premium 🔒', !akses.ok]], tetap.set) : null,
     pilihan('bil', 'Bilangan soalan', [[10, '10'], [20, '20'], [40, '40']], tetap.bil),
     bolehWebGL() ? pilihan('gaya', 'Gaya main', [['arena', 'Arena: gerak avatar ke zon jawapan'], ['klasik', 'Klasik: tekan butang']], tetap.gaya || 'arena') : null,
     pilihan('mod', 'Mod', [['biasa', 'Biasa'], ['cabaran', 'Cabaran: 3 nyawa'], ['latihan', 'Latihan: tanpa masa (klasik sahaja)']], tetap.mod),
@@ -231,7 +229,7 @@ async function paparSolo(q) {
   borang.addEventListener('submit', async e => {
     e.preventDefault();
     const d = new FormData(borang);
-    const t = { set: d.get('set'), unit: Number(d.get('unit')), bil: Number(d.get('bil')), mod: d.get('mod'), masa: MASA_SOALAN, gaya: d.get('gaya') || 'klasik' };
+    const t = { set: d.get('set') || 'sim', unit: Number(d.get('unit')), bil: Number(d.get('bil')), mod: d.get('mod'), masa: MASA_SOALAN, gaya: d.get('gaya') || 'klasik' };
     simpan.set('tetapanSolo', t);
     let bank = await ambilBank(t.set);
     if (t.unit) bank = bank.filter(x => x.unit === t.unit);
@@ -352,8 +350,10 @@ function mulaKuiz(soalan, t) {
       !betul ? el('p', {}, 'Jawapan: ', el('b', {}, q.pilihan[q.jawapan])) : null,
       el('p', {}, q.huraian),
       st.streak >= 3 && betul ? el('p.kecil', {}, `Streak ${st.streak}! Bonus +${Math.min(500, (st.streak - 1) * 100)}.`) : null,
-      el('button.btn.utama.btn-seterusnya', { type: 'button', onclick: () => { if (akhir) tamat(); else { st.i++; papar(); } } },
-        akhir ? (st.nyawa <= 0 ? 'Nyawa habis: lihat keputusan' : 'Lihat keputusan') : 'Soalan seterusnya'),
+      el('div.tindakan', {},
+        el('button.btn.utama.btn-seterusnya', { type: 'button', onclick: () => { if (akhir) tamat(); else { st.i++; papar(); } } },
+          akhir ? (st.nyawa <= 0 ? 'Nyawa habis: lihat keputusan' : 'Lihat keputusan') : 'Soalan seterusnya'),
+        el('a.btn.btn-laman-utama', { href: '#/' }, 'Laman utama')),
     ));
     $('.btn-seterusnya', maklum).focus({ preventScroll: true });
     maklum.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
@@ -426,7 +426,7 @@ function paparKeputusan({ st, jumlah, peratus, xpDapat, baru, t, kedudukan, bilP
         el('button.btn.utama', { type: 'button', onclick: () => navigate(`#/solo${t.unit ? '?unit=' + t.unit : ''}`) }, 'Main lagi'),
         el('a.btn', { href: '#/ulangkaji' }, 'Buku Kesilapan'),
         el('a.btn', { href: '#/papan' }, 'Leaderboard'),
-        el('a.btn', { href: '#/' }, 'Peta pulau')),
+        el('a.btn', { href: '#/' }, 'Laman utama')),
     ),
   ));
 }
@@ -448,7 +448,7 @@ async function paparPapan(q) {
       sel('kumpulan', 'Kumpulan', [['Semua', 'Semua kumpulan'], ...KUMPULAN.map(k => [k, k])]),
       sel('unit', 'Unit', [[0, 'Semua unit'], ...UNIT.slice(1).map(u => [u.n, `${namaUnit(u.n)}: ${u.ringkas}`])]),
       sel('tempoh', 'Tempoh', [['semua', 'Sepanjang masa'], ['minggu', '7 hari lepas'], ['hari', 'Hari ini']]),
-      sel('set', 'Set', [['semua', 'Semua set'], ['sim', 'SIM'], ['final', 'Final A261'], ['premium', 'Premium'], ['langsung', 'Permainan langsung']]),
+      sel('set', 'Set', [['semua', 'Semua set'], ['sim', 'Set KPP3023'], ['premium', 'Set Soalan Premium'], ['langsung', 'Permainan langsung']]),
     ),
     senarai,
     el('p.kecil', {}, store.dalamTalian ? 'Leaderboard dikongsi bersama semua pemain.' : 'Mod luar talian: leaderboard ini hanya menunjukkan permainan pada pelayar ini.'),
@@ -535,15 +535,26 @@ function paparUlangkaji(q) {
 }
 
 // ---------------------------------------------------------------------------
-// Latihan Premium (bayaran QR DuitNow + kelulusan pensyarah)
+// Set Soalan Premium (persediaan Pentaksiran Akhir; bayaran QR DuitNow + kelulusan pensyarah)
 // ---------------------------------------------------------------------------
 async function paparPremium() {
   const P = TETAPAN.premium || {};
-  const bekas = el('section.halaman.sempit', {}, el('div.kad', {}, el('h1', {}, 'Latihan Premium'), el('p.lede', {}, P.nota || '')));
+  const penerangan = Array.isArray(P.penerangan) ? P.penerangan : [];
+  const bekas = el('section.halaman.sempit', {}, el('div.kad', {},
+    el('h1', {}, 'Set Soalan Premium'),
+    el('p.lede', {}, P.ringkasan || 'Persediaan Pentaksiran Akhir KPP3023.'),
+    penerangan.length ? el('ul.senarai-premium', {}, ...penerangan.map(x => el('li', {}, x))) : null,
+    P.penafian ? el('p.kecil', {}, P.penafian) : null));
   const kad = $('.kad', bekas);
   app.append(bekas);
   if (!store.dalamTalian) {
-    kad.append(el('p.notis', {}, 'Latihan Premium memerlukan sambungan dalam talian. Pensyarah belum menyambungkan game ini kepada Firebase.'));
+    const demo = await store.statusAkses().catch(() => ({ ok: false }));
+    if (demo.ok) {
+      kad.append(el('p.notis.ya', {}, 'Mod demo: Set Soalan Premium dibuka pada pelayar ini sahaja.'),
+        el('div.tindakan', {}, el('a.btn.utama', { href: '#/solo', onclick: () => simpan.set('tetapanSolo', { ...simpan.get('tetapanSolo', {}), set: 'premium' }) }, 'Main Set Soalan Premium')));
+    } else {
+      kad.append(el('p.notis', {}, 'Pembelian Set Soalan Premium memerlukan sambungan dalam talian, dan pensyarah belum menyambungkan game ini kepada Firebase. Untuk demo, pensyarah boleh memuat naik set ini ke pelayar sendiri melalui Halaman pensyarah.'));
+    }
     return;
   }
   const status = await store.statusAkses().catch(() => ({ ok: false }));
@@ -551,13 +562,13 @@ async function paparPremium() {
     kad.append(
       el('p.notis.ya', {}, 'Akses anda aktif.'),
       status.kod ? el('p', {}, 'Kod pemulihan anda: ', el('b.kod', {}, status.kod), el('br'), el('small', {}, 'Simpan kod ini. Gunakannya untuk membuka akses pada peranti atau pelayar lain. Jangan kongsi kod ini.')) : null,
-      el('div.tindakan', {}, el('a.btn.utama', { href: '#/solo', onclick: () => simpan.set('tetapanSolo', { ...simpan.get('tetapanSolo', {}), set: 'premium' }) }, 'Main set premium')),
+      el('div.tindakan', {}, el('a.btn.utama', { href: '#/solo', onclick: () => simpan.set('tetapanSolo', { ...simpan.get('tetapanSolo', {}), set: 'premium' }) }, 'Main Set Soalan Premium')),
     );
     return;
   }
   if (status.permohonan?.status === 'menunggu') {
     kad.append(el('p.notis', {}, 'Permohonan anda sedang disemak oleh pensyarah. Akses dibuka secara automatik pada halaman ini selepas diluluskan.'));
-    const un = store.pantauAkses(a => { if (a?.ok) { toast('Akses premium diluluskan.'); navigate('#/premium'); } });
+    const un = store.pantauAkses(a => { if (a?.ok) { toast('Akses Set Soalan Premium diluluskan.'); navigate('#/premium'); } });
     bersih.push(un);
     return;
   }
@@ -660,26 +671,6 @@ async function paparAdmin() {
     hal.append(f); return;
   }
 
-  // ---- Import set Final A261 ----
-  const finalSemasa = await store.ambilSetFinal();
-  const ta = el('textarea#tImport', { rows: 8, placeholder: 'Tampal JSON (senarai soalan) atau CSV dengan lajur: unit,jenis,soalan,senario,a,b,c,d,jawapan,huraian,aras' });
-  const fail = el('input', { type: 'file', accept: '.json,.csv,text/csv,application/json', onchange: async e => { ta.value = await e.target.files[0].text(); } });
-  const hasil = el('p.kecil', { role: 'status' });
-  const kadFinal = el('div.kad', {},
-    el('h2', {}, `Set Final A261 (${finalSemasa.length} soalan)`),
-    el('p', {}, store.dalamTalian ? 'Disimpan ke Firebase dan dikongsi kepada semua pemain.' : 'Mod luar talian: disimpan dalam pelayar ini sahaja. Untuk dikongsi tanpa Firebase, tampal ke data/soalan-final-a261.js.'),
-    el('p.notis', {}, 'Jangan muat naik soalan peperiksaan sebenar yang belum diduduki. Pemain boleh membaca soalan dan jawapan dalam set ini.'),
-    fail, ta, hasil,
-    el('div.tindakan', {},
-      el('button.btn.utama', { type: 'button', onclick: async () => {
-        try { const { sah, ralat } = importSoalan(ta.value, 'F'); if (!sah.length) throw new Error(ralat[0] || 'Tiada soalan'); await store.simpanSetFinal(sah, true); hasil.textContent = `${sah.length} soalan disimpan.${ralat.length ? ` ${ralat.length} baris ditolak: ${ralat.slice(0, 3).join('; ')}` : ''}`; toast('Set Final A261 dikemas kini.'); }
-        catch (e) { hasil.textContent = 'Gagal: ' + e.message; }
-      } }, 'Simpan set Final'),
-      el('button.btn', { type: 'button', onclick: () => muatTurun('soalan-final-a261.json', JSON.stringify(finalSemasa, null, 2), 'application/json') }, 'Eksport JSON'),
-      el('button.btn', { type: 'button', onclick: () => muatTurun('templat-soalan.csv', keCSV([['unit', 'jenis', 'soalan', 'senario', 'a', 'b', 'c', 'd', 'jawapan', 'huraian', 'aras'], [2, 'pilihan', 'Contoh soalan?', '', 'Pilihan A', 'Pilihan B', 'Pilihan C', 'Pilihan D', 'A', 'Penerangan jawapan', 2], [8, 'bs', 'Contoh pernyataan Betul/Salah.', '', '', '', '', '', 'Salah', 'Penerangan', 1]])) }, 'Muat turun templat CSV')),
-  );
-  hal.append(kadFinal);
-
   // ---- Leaderboard ----
   hal.append(el('div.kad', {}, el('h2', {}, 'Leaderboard'),
     el('div.tindakan', {},
@@ -687,23 +678,37 @@ async function paparAdmin() {
         const d = await store.senaraiSkor();
         muatTurun('leaderboard-kpp3023.csv', keCSV([['nama', 'kumpulan', 'skor', 'betul', 'jumlah', 'set', 'unit', 'mod', 'masa'], ...d.map(x => [x.nama, x.kumpulan, x.skor, x.betul, x.jumlah, x.set, x.unit, x.mod, new Date(x.masa).toLocaleString('ms-MY')])]));
       } }, 'Eksport CSV'),
-      el('button.btn.bahaya', { type: 'button', onclick: async () => { if (confirm('Padam semua skor leaderboard? Tindakan ini tidak boleh dibatalkan.')) { await store.padamPapan(); toast('Leaderboard dikosongkan.'); } } }, 'Kosongkan leaderboard'))));
+      el('button.btn.bahaya', { type: 'button', onclick: async e => {
+        const b = e.currentTarget;
+        if (!b.dataset.sah) { b.dataset.sah = '1'; b.textContent = 'Klik sekali lagi untuk padam semua skor'; setTimeout(() => { if (b.isConnected) { delete b.dataset.sah; b.textContent = 'Kosongkan leaderboard'; } }, 4000); return; }
+        await store.padamPapan(); toast('Leaderboard dikosongkan.'); delete b.dataset.sah; b.textContent = 'Kosongkan leaderboard';
+      } }, 'Kosongkan leaderboard'))));
+
+  // ---- Set Soalan Premium ----
+  const taP = el('textarea#tPremium', { rows: 6, placeholder: 'Tampal JSON (premium-soalan.json) atau CSV dengan lajur: unit,jenis,soalan,senario,a,b,c,d,jawapan,huraian,aras' });
+  const failP = el('input', { type: 'file', accept: '.json,.csv,text/csv,application/json', onchange: async e => { taP.value = await e.target.files[0].text(); } });
+  const hasilP = el('p.kecil', { role: 'status' });
+  const bilP = (await store.ambilPremium().catch(() => [])).length;
+  hal.append(el('div.kad', {}, el('h2', {}, `Set Soalan Premium (${bilP} soalan)`),
+    el('p', {}, store.dalamTalian
+      ? 'Soalan disimpan di Firebase sahaja. Hanya pelajar yang diluluskan boleh membacanya.'
+      : 'Mod luar talian (demo): soalan disimpan dalam pelayar ini sahaja dan Set Soalan Premium dibuka untuk pelayar ini. Untuk jualan sebenar, sambungkan Firebase.'),
+    failP, taP, hasilP,
+    el('div.tindakan', {},
+      el('button.btn.utama', { type: 'button', onclick: async () => {
+        try {
+          const { sah, ralat } = importSoalan(taP.value, 'PR'); if (!sah.length) throw new Error(ralat[0] || 'Tiada soalan sah');
+          await store.muatNaikPremium(sah);
+          hasilP.textContent = `${sah.length} soalan dimuat naik.${ralat.length ? ` ${ralat.length} baris ditolak: ${ralat.slice(0, 3).join('; ')}` : ''}`;
+          toast(`${sah.length} soalan premium dimuat naik.`);
+        } catch (e) { hasilP.textContent = 'Gagal: ' + e.message; }
+      } }, 'Muat naik Set Soalan Premium'),
+      el('button.btn', { type: 'button', onclick: () => muatTurun('templat-soalan.csv', keCSV([['unit', 'jenis', 'soalan', 'senario', 'a', 'b', 'c', 'd', 'jawapan', 'huraian', 'aras'], [2, 'pilihan', 'Contoh soalan?', '', 'Pilihan A', 'Pilihan B', 'Pilihan C', 'Pilihan D', 'A', 'Penerangan jawapan', 2], [8, 'bs', 'Contoh pernyataan Betul/Salah.', '', '', '', '', '', 'Salah', 'Penerangan', 1]])) }, 'Muat turun templat CSV'))));
 
   if (!store.dalamTalian) return;
 
-  // ---- Premium: soalan dan permohonan ----
-  const taP = el('textarea', { rows: 6, placeholder: 'Tampal JSON soalan premium (premium-soalan.json)' });
-  const failP = el('input', { type: 'file', accept: '.json,.csv', onchange: async e => { taP.value = await e.target.files[0].text(); } });
-  const bilP = (await store.ambilPremium().catch(() => [])).length;
-  hal.append(el('div.kad', {}, el('h2', {}, `Soalan premium (${bilP} soalan)`),
-    el('p', {}, 'Soalan premium disimpan di Firebase sahaja. Hanya pelajar yang diluluskan boleh membacanya.'), failP, taP,
-    el('button.btn.utama', { type: 'button', onclick: async () => {
-      try { const { sah } = importSoalan(taP.value, 'PR'); if (!sah.length) throw new Error('Tiada soalan sah'); await store.muatNaikPremium(sah); toast(`${sah.length} soalan premium dimuat naik.`); navigate('#/admin'); }
-      catch (e) { toast('Gagal: ' + e.message, 'amaran'); }
-    } }, 'Muat naik soalan premium')));
-
   const jadual = el('tbody');
-  hal.append(el('div.kad', {}, el('h2', {}, 'Permohonan Latihan Premium'),
+  hal.append(el('div.kad', {}, el('h2', {}, 'Permohonan Set Soalan Premium'),
     el('div.jadual-gulung', {}, el('table', {}, el('thead', {}, el('tr', {}, ...['Nama', 'No. matrik', 'Kumpulan', 'No. rujukan', 'Masa', 'Status', ''].map(h => el('th', { scope: 'col' }, h)))), jadual))));
   bersih.push(store.senaraiPermohonan(data => {
     const semua = Object.values(data || {}).sort((a, b) => (a.status === 'menunggu' ? -1 : 1) - (b.status === 'menunggu' ? -1 : 1) || b.masa - a.masa);

@@ -9,7 +9,7 @@
  * 2. ARENA_TETAPAN (termasuk slot imej pilihan)
  *    adminKod  : kod laluan untuk halaman Admin dalam mod luar talian (dalam mod Firebase, akses admin
  *                ditentukan oleh peraturan pangkalan data, bukan kod ini)
- *    premium   : maklumat Set Latihan Premium (harga, penerima bayaran, gambar QR DuitNow)
+ *    premium   : maklumat Set Soalan Premium (harga, penerima bayaran, gambar QR DuitNow, penerangan)
  */
 window.FIREBASE_CONFIG = null;
 /* Contoh:
@@ -34,6 +34,12 @@ window.ARENA_TETAPAN = {
     harga: 'RM10',
     penerima: 'Nama penerima bayaran',
     qr: 'aset/qr-duitnow.svg',
-    nota: 'Set Latihan Premium ialah soalan latihan tambahan yang dibina daripada SIM KPP3023. Ia bukan soalan peperiksaan akhir sebenar.'
+    ringkasan: 'Persediaan Pentaksiran Akhir KPP3023 Psikologi dalam Pendidikan.',
+    penerangan: [
+      '48 soalan objektif aras tinggi (aplikasi kes), meliputi Unit 1 hingga 11 dan Penutup: 4 soalan setiap unit.',
+      'Disusun mengikut format Pentaksiran Akhir KPP3023: peperiksaan akhir 40%, soalan objektif, menilai CLO1 (menghubungkait teori psikologi dengan pertumbuhan dan perkembangan individu).',
+      'Setiap soalan disertakan huraian jawapan. Boleh dimainkan di Arena atau gaya Klasik, dan skor dikira dalam leaderboard set Premium.'
+    ],
+    penafian: 'Ini soalan latihan persediaan, bukan soalan peperiksaan sebenar.'
   }
 };

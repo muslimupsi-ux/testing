@@ -33,8 +33,10 @@ class Pentas {
   constructor(bekas, { kamera = [0, 20, 22], sasaran = [0, 0, 0], kawal = false, fov = 45 } = {}) {
     this.bekas = bekas;
     this.gerak = !kurangGerak();
-    this.renderer = new THREE.WebGLRenderer({ antialias: true });
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+    // Peranti sentuh atau skrin kecil (kebanyakannya telefon): kurangkan beban pemaparan
+    const ringan = matchMedia('(pointer: coarse)').matches || innerWidth < 760;
+    this.renderer = new THREE.WebGLRenderer({ antialias: !ringan || (devicePixelRatio || 1) < 2 });
+    this.renderer.setPixelRatio(Math.min(devicePixelRatio || 1, ringan ? 1.5 : 2));
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -55,7 +57,7 @@ class Pentas {
     const mentari = new THREE.DirectionalLight(0xfff1d6, 2.4);
     mentari.position.set(12, 26, 14);
     mentari.castShadow = true;
-    mentari.shadow.mapSize.set(2048, 2048);
+    mentari.shadow.mapSize.set(ringan ? 1024 : 2048, ringan ? 1024 : 2048);
     Object.assign(mentari.shadow.camera, { left: -26, right: 26, top: 26, bottom: -26, near: 1, far: 80 });
     mentari.shadow.bias = -0.0005;
     this.scene.add(mentari);

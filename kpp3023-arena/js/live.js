@@ -49,8 +49,7 @@ async function buatArena(bekas, opsyen) {
 // ---------------------------------------------------------------------------
 export async function paparHos(app, ctx) {
   const { store, ambilBank, SET } = ctx;
-  const tetap = { set: 'sim', unit: 0, bil: 10, masa: 20, survival: false, ...simpan.get('tetapanHos', {}) };
-  const finalAda = (await store.ambilSetFinal()).length > 0;
+  const tetap = { unit: 0, bil: 10, masa: 20, survival: false, ...simpan.get('tetapanHos', {}), set: 'sim' };
   const radio = (nama, label, opsyen) => el('fieldset.segmen', {}, el('legend', {}, label),
     ...opsyen.map(([v, t, mati]) => el('label', { class: mati ? 'mati' : '' }, el('input', { type: 'radio', name: nama, value: v, checked: String(v) === String(tetap[nama]), disabled: !!mati }), el('span', {}, t))));
   const borang = el('form.kad.borang', {},
@@ -59,7 +58,6 @@ export async function paparHos(app, ctx) {
     !store.dalamTalian ? el('p.notis', {}, 'Mod luar talian: pemain hanya boleh sertai dari tab lain dalam pelayar yang sama (sesuai untuk demo). Sambungkan Firebase untuk kelas sebenar.') : null,
     el('label', { for: 'hUnit' }, 'Unit'),
     el('select#hUnit', { name: 'unit' }, el('option', { value: 0 }, 'Semua unit (campuran)'), ...UNIT.slice(1).map(u => el('option', { value: u.n, selected: u.n === tetap.unit }, `${namaUnit(u.n)}: ${u.tajuk}`))),
-    radio('set', 'Set soalan', [['sim', 'Set KPP3023'], ['final', finalAda ? 'Final A261' : 'Final A261 (belum diisi)', !finalAda]]),
     radio('bil', 'Bilangan soalan', [[5, '5'], [10, '10'], [15, '15'], [20, '20']]),
     radio('masa', 'Masa setiap soalan', [[15, '15 saat'], [20, '20 saat'], [30, '30 saat']]),
     radio('survival', 'Peraturan', [['false', 'Mata: semua terus bermain'], ['true', 'Survival: jatuh = tersingkir']]),
@@ -68,7 +66,7 @@ export async function paparHos(app, ctx) {
   borang.addEventListener('submit', async e => {
     e.preventDefault();
     const d = new FormData(borang);
-    const t = { set: d.get('set'), unit: Number(d.get('unit')), bil: Number(d.get('bil')), masa: Number(d.get('masa')), survival: d.get('survival') === 'true' };
+    const t = { set: 'sim', unit: Number(d.get('unit')), bil: Number(d.get('bil')), masa: Number(d.get('masa')), survival: d.get('survival') === 'true' };
     simpan.set('tetapanHos', t);
     let bank = await ambilBank(t.set);
     if (t.unit) bank = bank.filter(x => x.unit === t.unit);
@@ -446,18 +444,19 @@ async function jalanPemain(app, ctx, pin, bilik) {
         el('b.maklum-tajuk', {}, a?.hantu ? 'Anda sedang menonton' : a?.betul ? `Betul! +${a.mata}` : a?.pilih === -1 ? 'Anda tiada di mana-mana zon' : 'Splash! Jawapan salah'),
         q ? el('p', {}, 'Jawapan: ', el('b', {}, teksJawapan({ ...q, jawapan: state.jawapan }))) : null,
         s?.tersingkir && !a?.hantu ? el('p', {}, 'Mod Survival: anda tersingkir, tetapi masih boleh bergerak dan menonton.') : null,
-        s?.streak >= 2 ? el('p', {}, `🔥 Streak ${s.streak}`) : null));
+        s?.streak >= 2 ? el('p', {}, `🔥 Streak ${s.streak}`) : null,
+        butangLamanUtama()));
       return;
     }
     if (state.fasa === 'papan') {
-      ganti(panel, el('div.dedah-kad', {}, el('b.maklum-tajuk', {}, k ? `Kedudukan ${k.n} daripada ${k.dari}` : 'Menunggu…'), el('p', {}, `${s?.jumlah ?? 0} mata`)));
+      ganti(panel, el('div.dedah-kad', {}, el('b.maklum-tajuk', {}, k ? `Kedudukan ${k.n} daripada ${k.dari}` : 'Menunggu…'), el('p', {}, `${s?.jumlah ?? 0} mata`), butangLamanUtama()));
       return;
     }
     if (state.fasa === 'tamat') {
       ganti(hudAtas, el('div.hud-soalan.hud-mula', {}, el('h2.hud-teks', {}, k ? `Tamat! Kedudukan ${k.n} daripada ${k.dari}` : 'Permainan tamat')));
       ganti(panel, el('div.dedah-kad', {},
         el('b.maklum-tajuk', {}, `${s?.jumlah ?? 0} mata, ${s?.betul ?? 0}/${soalan.length} betul`),
-        el('div.tindakan', {}, el('a.btn.utama', { href: '#/' }, 'Ke peta pulau'), el('a.btn', { href: '#/papan?s=langsung' }, 'Leaderboard'))));
+        el('div.tindakan', {}, el('a.btn.utama', { href: '#/' }, 'Laman utama'), el('a.btn', { href: '#/papan?s=langsung' }, 'Leaderboard'))));
       if (!selesai && s) {
         selesai = true;
         const kunciSimpan = 'arena.selesai.' + pin;
@@ -474,6 +473,11 @@ async function jalanPemain(app, ctx, pin, bilik) {
         }
       }
     }
+  }
+
+  /** Keluar dari bilik dan kembali ke laman utama. */
+  function butangLamanUtama() {
+    return el('div.tindakan', {}, el('button.btn.btn-laman-utama', { type: 'button', onclick: async () => { dalamBilik = false; await store.keluarBilik(pin).catch(() => {}); location.hash = '#/'; } }, 'Laman utama'));
   }
 
   /** Paparan butang (tanpa WebGL). */

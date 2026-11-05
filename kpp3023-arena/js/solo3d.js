@@ -20,7 +20,7 @@ export async function mulaArenaSolo(app, ctx, soalan, t) {
   const sepanduk = el('div.sepanduk', { 'aria-live': 'assertive' });
   const panel = el('div.panel-dedah');
   const kawalan = el('div.kawalan-arena');
-  const keluar = el('button.btn.kecil.btn-keluar', { type: 'button', onclick: () => navigate('#/solo') }, 'Keluar');
+  const keluar = el('button.btn.kecil.btn-keluar', { type: 'button', onclick: () => navigate('#/') }, 'Laman utama');
   const pentas = el('section.pentas-arena', { 'aria-label': 'Arena kuiz' }, dunia, hudAtas, stat, sepanduk, panel, kawalan, keluar);
   app.append(pentas);
 
@@ -168,8 +168,10 @@ export async function mulaArenaSolo(app, ctx, soalan, t) {
         el('b.maklum-tajuk', {}, betul ? `Betul! +${mata}` : pilih === -1 ? 'Anda tiada di mana-mana zon' : 'Splash! Jawapan salah'),
         el('p', {}, 'Jawapan: ', el('b', {}, jwp)),
         el('p.huraian', {}, q.huraian),
-        el('button.btn.utama.btn-teruskan', { type: 'button', onclick: () => { if (akhir) selesai(); else { st.i++; soalanBaru(); } } },
-          akhir ? (st.nyawa <= 0 ? 'Nyawa habis: lihat keputusan' : 'Lihat keputusan') : 'Soalan seterusnya')));
+        el('div.tindakan', {},
+          el('button.btn.utama.btn-teruskan', { type: 'button', onclick: () => { if (akhir) selesai(); else { st.i++; soalanBaru(); } } },
+            akhir ? (st.nyawa <= 0 ? 'Nyawa habis: lihat keputusan' : 'Lihat keputusan') : 'Soalan seterusnya'),
+          el('button.btn.btn-laman-utama', { type: 'button', onclick: () => navigate('#/') }, 'Laman utama'))));
       setTimeout(() => $('.btn-teruskan', panel)?.focus({ preventScroll: true }), 50);
     }, 650);
   }

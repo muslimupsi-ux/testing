@@ -51,13 +51,6 @@
       }
     },
 
-    "set": {
-      "final-a261": {
-        ".read": "auth != null",
-        ".write": "auth != null && root.child('admin/' + auth.uid).val() === true"
-      }
-    },
-
     "permohonan": {
       ".read": "auth != null && root.child('admin/' + auth.uid).val() === true",
       "$uid": {

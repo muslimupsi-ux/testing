@@ -165,24 +165,10 @@ export async function initStore() {
     tutupBilik: pin => db.update(`bilik/${pin}/state`, { fasa: 'tamat' }),
     masa: () => db.masa(),
 
-    // ---------- Set soalan Final A261 ----------
-    async ambilSetFinal() {
-      const tempatan = simpan.get('setFinal', null);
-      if (mod === 'firebase') {
-        const jauh = await db.get('set/final-a261').catch(() => null);
-        if (Array.isArray(jauh) && jauh.length) return jauh;
-      }
-      if (Array.isArray(tempatan) && tempatan.length) return tempatan;
-      return Array.isArray(window.SOALAN_FINAL_A261) ? window.SOALAN_FINAL_A261 : [];
-    },
-    async simpanSetFinal(arr, keAwan) {
-      simpan.set('setFinal', arr);
-      if (keAwan && mod === 'firebase') await db.set('set/final-a261', arr);
-    },
-
     // ---------- Premium ----------
     async statusAkses() {
-      if (mod !== 'firebase') return { ok: false, luarTalian: true };
+      // Mod luar talian: demo dibuka jika pensyarah memuat naik set premium ke pelayar ini
+      if (mod !== 'firebase') return { ok: (simpan.get('premiumDemo', []) || []).length > 0, demo: true, luarTalian: true };
       const [akses, pulih, mohon] = await Promise.all([
         db.get(`akses/${uid}`).catch(() => null), db.get(`aksesPulih/${uid}`).catch(() => null), db.get(`permohonan/${uid}`).catch(() => null),
       ]);
@@ -191,7 +177,7 @@ export async function initStore() {
     pantauAkses: cb => db.onValue(`akses/${uid}`, cb),
     hantarPermohonan: borang => db.set(`permohonan/${uid}`, { ...borang, uid, masa: db.masa(), status: 'menunggu' }),
     async gunaKodPulih(kod) { await db.set(`aksesPulih/${uid}`, kod.trim().toUpperCase()); },
-    async ambilPremium() { return (await db.get('premium/soalan')) || []; },
+    async ambilPremium() { return mod === 'firebase' ? ((await db.get('premium/soalan')) || []) : (simpan.get('premiumDemo', []) || []); },
 
     // ---------- Admin ----------
     async adalahAdmin() { if (mod !== 'firebase') return false; return (await db.get(`admin/${uid}`).catch(() => null)) === true; },
@@ -204,7 +190,7 @@ export async function initStore() {
       return kod;
     },
     tolak: (idPelajar) => db.update(`permohonan/${idPelajar}`, { status: 'ditolak' }),
-    muatNaikPremium: arr => db.set('premium/soalan', arr),
+    async muatNaikPremium(arr) { if (mod === 'firebase') await db.set('premium/soalan', arr); else simpan.set('premiumDemo', arr); },
     padamPapan: () => db.remove('papan'),
   };
 }

@@ -17,8 +17,7 @@ Bank soalan dibina daripada kandungan kursus KPP3023 (Unit 1 hingga 11 dan Penut
 | **Podium dan laporan** | Podium 3D tiga teratas dengan konfeti. Eksport CSV mengandungi nama, no. matrik, kumpulan, skor dan betul/salah bagi setiap soalan. |
 | **XP, aras dan lencana** | 21 lencana, termasuk satu lencana untuk setiap pulau (contoh: *Penguasa Piaget*, *Rakan Bandura*), *Streak 10*, *Pantas Kilat* dan *Juara Arena*. |
 | **Ulang kaji** | Buku Kesilapan (soalan yang pernah salah, main semula sehingga dibetulkan) dan kad imbas setiap unit. |
-| **Set Final A261** | Slot untuk set soalan pensyarah, diimport melalui halaman Admin (JSON atau CSV). |
-| **Latihan Premium** | Set soalan kes tambahan berbayar. Pelajar membayar melalui QR DuitNow, kemudian pensyarah meluluskan permohonan di halaman Admin. Lihat bahagian [Latihan Premium](#latihan-premium). |
+| **Set Soalan Premium** | Persediaan Pentaksiran Akhir: 48 soalan objektif aras tinggi berbayar, mengikut format peperiksaan akhir KPP3023 (soalan objektif, CLO1). Pelajar membayar melalui QR DuitNow, kemudian pensyarah meluluskan permohonan di halaman Admin. Lihat bahagian [Set Soalan Premium](#set-soalan-premium). |
 | **Aksesibiliti** | Tema terang dan gelap, papan kekunci (1 hingga 4 untuk menjawab, Enter untuk seterusnya), menghormati tetapan *reduced motion*, paparan 2D jika WebGL tiada, dan reka letak telefon serta projektor. |
 
 ## Fail
@@ -35,8 +34,7 @@ Bank soalan dibina daripada kandungan kursus KPP3023 (Unit 1 hingga 11 dan Penut
 | `js/store.js` | Lapisan data: Firebase Realtime Database, atau mod luar talian (localStorage + BroadcastChannel) |
 | `js/util.js` | Utiliti: senarai unit, avatar, skor, bunyi, konfeti |
 | `data/soalan-sim.js` | 135 soalan SIM (Unit 1 hingga 11 dan Penutup): aneka pilihan, kes dan Betul/Salah, setiap satu dengan huraian |
-| `data/soalan-final-a261.js` | Slot set Final A261 (kosong) |
-| `firebase-config.js` | Tetapan Firebase, kod admin dan maklumat bayaran premium |
+| `firebase-config.js` | Tetapan Firebase, kod admin, imej pilihan, serta harga, QR dan penerangan Set Soalan Premium |
 | `database.rules.json` | Peraturan keselamatan Realtime Database |
 | `aset/` | Favicon, tempat letak QR DuitNow, dan `aset/imej/PROMPT-IMEJ.md` (prompt ChatGPT untuk imej pilihan) |
 
@@ -57,9 +55,9 @@ Kemudian buka `http://localhost:8000`.
 Untuk kelas sebenar, hos folder ini di mana-mana hos statik HTTPS, contohnya GitHub Pages, Netlify atau Firebase Hosting.
 
 **Mod luar talian** (tanpa Firebase) ialah mod lalai. Dalam mod ini:
-- leaderboard, lencana dan set Final disimpan dalam pelayar itu sahaja;
+- leaderboard dan lencana disimpan dalam pelayar itu sahaja;
 - mod langsung hanya berfungsi antara tab dalam pelayar yang sama. Ini sesuai untuk demo, tetapi tidak untuk kelas sebenar;
-- Latihan Premium tidak tersedia.
+- Set Soalan Premium tidak boleh dibeli. Untuk demo, pensyarah boleh memuat naik set itu ke pelayar sendiri di `#/admin`, dan set itu terbuka untuk pelayar tersebut sahaja.
 
 ## Setup Firebase (untuk kelas sebenar)
 
@@ -102,13 +100,15 @@ Format setiap soalan (sama untuk semua set):
 - `unit`: 1 hingga 11, atau 12 untuk Penutup.
 - Susunan pilihan dikocok semasa main, jadi jawapan betul boleh ditulis pada mana-mana kedudukan.
 
-**Set Final A261**: buka `#/admin`, kemudian tampal JSON atau CSV (butang **Muat turun templat CSV** menyediakan contoh). Lajur CSV: `unit,jenis,soalan,senario,a,b,c,d,jawapan,huraian,aras`, dengan `jawapan` = A/B/C/D atau Betul/Salah. Dalam mod Firebase, set ini dikongsi kepada semua pemain.
+Untuk menukar atau menambah soalan, sunting `data/soalan-sim.js` mengikut format di atas.
 
-> Repositori ini mungkin awam, dan pemain boleh membaca soalan dalam set yang dimainkan. Jangan letak soalan peperiksaan sebenar yang belum diduduki dalam repo atau dalam game sebelum peperiksaan.
+> Repositori ini mungkin awam, dan pemain boleh membaca soalan dalam set yang dimainkan. Jangan letak soalan peperiksaan sebenar dalam repo atau dalam game.
 
 Dalam mod luar talian, kod admin lalai ialah `kpp3023` (tukar dalam `firebase-config.js`).
 
-## Latihan Premium
+## Set Soalan Premium
+
+Set berbayar untuk persediaan **Pentaksiran Akhir** KPP3023. Ia mengandungi 48 soalan objektif aras tinggi (aplikasi kes), 4 soalan setiap unit, mengikut format peperiksaan akhir (40%, soalan objektif, CLO1), dengan huraian jawapan. Penerangan yang dipaparkan kepada pelajar boleh disunting dalam `firebase-config.js` → `premium.ringkasan`, `premium.penerangan` dan `premium.penafian`.
 
 Aliran:
 1. Pelajar buka `#/premium` dan imbas QR DuitNow.
@@ -118,12 +118,12 @@ Aliran:
 
 Setup:
 - Ganti `aset/qr-duitnow.svg` dengan imej QR DuitNow sebenar, kemudian kemas kini `harga`, `penerima` dan `qr` dalam `firebase-config.js`.
-- Muat naik soalan premium di `#/admin` → **Soalan premium**. Soalan premium **tidak disimpan dalam repo**. Ia disimpan di Firebase `/premium/soalan`, dan peraturan pangkalan data hanya membenarkan bacaan oleh admin dan pelajar yang diluluskan.
-- Set Latihan Premium yang disediakan (48 soalan kes aras tinggi, 4 setiap unit) diberikan sebagai fail `premium-soalan.json` yang berasingan daripada repo.
+- Muat naik soalan di `#/admin` → **Set Soalan Premium** (JSON atau CSV; butang **Muat turun templat CSV** menyediakan contoh). Soalan premium **tidak disimpan dalam repo**. Ia disimpan di Firebase `/premium/soalan`, dan peraturan pangkalan data hanya membenarkan bacaan oleh admin dan pelajar yang diluluskan.
+- Set Soalan Premium yang disediakan (48 soalan, 4 setiap unit) diberikan sebagai fail `premium-soalan.json` yang berasingan daripada repo.
 
 Tanggungjawab pensyarah:
 - Pastikan jualan bahan kepada pelajar sendiri mematuhi peraturan UPSI.
-- Kandungan premium mesti kekal berasingan daripada soalan peperiksaan akhir sebenar.
+- Set ini soalan latihan persediaan. Ia mesti kekal berasingan daripada soalan peperiksaan akhir sebenar, dan penafian itu dipaparkan kepada pelajar.
 - No. matrik dan no. rujukan bayaran ialah data peribadi. Hanya admin boleh membacanya.
 
 ## Ujian yang telah dijalankan
@@ -131,7 +131,7 @@ Tanggungjawab pensyarah:
 Ujian automatik dengan Playwright (Chromium, WebGL melalui SwiftShader), dalam mod luar talian:
 - **Solo arena** (desktop 1366×800 dan iPhone 13): lobi bersama bot, 10 soalan dengan pergerakan ke zon (kekunci nombor dan ketik lantai), Kunci jawapan, lantai runtuh, panel jawapan dan keputusan. Tiada ralat konsol.
 - **Langsung arena**: satu hos dan dua pemain dalam tab berasingan. Pemain bergerak dan beremote di lobi, berjalan ke zon, peraturan Survival (tersingkir menjadi hantu), dedah dengan taburan, papan markah, podium 3D dan eksport CSV.
-- **Lain-lain**: mod klasik, admin (import CSV/JSON), paparan 2D tanpa WebGL, tema gelap, config Firebase yang salah beralih ke mod luar talian.
+- **Lain-lain**: butang Laman utama selepas menjawab (solo arena, klasik, langsung), mod klasik, admin (import Set Soalan Premium dalam mod demo), paparan 2D tanpa WebGL, tema gelap, config Firebase yang salah beralih ke mod luar talian.
 - **Bank soalan**: semakan struktur 135 soalan dan 48 soalan premium.
 
 Laluan Firebase (bilik langsung merentas peranti, kelulusan premium, peraturan pangkalan data) belum diuji dengan projek Firebase sebenar. Uji sekali dengan dua telefon selepas setup dan sebelum kelas pertama.
