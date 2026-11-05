@@ -25,6 +25,12 @@
             ".validate": "!newData.exists() || (newData.hasChildren(['nama', 'avatar']) && newData.child('nama').isString() && newData.child('nama').val().length <= 40)"
           }
         },
+        "pos": {
+          "$uid": {
+            ".write": "auth != null && auth.uid === $uid",
+            ".validate": "newData.hasChildren(['x', 'z']) && newData.child('x').isNumber() && newData.child('z').isNumber()"
+          }
+        },
         "jawapan": {
           "$q": {
             "$uid": {

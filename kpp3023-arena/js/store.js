@@ -45,7 +45,7 @@ function buatDbTempatan() {
   };
   const tulis = (op) => {
     guna(op);
-    simpan.set(KUNCI, tree);
+    if (!String(op.path).includes('/pos/')) simpan.set(KUNCI, tree); // kedudukan avatar tidak perlu disimpan
     saluran?.postMessage(op);
   };
   saluran && (saluran.onmessage = e => guna(e.data));
@@ -158,6 +158,8 @@ export async function initStore() {
     pantauPemain: (pin, cb) => db.onValue(`bilik/${pin}/pemain`, cb),
     hantarJawapan: (pin, indeks, pilih, ms) => db.set(`bilik/${pin}/jawapan/${indeks}/${uidBilik}`, { pilih, ms }),
     pantauJawapan: (pin, indeks, cb) => db.onValue(`bilik/${pin}/jawapan/${indeks}`, cb),
+    hantarPosisi: (pin, d) => db.set(`bilik/${pin}/pos/${uidBilik}`, d),
+    pantauPosisi: (pin, cb) => db.onValue(`bilik/${pin}/pos`, cb),
     setSkor: (pin, skor) => db.set(`bilik/${pin}/skor`, skor),
     pantauSkor: (pin, cb) => db.onValue(`bilik/${pin}/skor`, cb),
     tutupBilik: pin => db.update(`bilik/${pin}/state`, { fasa: 'tamat' }),

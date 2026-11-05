@@ -112,8 +112,8 @@ async function paparUtama() {
   const dunia = el('div.dunia-latar', { 'aria-hidden': 'true' });
   hero.append(dunia,
     el('div.hero-isi', {},
-      el('h1#hT', {}, 'Belayar ke 11 pulau psikologi.'),
-      el('p.lede', {}, 'Setiap pulau ialah satu unit KPP3023. Jawab soalan, kumpul lencana dan naik ke puncak leaderboard kelas anda.'),
+      el('h1#hT', {}, 'Lari, lompat, jawab!'),
+      el('p.lede', {}, 'Gerakkan avatar anda ke zon jawapan sebelum masa tamat. Salah zon? Lantai runtuh dan anda jatuh ke laut. Pilih pulau untuk bermula.'),
       el('div.kad-pemain', {},
         el('span.av.besar', { style: { background: p.warna } }, p.avatar),
         el('div', {},
@@ -127,7 +127,7 @@ async function paparUtama() {
     ),
   );
   const dok = el('nav.dok', { 'aria-label': 'Mod permainan' },
-    kadMod('#/solo', '🏝️', 'Main solo', 'Pilih pulau, jawab pada kadar sendiri.', 'utama'),
+    kadMod('#/solo', '🏃', 'Main sekarang', 'Masuk arena bersama rakan bot.', 'utama'),
     kadMod('#/sertai', '📲', 'Sertai kelas', 'Masukkan PIN daripada skrin pensyarah.'),
     kadMod('#/hos', '🎤', 'Hos permainan', 'Paparkan di projektor, pelajar sertai dengan PIN.'),
     kadMod('#/papan', '🏆', 'Leaderboard', 'Kedudukan ikut kumpulan, unit dan minggu.'),
@@ -135,7 +135,7 @@ async function paparUtama() {
     kadMod('#/lencana', '🎖️', 'Lencana', `${s.lencana.length} daripada ${LENCANA.length} dikumpul.`),
     TETAPAN.premium?.aktif ? kadMod('#/premium', '⭐', 'Latihan Premium', 'Set soalan kes tambahan.') : null,
   );
-  app.append(hero, dok, el('p.kaki', {}, 'Soalan dalam game ini dibina daripada SIM KPP3023 untuk latihan. ', el('a', { href: '#/admin' }, 'Halaman pensyarah')));
+  app.append(hero, dok, el('p.kaki', {}, el('a', { href: '#/admin' }, 'Halaman pensyarah')));
 
   if (bolehWebGL()) {
     try {
@@ -222,21 +222,27 @@ async function paparSolo(q) {
     el('label', { for: 'sUnit' }, 'Pulau (unit)'), unitSel,
     pilihan('set', 'Set soalan', [['sim', 'SIM KPP3023'], ['final', finalAda ? 'Final A261' : 'Final A261 (belum diisi)', !finalAda], ['premium', akses.ok ? 'Latihan Premium' : 'Latihan Premium 🔒', !akses.ok]], tetap.set),
     pilihan('bil', 'Bilangan soalan', [[10, '10'], [20, '20'], [40, '40']], tetap.bil),
-    pilihan('mod', 'Mod', [['biasa', 'Biasa'], ['cabaran', 'Cabaran: 3 nyawa'], ['latihan', 'Latihan: tanpa masa']], tetap.mod),
-    el('p.kecil', {}, 'Mod Biasa dan Cabaran: 20 saat setiap soalan, lebih pantas lebih banyak mata. Tiga kuasa sekali guna: 50:50, +10 saat dan Gandaan x2.'),
+    bolehWebGL() ? pilihan('gaya', 'Gaya main', [['arena', 'Arena: gerak avatar ke zon jawapan'], ['klasik', 'Klasik: tekan butang']], tetap.gaya || 'arena') : null,
+    pilihan('mod', 'Mod', [['biasa', 'Biasa'], ['cabaran', 'Cabaran: 3 nyawa'], ['latihan', 'Latihan: tanpa masa (klasik sahaja)']], tetap.mod),
+    el('p.kecil', {}, 'Dalam Arena, anda dan rakan bot berlari ke zon jawapan. Lantai zon salah runtuh! Lebih cepat anda masuk zon yang betul, lebih banyak mata.'),
     el('div.tindakan', {}, el('button.btn.utama.besar', { type: 'submit' }, 'Mula pusingan'), el('a.btn', { href: '#/' }, 'Kembali ke peta')),
   );
   unitSel.addEventListener('change', () => { $('h1', borang).textContent = Number(unitSel.value) ? `${namaUnit(+unitSel.value)}: ${UNIT[+unitSel.value].tajuk}` : 'Sediakan pusingan solo'; });
   borang.addEventListener('submit', async e => {
     e.preventDefault();
     const d = new FormData(borang);
-    const t = { set: d.get('set'), unit: Number(d.get('unit')), bil: Number(d.get('bil')), mod: d.get('mod'), masa: MASA_SOALAN };
+    const t = { set: d.get('set'), unit: Number(d.get('unit')), bil: Number(d.get('bil')), mod: d.get('mod'), masa: MASA_SOALAN, gaya: d.get('gaya') || 'klasik' };
     simpan.set('tetapanSolo', t);
     let bank = await ambilBank(t.set);
     if (t.unit) bank = bank.filter(x => x.unit === t.unit);
     if (!bank.length) { toast('Tiada soalan dalam set ini untuk unit dipilih.', 'amaran'); return; }
     if (t.unit) { const s2 = stat(); s2.unitTerakhir = t.unit; simpanStat(s2); }
-    mulaKuiz(shuffle(bank).slice(0, t.bil).map(sediaSoalan), t);
+    const pilihan = shuffle(bank).slice(0, t.bil).map(sediaSoalan);
+    if (t.gaya === 'arena' && t.mod !== 'latihan' && bolehWebGL()) {
+      try { const m = await import('./solo3d.js'); return m.mulaArenaSolo(app, { ...konteks(), simpanKeputusan, navigate }, pilihan, t); }
+      catch (err) { console.warn('Arena 3D gagal, guna mod klasik', err); }
+    }
+    mulaKuiz(pilihan, t);
   });
   app.append(el('section.halaman.sempit', {}, borang));
 }
@@ -245,6 +251,8 @@ async function paparSolo(q) {
 // Enjin kuiz solo
 // ---------------------------------------------------------------------------
 function mulaKuiz(soalan, t) {
+  ganti(app);
+  document.body.dataset.laluan = 'kuiz';
   const st = { i: 0, skor: 0, betul: 0, streak: 0, streakMaks: 0, nyawa: t.mod === 'cabaran' ? 3 : Infinity, pantas: 0, rekod: [], kuasa: { '5050': true, masa: true, ganda: true }, ganda: false };
   const tanpaMasa = t.mod === 'latihan';
   let pemasa = null, mulaMs = 0, tamatMs = 0, terkunci = false;
@@ -296,8 +304,6 @@ function mulaKuiz(soalan, t) {
     terkunci = false; st.ganda = false;
     ganti(maklum);
     ganti(kad, 
-      el('div.kad-atas', {}, el('span.cip', { style: { '--w': UNIT[q.unit]?.warna } }, namaUnit(q.unit), ' ', UNIT[q.unit]?.ringkas || ''),
-        el('span.cip.jenis', {}, q.jenis === 'bs' ? 'Arena O/X: Betul atau Salah' : q.jenis === 'kes' ? 'Kes bilik darjah' : 'Aneka pilihan')),
       q.senario ? el('p.senario', {}, q.senario) : null,
       el('h2.teks-soalan', {}, q.soalan),
     );
@@ -353,48 +359,51 @@ function mulaKuiz(soalan, t) {
     maklum.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }
 
-  async function tamat() {
-    const jumlah = st.rekod.length;
-    const peratus = Math.round(st.betul / Math.max(1, jumlah) * 100);
-    const s = stat(), baru = [];
-    const xpDapat = Math.round(st.skor / 20) + st.betul * 10;
-    s.xp += xpDapat; s.permainan++; s.streakTerbaik = Math.max(s.streakTerbaik, st.streakMaks);
-    // Buku Kesilapan
-    let dibetulkan = simpan.get('dibetulkan', 0);
-    for (const r of st.rekod) {
-      if (!r.betul) s.kesilapan[r.id] = (s.kesilapan[r.id] || 0) + 1;
-      else if (s.kesilapan[r.id]) { delete s.kesilapan[r.id]; dibetulkan++; }
-    }
-    simpan.set('dibetulkan', dibetulkan);
-    // Kemajuan unit
-    if (t.unit) {
-      const k = s.kemajuan[t.unit] || { terbaik: 0, cuba: 0 };
-      k.cuba++; k.terbaik = Math.max(k.terbaik, peratus); s.kemajuan[t.unit] = k;
-      if (peratus >= 80 && jumlah >= 8) beriLencana(s, 'unit-' + t.unit, baru);
-    }
-    beriLencana(s, 'langkah-pertama', baru);
-    if (peratus === 100 && jumlah >= 10) beriLencana(s, 'sempurna', baru);
-    if (st.streakMaks >= 5) beriLencana(s, 'streak-5', baru);
-    if (st.streakMaks >= 10) beriLencana(s, 'streak-10', baru);
-    if (st.pantas >= 5) beriLencana(s, 'kilat', baru);
-    if (t.mod === 'cabaran' && st.nyawa > 0 && jumlah === soalan.length) beriLencana(s, 'cabaran', baru);
-    if (dibetulkan >= 10) beriLencana(s, 'pemulih', baru);
-    if ([...Array(11)].every((_, i) => s.lencana.includes('unit-' + (i + 1)))) beriLencana(s, 'penjelajah', baru);
-    simpanStat(s);
-    const p = profil();
-    if (t.set !== 'kesilapan') {
-      store.hantarSkor({ nama: p.nama, avatar: p.avatar, warna: p.warna, kumpulan: p.kumpulan, skor: st.skor, betul: st.betul, jumlah, set: t.set, unit: t.unit, mod: t.mod })
-        .catch(e => toast('Skor tidak dapat dihantar ke leaderboard: ' + e.message, 'amaran'));
-    }
-    kemasBar();
-    paparKeputusan({ st, jumlah, peratus, xpDapat, baru, t });
-  }
+  function tamat() { simpanKeputusan(st, t, soalan.length); }
 
   papar();
 }
 
-function paparKeputusan({ st, jumlah, peratus, xpDapat, baru, t }) {
+export function simpanKeputusan(st, t, bilSoalan, tambahan = {}) {
+  const jumlah = st.rekod.length;
+  const peratus = Math.round(st.betul / Math.max(1, jumlah) * 100);
+  const s = stat(), baru = [];
+  const xpDapat = Math.round(st.skor / 20) + st.betul * 10;
+  s.xp += xpDapat; s.permainan++; s.streakTerbaik = Math.max(s.streakTerbaik, st.streakMaks);
+  // Buku Kesilapan
+  let dibetulkan = simpan.get('dibetulkan', 0);
+  for (const r of st.rekod) {
+    if (!r.betul) s.kesilapan[r.id] = (s.kesilapan[r.id] || 0) + 1;
+    else if (s.kesilapan[r.id]) { delete s.kesilapan[r.id]; dibetulkan++; }
+  }
+  simpan.set('dibetulkan', dibetulkan);
+  // Kemajuan unit
+  if (t.unit) {
+    const k = s.kemajuan[t.unit] || { terbaik: 0, cuba: 0 };
+    k.cuba++; k.terbaik = Math.max(k.terbaik, peratus); s.kemajuan[t.unit] = k;
+    if (peratus >= 80 && jumlah >= 8) beriLencana(s, 'unit-' + t.unit, baru);
+  }
+  beriLencana(s, 'langkah-pertama', baru);
+  if (peratus === 100 && jumlah >= 10) beriLencana(s, 'sempurna', baru);
+  if (st.streakMaks >= 5) beriLencana(s, 'streak-5', baru);
+  if (st.streakMaks >= 10) beriLencana(s, 'streak-10', baru);
+  if (st.pantas >= 5) beriLencana(s, 'kilat', baru);
+  if (t.mod === 'cabaran' && st.nyawa > 0 && jumlah === bilSoalan) beriLencana(s, 'cabaran', baru);
+  if (dibetulkan >= 10) beriLencana(s, 'pemulih', baru);
+  if ([...Array(11)].every((_, i) => s.lencana.includes('unit-' + (i + 1)))) beriLencana(s, 'penjelajah', baru);
+  simpanStat(s);
+  const p = profil();
+  if (t.set !== 'kesilapan') {
+    store.hantarSkor({ nama: p.nama, avatar: p.avatar, warna: p.warna, kumpulan: p.kumpulan, skor: st.skor, betul: st.betul, jumlah, set: t.set, unit: t.unit, mod: t.mod })
+      .catch(e => toast('Skor tidak dapat dihantar ke leaderboard: ' + e.message, 'amaran'));
+  }
+  kemasBar();
+  paparKeputusan({ st, jumlah, peratus, xpDapat, baru, t, ...tambahan });
+}
+
+function paparKeputusan({ st, jumlah, peratus, xpDapat, baru, t, kedudukan, bilPemain }) {
   for (const f of bersih.splice(0)) { try { f(); } catch { /* abaikan */ } }
+  document.body.dataset.laluan = 'keputusan';
   ganti(app);
   const s = stat(), aras = arasXP(s.xp);
   if (peratus >= 70) { konfeti(); bunyi.menang(); }
@@ -408,6 +417,7 @@ function paparKeputusan({ st, jumlah, peratus, xpDapat, baru, t }) {
         el('div', {}, el('b', {}, `${peratus}%`), el('span', {}, 'ketepatan')),
         el('div', {}, el('b', {}, `${st.streakMaks}`), el('span', {}, 'streak terbaik')),
         el('div', {}, el('b', {}, `+${xpDapat}`), el('span', {}, `XP (Aras ${aras})`)),
+        kedudukan ? el('div', {}, el('b', {}, `#${kedudukan}/${bilPemain}`), el('span', {}, 'kedudukan dalam arena')) : null,
       ),
       lencanaBaru.length ? el('div.lencana-baru', {}, el('h2', {}, 'Lencana baharu'),
         ...lencanaBaru.map(l => el('div.lencana.dapat', {}, el('span.ikon', {}, l.ikon), el('b', {}, l.nama), el('span', {}, l.syarat)))) : null,
@@ -717,6 +727,7 @@ async function paparAdmin() {
     const seterusnya = kini === 'dark' ? 'light' : kini === 'light' ? 'dark' : (gelapSistem ? 'light' : 'dark');
     simpan.set('tema', seterusnya); kemasBar();
   });
+  if (TETAPAN.imej?.logo) $('.jenama .logo').src = TETAPAN.imej.logo;
   try { store = await initStore(); }
   catch (e) { ganti(app, el('p.notis', {}, 'Gagal memulakan data: ' + e.message)); return; }
   window.arenaStore = store; // untuk ujian

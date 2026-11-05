@@ -19,7 +19,7 @@ window.SOALAN_SIM = [
 
   /* ---------------- Unit 1: Pengenalan kepada Psikologi Pendidikan ---------------- */
   { id: 'U1-01', unit: 1, jenis: 'pilihan', aras: 1,
-    soalan: 'Definisi kerja KPP3023 bagi psikologi pendidikan ialah bidang yang…',
+    soalan: 'Psikologi pendidikan ialah bidang yang…',
     pilihan: [
       'mengkaji tingkah laku dan proses mental secara saintifik dalam konteks pengajaran dan pembelajaran, serta menggunakannya untuk membimbing keputusan pendidikan',
       'mengawal tingkah laku murid yang bermasalah di dalam bilik darjah sahaja',
@@ -327,7 +327,7 @@ window.SOALAN_SIM = [
 
   { id: 'U4-11', unit: 4, jenis: 'kes', aras: 3,
     senario: 'Iman memahami penerangan lisan dengan baik, tetapi lambat dalam tugasan membaca. Bahasa di rumah berbeza daripada bahasa bahan sekolah. Kefahamannya meningkat apabila diberi masa tambahan dan penerangan kosa kata.',
-    soalan: 'Respons guru yang paling selaras dengan prinsip Unit 4 ialah…',
+    soalan: 'Respons guru yang paling wajar ialah…',
     pilihan: [
       'Prestasi Iman mungkin dipengaruhi beberapa faktor yang berinteraksi; saya perlu membezakan kefahaman, kelancaran, bahasa dan bentuk bahan, kemudian memantau sokongan',
       'Kebolehan membaca Iman memang rendah secara semula jadi',
@@ -344,13 +344,13 @@ window.SOALAN_SIM = [
     huraian: 'Tingkat Maslow: fisiologi, keselamatan, kasih sayang dan kepunyaan, penghargaan, dan penyempurnaan kendiri di puncak.' },
 
   { id: 'U5-02', unit: 5, jenis: 'bs', aras: 2,
-    soalan: 'Dalam SIM KPP3023, hierarki Maslow digunakan sebagai urutan tegar untuk mendiagnosis murid.',
+    soalan: 'Hierarki Maslow paling sesuai digunakan sebagai urutan tegar untuk mendiagnosis murid.',
     pilihan: ['Betul', 'Salah'], jawapan: 1,
-    huraian: 'Salah. Keperluan boleh hadir serentak. Maslow digunakan sebagai senarai semak untuk mencetuskan pertanyaan profesional, bukan formula atau alat diagnosis.' },
+    huraian: 'Salah. Keperluan boleh hadir serentak. Maslow lebih sesuai sebagai senarai semak untuk mencetuskan pertanyaan profesional, bukan formula atau alat diagnosis.' },
 
   { id: 'U5-03', unit: 5, jenis: 'kes', aras: 3,
     senario: 'Seorang murid cepat putus asa, takut melakukan kesilapan dan terlalu bergantung pada pujian.',
-    soalan: 'Mengikut jadual Maslow dalam SIM, keperluan yang mungkin terlibat dan respons yang sesuai ialah…',
+    soalan: 'Keperluan Maslow yang mungkin terlibat dan respons guru yang sesuai ialah…',
     pilihan: [
       'penghargaan; beri maklum balas khusus, kejayaan berperingkat dan fokus pada kemajuan',
       'fisiologi; sediakan makanan dan rehat',
@@ -373,7 +373,7 @@ window.SOALAN_SIM = [
     huraian: 'Naturalis: mengenal, membezakan dan mengelaskan tumbuhan, haiwan dan pola alam.' },
 
   { id: 'U5-06', unit: 5, jenis: 'pilihan', aras: 1,
-    soalan: 'Berapakah jenis kecerdasan Gardner yang dibincangkan dalam SIM KPP3023?',
+    soalan: 'Berapakah jenis kecerdasan dalam teori kecerdasan pelbagai Gardner (termasuk naturalis dan eksistensial)?',
     pilihan: ['Sembilan', 'Tujuh', 'Lapan', 'Tiga'],
     jawapan: 0,
     huraian: 'Gardner asalnya mengemukakan tujuh (1983). Naturalis ditambah kemudian dan eksistensial dibincangkan sebagai yang kesembilan.' },
@@ -761,7 +761,7 @@ window.SOALAN_SIM = [
     huraian: 'Mekanisme masalahnya ialah keselamatan dan ekologi, bukan ketiadaan motivasi. Ketidakhadiran tidak semestinya ponteng dengan sengaja.' },
 
   { id: 'U10-04', unit: 10, jenis: 'pilihan', aras: 1,
-    soalan: 'Urutan respons terhadap buli yang disarankan dalam SIM ialah…',
+    soalan: 'Urutan respons yang paling wajar terhadap kes buli ialah…',
     pilihan: [
       'perlindungan, prosedur, pemulihan, pencegahan dan pemantauan',
       'hukuman, amaran, pemantauan dan pengabaian',
@@ -833,7 +833,7 @@ window.SOALAN_SIM = [
 
   /* ---------------- Unit 11: Pengurusan Bilik Darjah ---------------- */
   { id: 'U11-01', unit: 11, jenis: 'pilihan', aras: 1,
-    soalan: 'Lima dimensi pengurusan bilik darjah dalam SIM ialah…',
+    soalan: 'Lima dimensi pengurusan bilik darjah ialah…',
     pilihan: ['fizikal, psikososial, pengajaran, organisasi dan digital', 'peraturan, hukuman, ganjaran, rekod dan laporan', 'mikro, meso, ekso, makro dan krono', 'jangkaan, peraturan, rutin, prosedur dan disiplin'],
     jawapan: 0,
     huraian: 'Perubahan pada satu dimensi boleh mempengaruhi dimensi lain. Pengurusan bilik darjah bukan hanya membetulkan salah laku.' },
@@ -953,18 +953,18 @@ window.SOALAN_SIM = [
     huraian: 'Enam nilai teras VBE: Kemuliaan Insan, Keadilan, Integriti, Kesyukuran, Keberanian dan Altruisme.' },
 
   { id: 'P-04', unit: 12, jenis: 'pilihan', aras: 2,
-    soalan: 'Soalan guru "Adakah kita mengukur hasil pembelajaran atau halangan akses?" paling berkait dengan langkah…',
-    pilihan: ['kenali kepelbagaian (Unit 5 hingga 7)', 'fahami perkembangan (Unit 2 hingga 4)', 'reka bentuk persekitaran (Unit 11)', 'analisis tingkah laku (Unit 8 dan 9)'],
+    soalan: 'Soalan "Adakah kita mengukur hasil pembelajaran atau halangan akses?" paling berkait dengan…',
+    pilihan: ['kepelbagaian murid dan MBPK', 'perkembangan kognitif', 'susunan fizikal bilik darjah', 'pelaziman operan'],
     jawapan: 0,
-    huraian: 'Kerangka Keputusan Guru KPP3023 mengintegrasikan semua unit. Soalan tentang akses berkait dengan kepelbagaian murid dan MBPK.' },
+    huraian: 'Soalan tentang akses berkait dengan kepelbagaian murid dan MBPK: penyesuaian mengurangkan halangan yang bukan sebahagian daripada hasil yang diukur.' },
 
   { id: 'P-05', unit: 12, jenis: 'bs', aras: 2,
-    soalan: 'Kerangka Keputusan Guru KPP3023 ialah satu garis lurus yang tamat selepas tindakan diambil.',
+    soalan: 'Proses keputusan guru ialah satu garis lurus yang tamat sebaik sahaja tindakan diambil.',
     pilihan: ['Betul', 'Salah'], jawapan: 1,
     huraian: 'Salah. Ia ialah kitaran. Selepas melaras, maklumat baharu boleh membawa guru kembali kepada pemerhatian dan hipotesis.' },
 
   { id: 'P-06', unit: 12, jenis: 'pilihan', aras: 2,
-    soalan: 'Menurut Penutup kursus, nilai Kemuliaan Insan diterjemahkan kepada tindakan dengan…',
+    soalan: 'Nilai Kemuliaan Insan diterjemahkan kepada tindakan guru dengan…',
     pilihan: ['mengelakkan penghinaan dan melindungi privasi murid', 'memberi hadiah kepada murid cemerlang', 'menyamakan semua tugasan untuk semua murid', 'menghukum murid di hadapan kelas'],
     jawapan: 0,
     huraian: 'Setiap nilai dan karakter perlu diterjemahkan kepada tindakan yang boleh diperhatikan.' },

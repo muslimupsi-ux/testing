@@ -6,7 +6,7 @@
  *    hanya berfungsi antara tab dalam satu komputer (sesuai untuk demo).
  *    Untuk kelas sebenar, isi dengan config projek Firebase anda (lihat README.md, bahagian "Setup Firebase").
  *
- * 2. ARENA_TETAPAN
+ * 2. ARENA_TETAPAN (termasuk slot imej pilihan)
  *    adminKod  : kod laluan untuk halaman Admin dalam mod luar talian (dalam mod Firebase, akses admin
  *                ditentukan oleh peraturan pangkalan data, bukan kod ini)
  *    premium   : maklumat Set Latihan Premium (harga, penerima bayaran, gambar QR DuitNow)
@@ -24,6 +24,11 @@ window.FIREBASE_CONFIG = {
 
 window.ARENA_TETAPAN = {
   adminKod: 'kpp3023',
+  // Imej pilihan (contohnya dijana dengan ChatGPT; lihat aset/imej/PROMPT-IMEJ.md). Biarkan null untuk grafik lalai.
+  imej: {
+    langit: null, // contoh: 'aset/imej/langit.jpg'  (latar langit dunia 3D)
+    logo: null    // contoh: 'aset/imej/logo.png'    (logo di bar atas)
+  },
   premium: {
     aktif: true,
     harga: 'RM10',

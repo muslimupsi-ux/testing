@@ -1,17 +1,18 @@
 # Arena Psikologi · KPP3023
 
-Game kuiz interaktif untuk **KPP3023 Psikologi dalam Pendidikan** (UPSI, Semester 1 Sesi 2026/2027, A261). Pelajar belayar ke **Kepulauan Psikologi** 3D (three.js): setiap pulau ialah satu unit kursus. Pelajar boleh main solo atau bersama seluruh kelas dalam mod langsung dengan PIN, serta mengumpul lencana dan bersaing di leaderboard.
+Game kuiz interaktif gaya **ZEP Quiz** untuk **KPP3023 Psikologi dalam Pendidikan** (UPSI, Semester 1 Sesi 2026/2027, A261). Setiap pemain mengawal avatar haiwan comel di sebuah pulau 3D (three.js). Apabila soalan muncul, pemain **berlari ke zon jawapan** (O/X atau ▲ ◆ ● ■) sebelum masa tamat. Lantai zon yang salah runtuh, dan pemain di atasnya jatuh ke laut.
 
-Bank soalan dibina daripada kandungan SIM KPP3023 (Unit 1 hingga 11 dan Penutup). Ia **bukan** soalan peperiksaan akhir sebenar.
+Bank soalan dibina daripada kandungan kursus KPP3023 (Unit 1 hingga 11 dan Penutup) dan ditulis terus kepada soalan. Ia **bukan** soalan peperiksaan akhir sebenar.
 
 ## Ciri utama
 
 | Komponen | Penerangan |
 |---|---|
-| **Peta Pulau 3D** | 11 pulau unit + Pulau Penutup di laut senja. Klik pulau untuk memulakan cabaran unit. Pulau yang dikuasai (skor ≥ 80%) mendapat bendera emas. |
-| **Mod solo** | Pilih unit, set soalan dan bilangan soalan (10/20/40). Tiga mod: Biasa (20 saat), Cabaran (3 nyawa) dan Latihan (tanpa masa). Skor ikut kelajuan (500 hingga 1000 mata) dengan bonus streak. Ada tiga kuasa sekali guna: 50:50, +10 saat dan Gandaan x2. Huraian dipaparkan selepas setiap jawapan. |
-| **Mod langsung** | Pensyarah mencipta bilik dan memaparkan PIN 6 digit serta kod QR di projektor. Pelajar sertai dari telefon. Avatar 3D setiap pelajar berlari ke zon jawapan pilihan mereka secara langsung. |
-| **Arena O/X** | Untuk soalan Betul/Salah, pelajar boleh bertukar zon O atau X sehingga masa tamat. Apabila jawapan didedah, lantai zon salah runtuh bersama avatar di atasnya. Setiap permainan langsung sentiasa ada pusingan O/X. |
+| **Arena gaya ZEP Quiz** | Pemain menggerakkan avatar dengan anak panah atau WASD, joystick sentuh, atau ketik/klik lantai. Kekunci 1 hingga 4 (atau O dan X) berjalan terus ke zon. Zon jawapan dilukis besar di lantai, dan ada peta mini yang boleh diketik. Lompat dan emote (👋 😄 😮 👍 🔥) untuk berseronok. |
+| **Mod solo** | Main di arena bersama 6 rakan bot yang turut berlari dan kadang-kadang tersalah. Mata ikut kelajuan masuk ke zon yang betul (500 hingga 1000) dengan bonus streak. Mod Biasa atau Cabaran (3 nyawa). Kuasa: 50:50 (dua zon salah runtuh awal), +10 saat, Gandaan x2. Butang **Kunci jawapan** menamatkan pusingan lebih awal. Gaya **Klasik** (tekan butang) masih ada untuk yang lebih suka atau tanpa WebGL. |
+| **Mod langsung** | Pensyarah mencipta bilik dan memaparkan PIN serta kod QR di projektor (pandangan atas seluruh arena). Pelajar sertai dari telefon dan menggerakkan avatar masing-masing. Semua orang nampak semua avatar bergerak secara langsung. |
+| **Peraturan** | **Mata**: semua terus bermain. **Survival**: jatuh sekali, tersingkir dan menonton sebagai hantu 👻. |
+| **Peta Pulau 3D** | Laman utama: 11 pulau unit + Pulau Penutup. Klik pulau untuk bermula. Pulau yang dikuasai (skor ≥ 80%) mendapat bendera. |
 | **Leaderboard** | Skor tertinggi atau jumlah mata, ditapis ikut kumpulan kuliah (AJ / AT05SB), unit, tempoh (hari ini / 7 hari / sepanjang masa) dan set. |
 | **Podium dan laporan** | Podium 3D tiga teratas dengan konfeti. Eksport CSV mengandungi nama, no. matrik, kumpulan, skor dan betul/salah bagi setiap soalan. |
 | **XP, aras dan lencana** | 21 lencana, termasuk satu lencana untuk setiap pulau (contoh: *Penguasa Piaget*, *Rakan Bandura*), *Streak 10*, *Pantas Kilat* dan *Juara Arena*. |
@@ -27,15 +28,17 @@ Bank soalan dibina daripada kandungan SIM KPP3023 (Unit 1 hingga 11 dan Penutup)
 | `index.html` | Laman tunggal (penghala hash: `#/`, `#/solo`, `#/hos`, `#/sertai`, `#/papan`, `#/lencana`, `#/ulangkaji`, `#/premium`, `#/admin`) |
 | `css/arena.css` | Gaya, token warna terang/gelap |
 | `js/app.js` | Profil, mod solo, keputusan, leaderboard, lencana, ulang kaji, premium, admin |
-| `js/live.js` | Mod langsung: skrin hos (projektor) dan skrin pemain (telefon) |
-| `js/dunia3d.js` | three.js: Peta Pulau, Arena (lobi, zon jawapan, podium) |
+| `js/solo3d.js` | Mod solo di arena bersama rakan bot |
+| `js/live.js` | Mod langsung: skrin hos (projektor) dan skrin pemain (telefon), penyelarasan kedudukan avatar |
+| `js/dunia3d.js` | three.js: Peta Pulau, arena kuiz (avatar, pergerakan, zon, lantai runtuh, peta mini, podium), joystick |
+| `js/hud.js` | Kad soalan, pemasa dan pemalar warna zon |
 | `js/store.js` | Lapisan data: Firebase Realtime Database, atau mod luar talian (localStorage + BroadcastChannel) |
 | `js/util.js` | Utiliti: senarai unit, avatar, skor, bunyi, konfeti |
 | `data/soalan-sim.js` | 135 soalan SIM (Unit 1 hingga 11 dan Penutup): aneka pilihan, kes dan Betul/Salah, setiap satu dengan huraian |
 | `data/soalan-final-a261.js` | Slot set Final A261 (kosong) |
 | `firebase-config.js` | Tetapan Firebase, kod admin dan maklumat bayaran premium |
 | `database.rules.json` | Peraturan keselamatan Realtime Database |
-| `aset/` | Favicon, dan tempat letak QR DuitNow (ganti dengan QR sebenar) |
+| `aset/` | Favicon, tempat letak QR DuitNow, dan `aset/imej/PROMPT-IMEJ.md` (prompt ChatGPT untuk imej pilihan) |
 
 ## Jalankan
 
@@ -74,11 +77,13 @@ Nota:
 
 ## Main dalam kelas
 
-1. Pensyarah buka `#/hos`, pilih unit, bilangan soalan dan masa, kemudian tekan **Cipta bilik**. Tekan **Skrin penuh** untuk projektor.
-2. Pelajar imbas kod QR, atau buka `#/sertai` dan masukkan PIN. Kali pertama, pelajar mencipta profil (nama, no. matrik, kumpulan dan avatar).
-3. Klik nama pelajar dalam lobi untuk mengeluarkan pemain yang tidak sepatutnya.
-4. Tekan **Mula permainan**. Jawapan didedah secara automatik apabila semua pelajar sudah menjawab, kecuali pusingan O/X yang berjalan sehingga masa tamat. Anda juga boleh tekan **Dedah jawapan** atau kekunci Enter.
+1. Pensyarah buka `#/hos`, pilih unit, bilangan soalan, masa dan peraturan (Mata atau Survival), kemudian tekan **Cipta bilik**. Tekan **Skrin penuh** untuk projektor.
+2. Pelajar imbas kod QR, atau buka `#/sertai` dan masukkan PIN. Kali pertama, pelajar mencipta profil (nama, no. matrik, kumpulan dan avatar). Sementara menunggu, pelajar boleh berlari-lari dan beremote di lobi.
+3. Klik nama pelajar dalam senarai lobi dua kali untuk mengeluarkan pemain yang tidak sepatutnya.
+4. Tekan **Mula permainan**. Setiap soalan, pelajar berlari ke zon jawapan. Zon tempat mereka berdiri apabila masa tamat ialah jawapan mereka, dan mata dikira dari saat mereka masuk ke zon itu. Tekan **Dedah sekarang** (atau Enter) untuk mendedahkan lebih awal.
 5. Pada akhir permainan, tekan **Eksport CSV** untuk mendapatkan laporan kelas.
+
+Nota demo luar talian: jika hos dan pemain dibuka dalam tab berlainan pada satu komputer, avatar hanya bergerak dalam tab yang sedang dilihat. Pelayar menghentikan animasi tab di latar.
 
 ## Soalan
 
@@ -124,9 +129,9 @@ Tanggungjawab pensyarah:
 ## Ujian yang telah dijalankan
 
 Ujian automatik dengan Playwright (Chromium, WebGL melalui SwiftShader), dalam mod luar talian:
-- **Solo**: profil, peta 3D dimuatkan, pusingan 10 soalan, skor, XP, lencana, Buku Kesilapan, leaderboard, kad imbas. Paparan telefon (iPhone 13) tanpa limpahan mendatar.
-- **Langsung**: satu hos dan dua pemain dalam tab berasingan. Lobi dengan QR, 10 soalan termasuk pusingan Arena O/X (tukar zon, lantai runtuh), dedah dengan taburan jawapan, papan markah, podium 3D dan eksport CSV.
-- **Lain-lain**: admin (import CSV/JSON, baris rosak ditolak), paparan 2D tanpa WebGL, tema gelap, dan config Firebase yang salah beralih ke mod luar talian.
-- **Bank soalan**: semakan struktur 135 soalan SIM dan 48 soalan premium (medan wajib, 4 pilihan, indeks jawapan sah, tiada ID berulang).
+- **Solo arena** (desktop 1366×800 dan iPhone 13): lobi bersama bot, 10 soalan dengan pergerakan ke zon (kekunci nombor dan ketik lantai), Kunci jawapan, lantai runtuh, panel jawapan dan keputusan. Tiada ralat konsol.
+- **Langsung arena**: satu hos dan dua pemain dalam tab berasingan. Pemain bergerak dan beremote di lobi, berjalan ke zon, peraturan Survival (tersingkir menjadi hantu), dedah dengan taburan, papan markah, podium 3D dan eksport CSV.
+- **Lain-lain**: mod klasik, admin (import CSV/JSON), paparan 2D tanpa WebGL, tema gelap, config Firebase yang salah beralih ke mod luar talian.
+- **Bank soalan**: semakan struktur 135 soalan dan 48 soalan premium.
 
 Laluan Firebase (bilik langsung merentas peranti, kelulusan premium, peraturan pangkalan data) belum diuji dengan projek Firebase sebenar. Uji sekali dengan dua telefon selepas setup dan sebelum kelas pertama.
